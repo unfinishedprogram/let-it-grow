@@ -1,16 +1,7 @@
-import { Sprite, Texture } from 'pixi.js';
-import './style.css'
+import './style.css';
+import World from './world';
+import "./player";
 
-import World from './world'
-
-World.addEntity({
-    id: 'blahblah',
-    size: 0,
-    sprite: new Sprite(Texture.from("assets/sproud-lands/objects/Boats.png")),
-    step: function (dt: number): void {
-        this.sprite.position.x += 1 * dt;
-        // throw new Error('Function not implemented.');
-    }
-})
+// World.addEntity(player);
 
 console.log(World.entities);

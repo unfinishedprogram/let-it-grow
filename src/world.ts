@@ -1,11 +1,15 @@
-import { Application } from "pixi.js";
+import { Application, BaseTexture, SCALE_MODES, settings }from "pixi.js";
 import { Entity } from "./entity";
 import genUUID from "./util";
 import Dynamic, { stepDynamic } from "./dynamic";
 import { Collidable, checkCollision } from "./collidable";
 
+settings.SCALE_MODE = SCALE_MODES.NEAREST;
+
+
+
 const World = {
-    app: new Application({ resizeTo: window }),
+    app: new Application({ resizeTo: window, antialias: false }),
     entities: new Map<string, Entity>(),
     generateId: () => genUUID(),
     removeEntity(id: string) {
@@ -55,5 +59,7 @@ World.app.start();
 World.app.ticker.maxFPS = 60;
 World.app.ticker.minFPS = 60;
 World.app.ticker.add(dt => World.step(dt));
+World.app.stage.scale.set(5, 5);
+// World.app.stage.
 
 export default World;
