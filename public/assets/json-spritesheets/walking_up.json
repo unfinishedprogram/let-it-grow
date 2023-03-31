@@ -1,0 +1,79 @@
+{"frames": {
+
+"Premium Charakter Spritesheet-8.png":
+{
+	"frame": {"x":1,"y":43,"w":16,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
+	"sourceSize": {"w":48,"h":48}
+},
+"Premium Charakter Spritesheet-9.png":
+{
+	"frame": {"x":1,"y":63,"w":16,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
+	"sourceSize": {"w":48,"h":48}
+},
+"Premium Charakter Spritesheet-10.png":
+{
+	"frame": {"x":1,"y":1,"w":16,"h":19},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":14,"w":16,"h":19},
+	"sourceSize": {"w":48,"h":48}
+},
+"Premium Charakter Spritesheet-11.png":
+{
+	"frame": {"x":1,"y":1,"w":16,"h":19},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":14,"w":16,"h":19},
+	"sourceSize": {"w":48,"h":48}
+},
+"Premium Charakter Spritesheet-12.png":
+{
+	"frame": {"x":1,"y":22,"w":16,"h":19},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":14,"w":16,"h":19},
+	"sourceSize": {"w":48,"h":48}
+},
+"Premium Charakter Spritesheet-13.png":
+{
+	"frame": {"x":1,"y":83,"w":16,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
+	"sourceSize": {"w":48,"h":48}
+},
+"Premium Charakter Spritesheet-14.png":
+{
+	"frame": {"x":1,"y":103,"w":16,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
+	"sourceSize": {"w":48,"h":48}
+},
+"Premium Charakter Spritesheet-15.png":
+{
+	"frame": {"x":1,"y":103,"w":16,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
+	"sourceSize": {"w":48,"h":48}
+}},
+"animations": {
+	"Premium Charakter Spritesheet": ["Premium Charakter Spritesheet-8.png","Premium Charakter Spritesheet-9.png","Premium Charakter Spritesheet-10.png","Premium Charakter Spritesheet-11.png","Premium Charakter Spritesheet-12.png","Premium Charakter Spritesheet-13.png","Premium Charakter Spritesheet-14.png","Premium Charakter Spritesheet-15.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "walking_up.png",
+	"format": "RGBA8888",
+	"size": {"w":18,"h":122},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:775d9465675bfb7a5879bc970f3819c8:c185dadb8e6e8e3b6148d6d6c078fb7d:ff83673fbd4c5186315f9424b504f0e3$"
+}
+}
