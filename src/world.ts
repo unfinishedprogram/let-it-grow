@@ -1,13 +1,11 @@
-import { Application, Texture } from "pixi.js";
+import { Application } from "pixi.js";
 import { Entity } from "./entity";
-
-
+import genUUID from "./util";
 
 const World = {
     app: new Application({ resizeTo: window }),
     entities: new Map<string, Entity>(),
-    generateId: () => "",
-
+    generateId: () => genUUID(),
     removeEntity(id: string) {
         this.app.stage.removeChild(this.entities.get(id)!.sprite);
         this.entities.delete(id);
