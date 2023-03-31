@@ -1,6 +1,8 @@
 import { Application } from "pixi.js";
 import { Entity } from "./entity";
 import genUUID from "./util";
+import Dynamic, { stepDynamic } from "./dynamic";
+import { Collidable, checkCollision } from "./collidable";
 
 const World = {
     app: new Application({ resizeTo: window }),
@@ -17,11 +19,34 @@ const World = {
     },
 
     step(dt: number) {
-        console.log(this.entities);
+        for (let [_id, entity] of this.entities) entity.step(dt);
+        this.stepDynamics(dt);
+        this.stepCollisions(dt);
+    },
+
+    stepDynamics(dt: number) {
         for (let [_id, entity] of this.entities) {
-            entity.step(dt)
+            if (entity?.is_dynamic) {
+                stepDynamic(dt, entity as Dynamic);
+            }
         }
-    }
+    },
+
+    stepCollisions(_dt: number) {
+        // we need indexing
+        const entities = [...this.entities.values()]
+            .filter(e => e.is_collidable) as Collidable[];
+
+        for (let i = 0; i < entities.length; i++) {
+            for (let j = i + 1; j < entities.length; j++) {
+                const [a, b] = [entities[i], entities[j]];
+                if (checkCollision(a, b)) {
+                    a.onCollision(b);
+                    b.onCollision(a);
+                }
+            }
+        }
+    },
 };
 
 
