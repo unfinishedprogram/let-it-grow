@@ -13,19 +13,19 @@ import { Position } from "./types";
  */
 
 class Merchant implements Entity {
-    id = "merchant";
+  id = "merchant";
 
-    get position(): Position {
-        throw new Error("Method not implemented.");
-    }
+  get position(): Position {
+    throw new Error("Method not implemented.");
+  }
 
-    step(dt: number): void {
-        throw new Error("Method not implemented.");
-    }
+  step(dt: number): void {
+    throw new Error("Method not implemented.");
+  }
 
-    constructor(public size: number, public sprite: Sprite) {
+  constructor(public size: number, public sprite: Sprite) {
 
-    }
+  }
 }
 
 export default Merchant
