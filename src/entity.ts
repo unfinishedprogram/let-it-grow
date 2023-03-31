@@ -6,6 +6,6 @@ export interface Entity {
     position: Position; // Center
     size: number, // Radius
     sprite: Sprite,
-    update(dt: number): void // dt in ms
+    step(dt: number): void // dt in ms
 }
 

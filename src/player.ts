@@ -9,7 +9,7 @@ class Player implements Entity {
         throw new Error("Method not implemented.");
     }
 
-    update(dt: number): void {
+    step(dt: number): void {
         throw new Error("Method not implemented.");
     }
 
