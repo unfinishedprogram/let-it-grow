@@ -1,6 +1,8 @@
 import { Vec2 } from "./vec2"
 
-const positionVector: Vec2 = {x: 0, y: 0};
+const SCREEN_SCALE = 0.2;
+
+const positionVector: Vec2 = { x: 0, y: 0 };
 
 type Key = {
   isPressed: boolean;
@@ -34,17 +36,16 @@ const wKey: Key = {
 
 const keys = [aKey, sKey, dKey, wKey];
 
-class Keyboard {
-
+class Controller {
   public directionVector = positionVector;
-  
+  public mousePosition = { x: 0, y: 0 };
+
   constructor() {
-    window.addEventListener("keydown", this.downListener)
-    window.addEventListener("keyup", this.downListener)
+    window.addEventListener("keydown", this.downListener.bind(this))
+    window.addEventListener("keyup", this.downListener.bind(this))
   }
 
-  addKey(key: Key){ 
-    // keys.pkey
+  addKey(key: Key) {
     keys.push(key);
   }
 
@@ -62,6 +63,11 @@ class Keyboard {
     }
   }
 
+  mouseListener(e: MouseEvent) {
+    this.mousePosition.x = e.clientX * SCREEN_SCALE;
+    this.mousePosition.y = e.clientY * SCREEN_SCALE;
+  }
+
   step() {
     for (let i = 0; i < keys.length; i++) {
       if (keys[i].isPressed) {
@@ -72,5 +78,5 @@ class Keyboard {
 
 }
 
-export default new Keyboard();
+export default new Controller();
 
