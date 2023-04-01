@@ -20,4 +20,11 @@ export namespace V2 {
     export function distance(a: Vec2, b: Vec2) {
         return length(sub(a, b));
     }
+    export function normalized(v: Vec2) {
+        let l = length(v);
+        return {
+            x: v.x / l,
+            y: v.y / l
+        }
+    }
 }
