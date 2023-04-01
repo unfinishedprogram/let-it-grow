@@ -1,5 +1,9 @@
 import { AdjustmentFilter } from "pixi-filters";
 import World from "./world";
+import { sound } from "@pixi/sound";
+
+sound.add('music', '/assets/background_music.wav');
+sound.play('music');
 
 class Day {
   time: number = 64000;
