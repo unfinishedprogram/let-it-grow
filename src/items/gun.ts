@@ -1,60 +1,61 @@
-import { Sprite } from 'pixi.js';
-import { Item } from "./item";
+import { CombatSystem } from "../entity/combatable";
+import { instantiateProjectile } from "../entity/projectile";
+import { V2, Vec2 } from "../utils/vec2";
 
-class Gun implements Item {
-  public name: string;
-  public cost: number;
+class Gun {
 
   private baseDamage: number;
-  private baseReload: number;
   private baseFireRate: number;
   public damageUpgrade = 0;
-  public reloadUpgrade = 0;
   public fireRateUpgrade = 0;
 
   public damage: () => number;
-  public reload: () => number;
   public fireRate: () => number;
   public projectiles: number;
-  public maxAmmo: number;
   public range: number;
-  public dps: number;
 
-  id = "gun";
+  canFire: boolean = true;
   consumable = false;
 
-  constructor(public sprite: Sprite, name: string, 
-      cost: number, damage: number, 
-      reload: number, fireRate: number, 
-      projectiles: number, ammo: number, 
-      range: number, dps: number) {
-        
-    this.name = name;
-    this.cost = cost;
+  constructor(
+    damage: number, 
+    fireRate: number, 
+    public numberOfProjectiles: number,
+    range: number,
+    public life: number,
+    public speed: number,
+    public spread: number,
+    public reloadTime: number,
+  ) {
 
     this.baseDamage = damage;
-    this.baseReload = reload;
     this.baseFireRate = fireRate;
-    this.projectiles = projectiles;
-    this.maxAmmo = ammo;
+    this.projectiles = numberOfProjectiles;
     this.range = range;
-    this.dps = dps;
 
-    this.damage = () => {
-      return this.baseDamage + (this.damageUpgrade * 5)
-    }
-    
-    this.reload = () => {
-      return this.baseReload + (this.reloadUpgrade)
-    }
-
-    this.fireRate = () => {
-      return this.baseFireRate + (this.fireRateUpgrade * 0.2)
-    }
+    this.damage = () => this.baseDamage + (this.damageUpgrade * 5);
+    this.fireRate = () => this.baseFireRate + (this.fireRateUpgrade * 0.2);
   }
 
-  use(): void {
-    throw new Error("Method not implemented.");
+  fire(direction: Vec2, position: Vec2) {
+    if (!this.canFire) return;
+    const combatSystem: CombatSystem = {
+      damage: this.damage(),
+      hp: this.life,
+      maxHP: this.life,
+      radius: 16,
+      isRecharging: this.canFire,
+      rechargeTime: this.fireRate()
+    }
+
+
+    for (let i = 0; i < this.numberOfProjectiles; i++) {
+      setTimeout(() => instantiateProjectile(direction, position, combatSystem, this.speed, this.range), this.fireRate() * i);
+    }
+
+    this.canFire = false;
+    setTimeout(() => this.canFire = true, this.reloadTime);
+
   }
 }
 
