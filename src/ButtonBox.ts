@@ -15,6 +15,7 @@ export default class ButtonBox implements Entity {
     this.sprite.position.x = x;
     this.sprite.position.y = y;
   }
+  is_fightable: boolean = false;
 
   step(dt: number): void {}
 }

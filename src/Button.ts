@@ -6,6 +6,7 @@ import { inBounds } from "./utils/bbox";
 // let currentlySelected = 0;
 
 export default class Button implements Entity {
+  is_fightable: boolean = false;
   pressed: Texture;
   base: Texture;
   is_dynamic?: boolean | undefined;
