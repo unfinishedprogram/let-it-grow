@@ -1,7 +1,7 @@
 import { Container, Sprite, Text } from "pixi.js";
 import { Collidable, PLAYER_MASK } from "./collidable";
 import controller from "../controller";
-import { Vec2 } from "../utils/vec2";
+import { V2, Vec2 } from "../utils/vec2";
 import World from "../world";
 
 import { down, left, right, up } from "./player_anims";
@@ -11,14 +11,14 @@ class Player implements Combatible {
   id = "player";
   is_collidable: true = true;
   is_dynamic: true = true;
-  velocity: Vec2 = {x: 0, y: 0};
+  velocity: Vec2 = { x: 0, y: 0 };
   radius: number = 1;
   mass: number = 1;
   is_fightable = true;
   public collision_mask: number = PLAYER_MASK;
 
   container = new Container();
-  debugText = new Text('test text', {fill: 'white', fontSize: '1rem'});
+  debugText = new Text('test text', { fill: 'white', fontSize: '1rem' });
 
   combatSystem: CombatSystem = {
     isRecharging: false,
@@ -54,11 +54,12 @@ class Player implements Combatible {
   }
 
   step(_dt: number): void {
-    this.velocity = controller.directionVector;
+    this.velocity = V2.multiplyScalar(controller.directionVector, 4);
+
     let selectedSprite: Sprite;
     if (this.velocity.y != 0) {
       selectedSprite = this.animationTable[Math.sign(this.velocity.y) < 0 ? 0 : 3];
-    } else if (this.velocity.x != 0){
+    } else if (this.velocity.x != 0) {
       selectedSprite = this.animationTable[Math.sign(this.velocity.x) < 0 ? 2 : 1];
     } else {
       selectedSprite = this.animationTable[3];
@@ -67,6 +68,8 @@ class Player implements Combatible {
       this.sprite.texture = selectedSprite.texture;
     }
 
+    World.islandCollision(this);
+    World.houseCollision(this);
   }
 }
 

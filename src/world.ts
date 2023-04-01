@@ -3,15 +3,39 @@ import { Entity } from "./entity/entity";
 import Dynamic, { stepDynamic } from "./entity/dynamic";
 import { Collidable, checkCollision } from "./entity/collidable";
 import controller from "./controller";
+import { keepIn, pushOut } from "./utils/bbox";
 import Button from "./Button";
 import ButtonBox from "./ButtonBox";
 
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
+const islandBounds = {
+  min: {
+    x: 72,
+    y: 72,
+  },
+  max: {
+    x: 72 + 16 * 31,
+    y: 72 + 16 * 19.5,
+  }
+};
+
+const houseBounds = {
+  min: {
+    x: 128 + 16,
+    y: 72,
+  },
+  max: {
+    x: 128 + 112,
+    y: 128 + 16,
+  }
+};
+
 const World = {
   // Used for mapping from window to pixel locations
   clientTopLeft: { x: 0, y: 0 },
   clientScale: 1,
+
 
   app: new Application({ resizeTo: window, antialias: false }),
   entities: new Map<string, Entity>(),
@@ -55,6 +79,14 @@ const World = {
         }
       }
     }
+  },
+
+  islandCollision(entity: Dynamic) {
+    keepIn(entity, islandBounds);
+  },
+
+  houseCollision(entity: Dynamic) {
+    pushOut(entity, houseBounds);
   },
 };
 
