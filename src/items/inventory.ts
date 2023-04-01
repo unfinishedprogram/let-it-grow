@@ -1,3 +1,4 @@
+import { allGuns } from "./all-items";
 import Gun from "./gun";
 import Seed from "./seed";
 
@@ -18,14 +19,10 @@ class Inventory {
   }
 
   constructor() {
-    this.guns = [];
+    this.guns = allGuns;
     this.seeds = [];
     this.gold = 50;
     this.ammo = 0;
-  }
-
-  addGun(gun: Gun) {
-    this.guns.push(gun)
   }
 
   addSeed(seed: Seed) {
@@ -54,6 +51,6 @@ class Inventory {
   }
 }
 
-let inventory = Object.freeze(new Inventory());
+let inventory = new Inventory();
 
 export default inventory;
