@@ -4,12 +4,16 @@ import World from "../world";
 import inventory from "../items/inventory";
 import { Item } from "../items/item";
 
+const BUTTON = Texture.from("assets/button.png");
+const PRESSED = Texture.from("assets/buttonPressed.png");
+
 class ShopSlot implements Entity {
   is_dynamic?: boolean | undefined;
   is_collidable?: boolean | undefined;
   is_fightable = false;
+  public selected: boolean = false;
   
-  private texture = Texture.from("assets/buttonPressed.png");
+  private texture = BUTTON
   public sprite = Sprite.from(this.texture);
   public id: string;
   
@@ -27,6 +31,9 @@ class ShopSlot implements Entity {
 
     this.sprite.interactive = true;
     this.sprite.on('pointerdown', () => {
+      this.selected = !this.selected
+      this.sprite.texture = PRESSED
+
       if(inventory.removeGold(item.cost)) {
         if (item.id === "seed") {
           inventory.addSeed(item)
@@ -36,6 +43,10 @@ class ShopSlot implements Entity {
         }
       }
     });
+
+    this.sprite.on('pointerup', () => {
+      this.sprite.texture = BUTTON
+    })
   }
 
   step(dt: number): void { }
