@@ -9,7 +9,7 @@ class Day {
   time: number = 64000;
   inGameDays = 0;
   // Compared to real life, so 60 would be 1 minute per second
-  inGameSpeed = 300 * 2;
+  inGameSpeed = 300 * 200;
   stage: 'day' | 'night' = 'day';
   nightTimeStart = 18;
   dayTimeStart = 5;
@@ -44,14 +44,14 @@ class Day {
       this.adjustmentFilter.blue -= 0.0001 * delta;
     }
 
-    World.app.stage.filters = [ this.adjustmentFilter ];
+    World.app.stage.filters = [this.adjustmentFilter];
   }
 
-        // new AdjustmentFilter({
-        //   saturation: 0.4,
-        //   brightness: 0.5,
-        //   blue: 1.2,
-        //   contrast: 1,
+  // new AdjustmentFilter({
+  //   saturation: 0.4,
+  //   brightness: 0.5,
+  //   blue: 1.2,
+  //   contrast: 1,
   getHour() {
     return ((this.time / 3600) | 0) % 24;
   }
@@ -60,7 +60,7 @@ class Day {
     return ((this.time / 60) | 0) % 60;
   }
 
-  getSeconds()  {
+  getSeconds() {
     return (this.time % 60) | 0;
   }
 

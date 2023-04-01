@@ -1,4 +1,4 @@
-import { Container, Sprite, Text } from "pixi.js";
+import { Container, Sprite, } from "pixi.js";
 import { Collidable, PLAYER_MASK } from "./collidable";
 import controller from "../controller";
 import { V2, Vec2 } from "../utils/vec2";
@@ -37,7 +37,7 @@ class Player implements Combatible {
 
   private animationTable = [up, right, left, down];
 
-  onCollision(_other: Collidable) {}
+  onCollision(_other: Collidable) { }
 
   onHit(combatible: Combatible) {
     this.combatSystem.hp -= combatible.combatSystem.damage;
@@ -83,4 +83,5 @@ class Player implements Combatible {
 }
 
 let player: Player = new Player(down);
+player.sprite.zIndex = 500;
 World.addEntity(player);

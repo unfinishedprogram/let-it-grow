@@ -1,10 +1,12 @@
-import { Sprite, Texture } from "pixi.js";
+import { AnimatedSprite, Container, Sprite, Texture } from "pixi.js";
 import World from "./world";
 import { Collidable } from "./entity/collidable";
 import controller from "./controller";
+import seeds, { SeedName } from "./items/seed";
+import day from "./day";
+import inventory from "./items/inventory";
 
 
-type Plant = "placeholder"
 
 enum TileState {
   None,
@@ -18,6 +20,14 @@ const TEX_TILLED = Texture.from("assets/tiled.png");
 const TEX_EMPTY = Texture.from("assets/empty.png");
 const TEX_WATERED = Texture.from("assets/watered.png");
 
+type Plant = {
+  growthStage: number,
+  seed: SeedName,
+  sprite: AnimatedSprite,
+  startTime: number,
+  startDay: number
+}
+
 class Tile implements Collidable {
   is_collidable: true = true;
   is_dynamic: true = true;
@@ -28,33 +38,31 @@ class Tile implements Collidable {
   mass = 1;
   collision_mask = 0;
   drag = 1;
+  bgSprite: Sprite = new Sprite();
+  lastTime: number = day.time;
+  inDom: boolean = false;
 
   onCollision(_other: Collidable) { }
 
   plant: Plant | undefined;
-  bgSprite: Sprite;
-  fgSprite: Sprite;
   state: TileState = TileState.None;
-  sprite = new Sprite();
+  sprite = new Container();
 
   constructor(x: number, y: number) {
-    this.bgSprite = new Sprite(TEX_EMPTY);
-    this.fgSprite = new Sprite(TEX_EMPTY);
-
+    this.bgSprite.anchor.set(0.5, 0.5);
+    this.sprite.addChild(this.bgSprite);
     this.sprite.position.x = x;
     this.sprite.position.y = y;
-
-    this.bgSprite.position.x = x;
-    this.bgSprite.position.y = y;
-
-    this.fgSprite.position.x = x;
-    this.fgSprite.position.y = y;
-
-    World.container.addChild(this.bgSprite, this.fgSprite);
   }
 
+  mabyeAdd() {
+    if (!this.inDom) {
+      this.inDom = true;
+    }
+  }
 
   doTill(): void {
+    this.mabyeAdd();
     if (this.state == TileState.None) {
       this.state = TileState.Tilled;
       this.bgSprite.texture = TEX_TILLED;
@@ -62,40 +70,101 @@ class Tile implements Collidable {
   }
 
   doWater(): void {
+    this.mabyeAdd();
     if (this.state == TileState.Tilled) {
       this.state = TileState.Watered;
       this.bgSprite.texture = TEX_WATERED;
     }
   }
 
-  doPlant(seed: any): void {
-
+  doPick(): void {
+    console.log("picking")
+    if (this.plant?.growthStage ? this.plant?.growthStage : 0 > 3) {
+      inventory.addGold(seeds[this.plant!.seed].price);
+      this.state = TileState.None;
+      this.bgSprite.texture = TEX_EMPTY;
+      if (this.plant) {
+        this.sprite.removeChild(this.plant.sprite);
+      }
+      this.plant = undefined;
+    }
   }
 
-  step(_dt: number): void {
 
+  doPlant(seed: SeedName) {
+    this.mabyeAdd();
+
+    if (!this.plant && this.state == TileState.Watered) {
+      const plant: Plant = {
+        seed,
+        growthStage: 0,
+        sprite: seeds[seed].plantTexture(),
+        startTime: day.time,
+        startDay: day.inGameDays,
+      }
+
+      this.plant = plant;
+      this.sprite.addChild(plant.sprite);
+    }
+    console.log(this.plant);
+  }
+
+
+
+  step(dt: number): void {
+    if (this.plant) {
+      const elapsed = day.inGameDays - this.plant.startDay;
+      let growth = (elapsed / seeds[this.plant.seed].growTime) * this.plant.sprite.totalFrames;
+      let frame = Math.min(growth | 0, 3);
+      this.plant.sprite.currentFrame = frame;
+      this.plant.growthStage = growth;
+    }
   }
 }
 
-class _Garden {
+export default class Garden {
   readonly x: number = 11;
   readonly y: number = 14;
   readonly width: number = 16;
   readonly height: number = 5;
 
   tiles: Tile[] = [];
+  sprite: Container;
 
   constructor() {
+    this.sprite = new Container();
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
         const worldX = (x + this.x) * 16;
         const worldY = (y + this.y) * 16;
         const tile = new Tile(worldX, worldY);
-
         this.tiles.push(tile);
-        World.addEntity(tile);
+        this.sprite.addChild(tile.sprite);
       }
     }
+
+    document.addEventListener("click", () => {
+      console.log(day.stage, controller.selectedItem);
+      if (day.stage != "day") return;
+
+      let { x, y } = controller.mousePosition;
+      const tile = this.getTile(x + 8, y + 8);
+      if (!tile) return;
+
+      if (controller.selectedItem == 1) {
+        tile.doPlant("carrot");
+      } else if (controller.selectedItem == 2) {
+        tile.doTill();
+      } else if (controller.selectedItem == 3) {
+        tile.doWater();
+      }
+
+      if (tile.plant) {
+        if (tile.plant.growthStage > 3) {
+          tile.doPick()
+        }
+      }
+    })
   }
 
   // Get tile at world position
@@ -108,13 +177,8 @@ class _Garden {
     const index = x + this.width * y;
     return this.tiles[index];
   }
+
+  step(dt: number) {
+    this.tiles.forEach(tile => tile.step(dt));
+  }
 }
-
-document.addEventListener("click", () => {
-  let { x, y } = controller.mousePosition;
-  Garden.getTile(x, y)?.doWater();
-  Garden.getTile(x, y)?.doTill();
-})
-
-const Garden = new _Garden();
-export default Garden; 

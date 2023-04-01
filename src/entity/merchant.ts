@@ -1,7 +1,7 @@
 // P0 - Upgrade Weapon , Buy crops, Buy ammo
 import { Entity } from "./entity";
-import Seed from "../items/seed";
-import { allSeeds, gunUpgrades } from "../items/all-items";
+import seeds, { SeedName } from "../items/seed";
+import { gunUpgrades } from "../items/all-items";
 import { Container, Sprite, Texture } from "pixi.js";
 import Upgrade from "../items/upgrade";
 import World from "../world";
@@ -9,7 +9,6 @@ import controller from "../controller";
 import { inBounds } from "../utils/bbox";
 import Shop from "../shop/shop";
 import { Vec2 } from "../utils/vec2";
-import day from "../day";
 
 /**
  * Needs:
@@ -21,18 +20,18 @@ import day from "../day";
  */
 
 class Merchant implements Entity {
-  is_dynamic? = false;
-  is_collidable? = true;
+  is_dynamic?= false;
+  is_collidable?= true;
   is_fightable = false;
 
   private texture = Texture.from("assets/sproud-lands/characters/merchant.png");
   public sprite = Sprite.from(this.texture);
-  
+
   private popupText = Texture.from("assets/sproud-lands/objects/shopping.png");
   public popup = Sprite.from(this.popupText);
 
   public ammo: Array<number>;
-  public seeds: Array<Seed>;
+  public seeds: Array<SeedName>;
   public upgrades: Array<Upgrade>;
   private ammoStackAmount = 20;
   id = "merchant";
@@ -47,18 +46,18 @@ class Merchant implements Entity {
     this.ammo = this.getAmmo();
     this.seeds = this.getRandomSeeds();
     this.upgrades = gunUpgrades;
-    
+
     this.sprite.position.x = 407;
     this.sprite.position.y = 398;
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
 
     let container = new Container();
-    
+
     this.sprite.interactive = true;
-    this.sprite.on('pointerdown', () => { 
+    this.sprite.on('pointerdown', () => {
       if (!World.entities.has("shop")) {
-        new Shop(this) 
+        new Shop(this)
       }
     });
 
@@ -73,14 +72,14 @@ class Merchant implements Entity {
         World.removeEntity("shop")
         for (let x = 0; x < 3; x++) {
           for (let y = 0; y < 3; y++) {
-            try{ World.removeEntity("shop-slot-"+x+"-"+y) } catch {}
-            try{ World.removeEntity("shop-item-"+x+"-"+y) } catch {}
+            try { World.removeEntity("shop-slot-" + x + "-" + y) } catch { }
+            try { World.removeEntity("shop-item-" + x + "-" + y) } catch { }
           }
         }
-        
+
         gunUpgrades.forEach((upgrade) => {
           console.log(upgrade.name)
-          try{ World.removeEntity("upgrade-"+upgrade.name) } catch {}
+          try { World.removeEntity("upgrade-" + upgrade.name) } catch { }
         })
       }
     })
@@ -91,18 +90,18 @@ class Merchant implements Entity {
     container.addChild(this.popup);
   }
 
-  getRandomSeeds() {
+  getRandomSeeds(): SeedName[] {
     var arr = [];
-    var seeds = [];
+    var randSeeds = [];
     while (arr.length < 3) {
-      var r = Math.floor(Math.random() * 11);
+      var r = Math.floor(Math.random() * 10);
       if (arr.indexOf(r) === -1) {
         arr.push(r);
-        seeds.push(allSeeds[r]);
+        randSeeds.push(Object.keys(seeds)[r] as SeedName);
       }
     }
 
-    return seeds
+    return randSeeds as SeedName[];
   }
 
   getAmmo() {

@@ -18,6 +18,7 @@ import day from "./day";
 import ButtonBox from "./ToolBar";
 import { V2, Vec2 } from "./utils/vec2";
 import "./mobSpawner";
+import Garden from "./garden";
 import { Nexus } from "./Nexus";
 import Welcome from "./welcome";
 import inventory from "./items/inventory";
@@ -47,6 +48,7 @@ const houseBounds = {
   },
 };
 
+
 const World = {
   // Used for mapping from window to pixel locations
   clientTopLeft: { x: 0, y: 0 },
@@ -63,6 +65,7 @@ const World = {
   timeIndicator: new Text(),
   ammoIndicator: new Text("GOLD: "+inventory.gold, { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' }),
   goldIndicator: new Text("AMMO: "+inventory.ammo, { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' }),
+  garden: new Garden(),
 
   removeEntity(id: string) {
     let sprite = this.entities.get(id)?.sprite;
@@ -84,15 +87,12 @@ const World = {
 
   step(dt: number) {
     day.tick(dt);
+    this.garden.step(dt);
     this.timeIndicator.text = day.getString();
     for (let [_id, entity] of this.entities) entity.step(dt);
     this.stepDynamics(dt);
     this.stepCollisions(dt);
     controller.step();
-
-    // if (day.getHour() > 19 && day.getHour() < 3) {
-    //
-    // }
   },
 
   stepDynamics(dt: number) {
@@ -171,6 +171,7 @@ const background = new Sprite(Texture.from("assets/worldMap.png"));
 
 World.container.addChild(waterTiled);
 World.container.addChild(background);
+World.container.addChild(World.garden.sprite);
 
 World.app.stage.addChild(World.container);
 World.app.stage.addChild(World.uiContainer);
@@ -188,6 +189,7 @@ const centerWorld = () => {
   World.clientScale = PIXEL_SCALE;
 
   World.container.setTransform(leftOffset, topOffset, PIXEL_SCALE, PIXEL_SCALE);
+
   World.entities.get(toolBox.id)!.sprite.position.x =
     leftOffset / PIXEL_SCALE - 96 / 2;
   World.entities.get(toolBox.id)!.sprite.position.y =

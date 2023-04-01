@@ -1,7 +1,6 @@
 import { sound } from "@pixi/sound";
 import { CombatSystem } from "../entity/combatable";
 import { instantiateProjectile } from "../entity/projectile";
-import inventory from "./inventory";
 import { Vec2 } from "../utils/vec2";
 
 sound.add('gunshot', '/assets/shotting-voice.wav');

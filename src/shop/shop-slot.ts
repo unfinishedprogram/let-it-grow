@@ -3,6 +3,7 @@ import { Entity } from "../entity/entity";
 import World from "../world";
 import inventory from "../items/inventory";
 import { Item } from "../items/item";
+import seeds, { SeedName } from "../items/seed";
 
 const BUTTON = Texture.from("assets/button.png");
 const PRESSED = Texture.from("assets/buttonPressed.png");
@@ -36,10 +37,10 @@ class ShopSlot implements Entity {
 
       if(inventory.removeGold(item.cost)) {
         if (item.id === "seed") {
-          inventory.addSeed(item)
+          inventory.addSeeds(item.name as SeedName, 1)
         }
         else if (item.id === "ammunition") {
-          inventory.ammo += 5;
+          inventory.addAmmo(5);
         }
       }
     });
