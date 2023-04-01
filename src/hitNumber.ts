@@ -24,6 +24,7 @@ export class HitNumber implements Dynamic {
       damage,
       new TextStyle({ fontFamily: 'Pixelated', fontSize: size, fill: color, fontWeight: '100' })
     );
+
     this.text.scale.set(1.6, 1.6);
     this.text.anchor.set(0.5, 1);
     this.sprite.addChild(this.text);

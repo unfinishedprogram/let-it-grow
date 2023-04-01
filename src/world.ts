@@ -6,7 +6,7 @@ import controller from "./controller";
 import { keepIn, pushOut } from "./utils/bbox";
 import Button from "./Button";
 import ButtonBox from "./ButtonBox";
-import { V2 } from "./utils/vec2";
+import { V2, Vec2 } from "./utils/vec2";
 
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
@@ -101,6 +101,13 @@ const World = {
   houseCollision(entity: Dynamic) {
     pushOut(entity, houseBounds);
   },
+
+  updateCamera(playerPosition: Vec2) {
+    const camera = this.app.stage;
+    camera.pivot.set(playerPosition.x, playerPosition.y);
+
+  }
+
 };
 
 const background = new Sprite(Texture.from("assets/worldMap.png"));
@@ -111,7 +118,6 @@ World.app.start();
 World.app.ticker.maxFPS = 60;
 World.app.ticker.minFPS = 60;
 World.app.ticker.add((dt) => World.step(dt));
-World.app.stage.scale.set(5, 5);
 World.addEntity(new ButtonBox(132, 402));
 World.addEntity(
   new Button(
@@ -165,15 +171,16 @@ const centerWorld = () => {
     window.innerWidth / worldPixelWidth
   );
 
-  const topOffset = (window.innerHeight - worldPixelHeight * worldScale) / 2;
-  const leftOffset = (window.innerWidth - worldPixelWidth * worldScale) / 2;
+  const topOffset = window.innerHeight / 2;
+  const leftOffset = window.innerWidth / 2;
 
   World.clientTopLeft.x = leftOffset;
   World.clientTopLeft.y = topOffset;
   World.clientScale = worldScale;
 
-  World.app.stage.setTransform(leftOffset, topOffset, worldScale, worldScale);
+  World.app.stage.setTransform(leftOffset, topOffset, worldScale * 2, worldScale * 2);
 };
+
 
 centerWorld();
 
