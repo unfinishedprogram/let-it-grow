@@ -1,0 +1,47 @@
+{"frames": {
+
+"Slime_Medium_Blue-12.png":
+{
+	"frame": {"x":40,"y":1,"w":16,"h":13},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":9,"w":16,"h":13},
+	"sourceSize": {"w":32,"h":32}
+},
+"Slime_Medium_Blue-13.png":
+{
+	"frame": {"x":21,"y":1,"w":17,"h":13},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":9,"w":17,"h":13},
+	"sourceSize": {"w":32,"h":32}
+},
+"Slime_Medium_Blue-14.png":
+{
+	"frame": {"x":58,"y":1,"w":19,"h":12},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":10,"w":19,"h":12},
+	"sourceSize": {"w":32,"h":32}
+},
+"Slime_Medium_Blue-15.png":
+{
+	"frame": {"x":1,"y":1,"w":18,"h":13},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":9,"w":18,"h":13},
+	"sourceSize": {"w":32,"h":32}
+}},
+"animations": {
+	"Slime_Medium_Blue": ["Slime_Medium_Blue-12.png","Slime_Medium_Blue-13.png","Slime_Medium_Blue-14.png","Slime_Medium_Blue-15.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "slime_left.png",
+	"format": "RGBA8888",
+	"size": {"w":78,"h":15},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b13ac9e72eaf05d3b4b18a3a45c46538:a1e251c417cfee0207e2cec2ed333667:6a0387484e42e7102790eb6d28e8f1ea$"
+}
+}
