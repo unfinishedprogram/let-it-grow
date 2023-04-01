@@ -12,6 +12,7 @@ export default class ButtonBox implements Entity {
     // length = 105;
     // width = 35;
     this.sprite = new Sprite(Texture.from("/assets/buttons/buttonBox.png"));
+    this.sprite.scale.set(1.5);
     this.sprite.position.x = x;
     this.sprite.position.y = y;
   }

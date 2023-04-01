@@ -15,6 +15,7 @@ class Player implements Combatible {
   velocity: Vec2 = { x: 0, y: 0 };
   radius: number = 1;
   mass: number = 1;
+  drag = 1;
   is_fightable = true;
   public collision_mask: number = PLAYER_MASK;
 

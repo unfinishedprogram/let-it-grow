@@ -2,7 +2,6 @@ import { Sprite, Texture, Text, Container } from "pixi.js";
 import { Entity } from "../entity/entity";
 import World from "../world";
 import Merchant from "../entity/merchant";
-import ShopSlot from "./shop-slot";
 import ShopItem from "./shop-item";
 
 class Shop implements Entity {
@@ -16,7 +15,7 @@ class Shop implements Entity {
   public sprite = Sprite.from(this.texture);
   
   container = new Container();
-  debugText = new Text('THIS IS SOME TETX', { fill: 'white', fontSize: '1rem' });
+  debugText = new Text('THIS IS SOME TETX', { fill: 'white', fontSize: '0.5rem' });
 
   constructor(merchant: Merchant) {
     World.addEntity(this)
@@ -34,6 +33,7 @@ class Shop implements Entity {
     })
 
     
+    this.sprite.addChild(this.container);
     this.debugText.anchor.set(0.5, 1);
     this.container.addChild(this.debugText);
   }

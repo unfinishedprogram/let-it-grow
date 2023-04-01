@@ -1,6 +1,5 @@
 // P0 - Upgrade Weapon , Buy crops, Buy ammo
 import { Entity } from "./entity";
-import { Position } from "../types";
 import Seed from "../items/seed";
 import Gun from "../items/gun";
 import { allGuns, allSeeds, gunUpgrades } from "../items/all-items";
@@ -36,7 +35,7 @@ class Merchant implements Entity {
   private shopOpen = false;
   id = "merchant";
 
-  get position(): Position {
+  get position(): Vec2 {
     throw new Error("Method not implemented.");
   }
 
@@ -83,12 +82,12 @@ class Merchant implements Entity {
   getRandomSeeds() {
     var arr = [];
     var seeds = [];
-    while(arr.length < 3){
-        var r = Math.floor(Math.random() * 11);
-        if(arr.indexOf(r) === -1) {
-          arr.push(r);
-          seeds.push(allSeeds[r]);
-        }
+    while (arr.length < 3) {
+      var r = Math.floor(Math.random() * 11);
+      if (arr.indexOf(r) === -1) {
+        arr.push(r);
+        seeds.push(allSeeds[r]);
+      }
     }
 
     return seeds
@@ -97,7 +96,7 @@ class Merchant implements Entity {
   getAmmo() {
     let ammo = []
     let r = Math.floor(Math.random() * 4) + 5;
-    for(let i = 0; i < r; i++) ammo.push(this.ammoStackAmount);
+    for (let i = 0; i < r; i++) ammo.push(this.ammoStackAmount);
 
     return ammo;
   }
