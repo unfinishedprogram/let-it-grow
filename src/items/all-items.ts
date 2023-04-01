@@ -25,7 +25,6 @@ const allSeeds = [
 
 const gunUpgrades = [
   new Upgrade(Sprite.from(Texture.from(seedBase + "star.png")), "damage", 5),
-  new Upgrade(Sprite.from(Texture.from(seedBase + "star.png")), "reload", 0.2),
   new Upgrade(Sprite.from(Texture.from(seedBase + "star.png")), "fire rate", 1),
 ]
 
