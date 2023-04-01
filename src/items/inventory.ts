@@ -6,6 +6,7 @@ class Inventory {
 
   public guns: Array<Gun>;
   public seeds: Array<Seed>;
+  public ammo: number;
   public gold: number;
 
   public static getInstance(): Inventory {
@@ -19,11 +20,16 @@ class Inventory {
   constructor() {
     this.guns = [];
     this.seeds = [];
-    this.gold = 0;
+    this.gold = 50;
+    this.ammo = 0;
   }
 
   addGun(gun: Gun) {
     this.guns.push(gun)
+  }
+
+  addSeed(seed: Seed) {
+    this.seeds.push(seed)
   }
 
   addGold(add: number) {
@@ -34,6 +40,15 @@ class Inventory {
     if (remove > this.gold) return false;
     else {
       this.gold -= remove
+      return true
+    }
+  }
+
+  useAmmo() {
+    if (this.ammo <= 0) {
+      return false
+    } else {
+      this.ammo --
       return true
     }
   }

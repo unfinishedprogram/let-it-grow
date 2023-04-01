@@ -53,22 +53,27 @@ class Merchant implements Entity {
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
 
+    this.sprite.interactive = true;
+    this.sprite.on('pointerdown', () => { 
+      new Shop(this) 
+    });
+
     window.addEventListener("click", () => {
-      if (
-        inBounds(
-          { x: 399, y: 390 },
-          { x: 415, y: 405 },
-          controller.mousePosition
-        )
-      ) {
-        new Shop()
-      } else if (World.entities.has("shop") &&
+      if (World.entities.has("shop") &&
         !inBounds(
           { x: 160, y: 50 },
           { x: 476, y: 415 },
           controller.mousePosition
         )) {
         World.removeEntity("shop")
+        for (let x = 0; x < 3; x++) {
+          for (let y = 0; y < 3; y++) {
+            try{ World.removeEntity("shop-slot-"+x+"-"+y) }
+            catch {}
+          }
+          try{ World.removeEntity("shop-item-"+x) } 
+          catch {}
+        }
       }
     })
 
@@ -103,3 +108,5 @@ class Merchant implements Entity {
 }
 
 const merchant = new Merchant()
+
+export default Merchant
