@@ -2,11 +2,13 @@ import { AnimatedSprite, Container, Text } from "pixi.js";
 import json from "../../public/assets/json-spritesheets/slimes/slime_down.json";
 import { Collidable, ENEMY_MASK, PLAYER_MASK } from "./collidable";
 import { V2, Vec2 } from "../utils/vec2";
-import World from "../world";
+import World, { islandBounds } from "../world";
 import { isFightable, loadSpriteSheet } from "../utils/util";
 import { Combatible, CombatSystem } from "./combatable";
 import { HitNumber } from "../hitNumber";
 import inventory from "../items/inventory";
+import day from "../day";
+import { keepIn } from "../utils/bbox";
 
 enum EnemyState {
   FOLLOWING_PLAYER,
@@ -15,7 +17,7 @@ enum EnemyState {
   GOING_FOR_NEXUS,
 }
 
-const slimeSprite = await loadSpriteSheet(json, "/assets/json-spritesheets/slimes/", 0.15);
+export const slimeSprite = await loadSpriteSheet(json, "/assets/json-spritesheets/slimes/", 0.15);
 
 export class Enemy implements Combatible {
   id: string;
@@ -29,17 +31,17 @@ export class Enemy implements Combatible {
   speed: number = 0.4;
   target: Combatible | null = null;
   container = new Container();
-  drag = 0.9;
+  drag = 0.2 + (day.inGameDays * 0.1);
   debugText = new Text('test text', { fill: 'white', fontSize: '1rem' });
 
   state = EnemyState.GOING_FOR_NEXUS;
 
   combatSystem: CombatSystem = {
-    maxHP: 20,
-    hp: 20,
-    damage: 10,
-    radius: 5,
-    rechargeTime: 1000,
+    maxHP: 20 + day.inGameDays * 1.2,
+    hp: 20 + day.inGameDays * 1.2,
+    damage: 10 + day.inGameDays * 1.2,
+    radius: 5 + day.inGameDays * 1.2,
+    rechargeTime: 1000 - day.inGameDays * 1.2,
     isRecharging: false,
   }
 
@@ -62,10 +64,13 @@ export class Enemy implements Combatible {
   };
 
   constructor(public sprite: AnimatedSprite, public enemyDetectionRangeInner: number, public enemyDetectionRangeOutter: number) {
-    // this.container.addChild(this.debugText);
+    this.container.addChild(this.debugText);
     this.sprite.addChild(this.container);
-    this.sprite.position.x += Math.random() * 50 + 300;
-    this.sprite.position.y += Math.random() * 50 + 300;
+    this.sprite.position.x += Math.random() * (islandBounds.max.x - islandBounds.min.x) + islandBounds.min.x;
+    // this.sprite.position.y += Math.random() * (islandBounds.max.y - islandBounds.min.y) + islandBounds.min.y;
+    this.sprite.position.y += 100000;
+    keepIn(this, islandBounds);
+    // keepIn(this, islandBounds);
     this.id = crypto.randomUUID();
     this.debugText.anchor.set(0.5, 1);
   }
@@ -128,6 +133,12 @@ export class Enemy implements Combatible {
       this.state = EnemyState.FOLLOWING_PLAYER;
       return;
     }
+
+    const middleOfIslandX = islandBounds.min.x + (islandBounds.max.x / 2);
+    const middleOfIslandY = islandBounds.min.y + (islandBounds.max.y / 2);
+    const normalized = V2.normalized(V2.sub({x: middleOfIslandX, y: middleOfIslandY}, this.sprite.position));
+
+    V2.addAssign(this.velocity, V2.multiplyScalar(normalized, this.speed * this.sprite.currentFrame));
   }
 
   step(dt: number): void {
@@ -152,9 +163,3 @@ export class Enemy implements Combatible {
     this.debugText.text = EnemyState[this.state];
   }
 }
-
-World.addEntity(new Enemy(slimeSprite(), 50, 70));
-World.addEntity(new Enemy(slimeSprite(), 50, 70));
-World.addEntity(new Enemy(slimeSprite(), 50, 70));
-World.addEntity(new Enemy(slimeSprite(), 50, 70));
-World.addEntity(new Enemy(slimeSprite(), 50, 70));
