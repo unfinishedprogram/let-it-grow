@@ -2,9 +2,10 @@ import { AnimatedSprite, Sprite } from "pixi.js";
 import { loadSpriteSheet } from "../utils/util";
 import { V2, Vec2 } from "../utils/vec2";
 import World from "../world";
-import { BULLET_MASK, Collidable } from "./collidable";
+import { BULLET_MASK, Collidable, ENEMY_MASK } from "./collidable";
 import { Combatible, CombatSystem } from "./combatable";
 import json from "../../public/assets/bullets/bullet.json";
+import { Enemy } from "./enemy";
 
 class Projectile implements Combatible  {
   id: string = crypto.randomUUID();
@@ -12,22 +13,29 @@ class Projectile implements Combatible  {
   is_collidable: true = true;
   is_fightable: boolean = true;
 
-  radius: number = 2;
+  radius: number = 16;
   mass: number = 1;
   collision_mask: number = BULLET_MASK;
 
   travelledRange: number = 0;
+  hitEnemies: string[] = [];
+  //
+  isEnemy(collidable: Collidable): collidable is Enemy {
+    return collidable.collision_mask == ENEMY_MASK;
+  }
 
-  onHit(combatible: Combatible) {
-    this.combatSystem.hp -= 1;
-    if (this.combatSystem.hp < 0) {
-      // World.removeEntity(this.id);
+  onHit(_combatible: Combatible) {};
+
+  onCollision(other: Collidable) {
+    if (this.isEnemy(other) && !this.hitEnemies.some(he => he == other.id)) {
+      this.hitEnemies.push(other.id);
+      this.combatSystem.hp -= 1;
+      other.onHit(this);
+
+      if (this.combatSystem.hp == 0)  {
+        World.removeEntity(this.id);
+      }
     }
-
-    combatible.onHit(this);
-  };
-
-  onCollision(_other: Collidable) {
   }
 
   step(_dt: number): void {
@@ -55,10 +63,10 @@ export async function instantiateWeakProjectile(velocity: Vec2, startingPosition
   const changedVelocity = V2.multiplyScalar(velocity, 4);
 
   const proj = new Projectile(animatedSprite, {
-    hp: 1,
+    hp: 2,
     damage: 5,
     rechargeTime: 0,
-    maxHP: 1,
+    maxHP: 2,
     radius: 2,
     isRecharging: false,
   }, changedVelocity, 150);
