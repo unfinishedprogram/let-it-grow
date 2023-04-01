@@ -1,5 +1,6 @@
 import { Vec2, V2 } from "./vec2"
 
+const SCREEN_SCALE = 0.2;
 
 type Key = {
   isPressed: boolean;
@@ -34,14 +35,16 @@ class Controller {
 
   keys = [this.aKey, this.sKey, this.dKey, this.wKey];
 
-  directionVector: Vec2 = {x: 0, y: 0};
+  directionVector: Vec2 = { x: 0, y: 0 };
+  mousePosition: Vec2 = { x: 0, y: 0 };
 
   constructor() {
     window.addEventListener("keydown", (ev) => this.downListener(ev));
     window.addEventListener("keyup", (ev) => this.upListener(ev));
+    window.addEventListener("mousemove", (ev) => this.mouseListener(ev));
   }
 
-  addKey(key: Key){ 
+  addKey(key: Key) {
     this.keys.push(key);
   }
 
@@ -59,6 +62,11 @@ class Controller {
     }
   }
 
+  mouseListener(e: MouseEvent) {
+    this.mousePosition.x = e.clientX * SCREEN_SCALE;
+    this.mousePosition.y = e.clientY * SCREEN_SCALE;
+  }
+
   step() {
     this.directionVector.x = 0;
     this.directionVector.y = 0;
@@ -68,11 +76,8 @@ class Controller {
         this.keys[i].onClick();
       }
     }
-
     this.directionVector = V2.normalized(this.directionVector);
-
   }
-
 }
 
 export default new Controller();
