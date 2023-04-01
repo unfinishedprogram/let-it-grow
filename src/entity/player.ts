@@ -1,7 +1,7 @@
 import { Container, Sprite, Text } from "pixi.js";
 import { Collidable, PLAYER_MASK } from "./collidable";
 import controller from "../controller";
-import { Vec2 } from "../utils/vec2";
+import { V2, Vec2 } from "../utils/vec2";
 import World from "../world";
 
 import { down, left, right, up } from "./player_anims";
@@ -54,7 +54,7 @@ class Player implements Combatible {
   }
 
   step(_dt: number): void {
-    this.velocity = controller.directionVector;
+    this.velocity = V2.multiplyScalar(controller.directionVector, 4);
 
     let selectedSprite: Sprite;
     if (this.velocity.y != 0) {

@@ -11,23 +11,23 @@ settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
 const islandBounds = {
   min: {
-    x: 48,
-    y: 48,
+    x: 72,
+    y: 72,
   },
   max: {
-    x: 128,
-    y: 128,
+    x: 72 + 16 * 31,
+    y: 72 + 16 * 19.5,
   }
 };
 
 const houseBounds = {
   min: {
-    x: 96 + 32,
-    y: 48,
+    x: 128 + 16,
+    y: 72,
   },
   max: {
-    x: 128 + 80,
-    y: 128,
+    x: 128 + 112,
+    y: 128 + 16,
   }
 };
 
