@@ -92,9 +92,9 @@ class Controller {
 
   mouseListener(e: MouseEvent) {
     this.mousePosition.x =
-      (e.clientX - World.clientTopLeft.x) / World.clientScale;
+      (e.clientX - World.clientTopLeft.x) / World.clientScale + World.cameraPos.x;
     this.mousePosition.y =
-      (e.clientY - World.clientTopLeft.y) / World.clientScale;
+      (e.clientY - World.clientTopLeft.y) / World.clientScale + World.cameraPos.y;
   }
 
   step() {

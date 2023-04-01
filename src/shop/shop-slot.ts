@@ -35,7 +35,6 @@ class ShopSlot implements Entity {
           inventory.ammo += 5;
         }
       }
-      console.log(inventory)
     });
   }
 
