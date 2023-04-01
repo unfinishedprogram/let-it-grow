@@ -1,4 +1,4 @@
-import { Sprite } from "pixi.js"
+import { Container } from "pixi.js"
 
 export interface Entity {
   // Component flags
@@ -7,7 +7,7 @@ export interface Entity {
   is_fightable: boolean,
 
   id: string, // UUID
-  sprite: Sprite,
+  sprite: Container,
   step(dt: number): void // dt in ms
 }
 

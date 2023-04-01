@@ -3,6 +3,8 @@ import { Entity } from "../entity/entity";
 import World from "../world";
 import Merchant from "../entity/merchant";
 import ShopItem from "./shop-item";
+import Ammunition from "../items/ammunition";
+import { ammo } from "../items/all-items";
 
 class Shop implements Entity {
   is_dynamic?: boolean | undefined;
@@ -15,7 +17,8 @@ class Shop implements Entity {
   public sprite = Sprite.from(this.texture);
   
   container = new Container();
-  debugText = new Text('THIS IS SOME TETX', { fill: 'white', fontSize: '0.5rem' });
+  titleText = new Text('Merchant', { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
+  ammoText = new Text('20 Bullets: ', { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
 
   constructor(merchant: Merchant) {
     World.addEntity(this)
@@ -29,13 +32,16 @@ class Shop implements Entity {
     this.sprite.anchor.y = 0.5;
     
     merchant.seeds.forEach((seed, i) => {
-      new ShopItem(seed, i)
+      new ShopItem(seed, i, 0)
     })
 
+    new ShopItem(ammo, 2, 1)
     
     this.sprite.addChild(this.container);
-    this.debugText.anchor.set(0.5, 1);
-    this.container.addChild(this.debugText);
+    this.titleText.anchor.set(0.5, 4.5);
+    this.ammoText.anchor.set(0.69, -1);
+    this.container.addChild(this.titleText);
+    this.container.addChild(this.ammoText);
   }
 
   step(dt: number): void { }

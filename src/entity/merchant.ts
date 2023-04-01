@@ -9,6 +9,7 @@ import World from "../world";
 import controller from "../controller";
 import { inBounds } from "../utils/bbox";
 import Shop from "../shop/shop";
+import { Vec2 } from "../utils/vec2";
 
 /**
  * Needs:
@@ -32,7 +33,6 @@ class Merchant implements Entity {
   public guns: Array<Gun>;
   public upgrades: Array<Upgrade>;
   private ammoStackAmount = 20;
-  private shopOpen = false;
   id = "merchant";
 
   get position(): Vec2 {
@@ -54,7 +54,9 @@ class Merchant implements Entity {
 
     this.sprite.interactive = true;
     this.sprite.on('pointerdown', () => { 
-      new Shop(this) 
+      if (!World.entities.has("shop")) {
+        new Shop(this) 
+      }
     });
 
     window.addEventListener("click", () => {
@@ -67,11 +69,9 @@ class Merchant implements Entity {
         World.removeEntity("shop")
         for (let x = 0; x < 3; x++) {
           for (let y = 0; y < 3; y++) {
-            try{ World.removeEntity("shop-slot-"+x+"-"+y) }
-            catch {}
+            try{ World.removeEntity("shop-slot-"+x+"-"+y) } catch {}
+            try{ World.removeEntity("shop-item-"+x+"-"+y) } catch {}
           }
-          try{ World.removeEntity("shop-item-"+x) } 
-          catch {}
         }
       }
     })

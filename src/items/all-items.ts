@@ -2,8 +2,9 @@ import { Sprite, Texture } from "pixi.js";
 import Gun from "./gun";
 import Seed from "./seed";
 import Upgrade from "./upgrade";
+import Ammunition from "./ammunition";
 
-const seedBase = "assets/sproud-lands/Items/farm-items/seeds-";
+const seedBase = "/assets/sproud-lands/items/farm-items/seeds-";
 
 // new Gun(sprite, name, cost, damage, reload, fire rate, projectiles, max ammo, range, dps)
 const allGuns = [
@@ -36,4 +37,6 @@ const gunUpgrades = [
   new Upgrade("fire rate", 1),
 ]
 
-export { allGuns, allSeeds, gunUpgrades }
+const ammo = new Ammunition(Sprite.from(Texture.from("/assets/bullet.png")), 20)
+
+export { allGuns, allSeeds, gunUpgrades, ammo }
