@@ -1,6 +1,12 @@
 // P0 - Upgrade Weapon , Buy crops, Buy ammo
 
-import { Sprite } from "pixi.js";
+import { AnimatedSprite, BaseTexture, Sprite, Spritesheet } from "pixi.js";
+import json from "../../public/assets/json-spritesheets/walking_down.json";
+import { Collidable } from "./collidable";
+import controller from "../controller";
+import { Vec2 } from "../utils/vec2";
+import World from "../world";
+
 import { Entity } from "./entity";
 import { Position } from "../types";
 import Seed from "../items/seed";
@@ -17,6 +23,9 @@ import { allSeeds } from "../items/all-items";
  */
 
 class Merchant implements Entity {
+  is_dynamic? = false;
+  is_collidable? = true;
+
   public ammo: Array<number>;
   public seeds: Array<Seed>;
   public guns: Array<Gun>;
@@ -31,7 +40,7 @@ class Merchant implements Entity {
     throw new Error("Method not implemented.");
   }
 
-  constructor(public size: number, public sprite: Sprite) {
+  constructor(public sprite: Sprite) {
     this.ammo = this.getAmmo();
     this.seeds = this.getRandomSeeds();
     this.guns = [];
@@ -64,4 +73,9 @@ class Merchant implements Entity {
   }
 }
 
-export default Merchant
+// const merchant_sprite = new Spritesheet(BaseTexture.from(json.meta.image), json);
+//   merchant_sprite.parse().then(() => {
+//     merchant_sprite.baseTexture.resolution
+//     let merchant: Merchant = new Merchant(new Sprite());
+//     World.addEntity(merchant);
+//   })
