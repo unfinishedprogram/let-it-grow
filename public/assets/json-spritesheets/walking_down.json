@@ -1,79 +1,79 @@
 {"frames": {
 
-"Premium Charakter Spritesheet-0.png":
-{
-	"frame": {"x":1,"y":43,"w":16,"h":18},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
-	"sourceSize": {"w":48,"h":48}
-},
-"Premium Charakter Spritesheet-1.png":
-{
-	"frame": {"x":1,"y":63,"w":16,"h":18},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
-	"sourceSize": {"w":48,"h":48}
-},
-"Premium Charakter Spritesheet-2.png":
-{
-	"frame": {"x":1,"y":1,"w":16,"h":19},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":16,"y":14,"w":16,"h":19},
-	"sourceSize": {"w":48,"h":48}
-},
-"Premium Charakter Spritesheet-3.png":
-{
-	"frame": {"x":1,"y":1,"w":16,"h":19},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":16,"y":14,"w":16,"h":19},
-	"sourceSize": {"w":48,"h":48}
-},
-"Premium Charakter Spritesheet-4.png":
-{
-	"frame": {"x":1,"y":22,"w":16,"h":19},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":16,"y":14,"w":16,"h":19},
-	"sourceSize": {"w":48,"h":48}
-},
-"Premium Charakter Spritesheet-5.png":
-{
-	"frame": {"x":1,"y":83,"w":16,"h":18},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
-	"sourceSize": {"w":48,"h":48}
-},
-"Premium Charakter Spritesheet-6.png":
-{
-	"frame": {"x":1,"y":103,"w":16,"h":18},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
-	"sourceSize": {"w":48,"h":48}
-},
-"Premium Charakter Spritesheet-7.png":
-{
-	"frame": {"x":1,"y":103,"w":16,"h":18},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
-	"sourceSize": {"w":48,"h":48}
-}},
-"animations": {
-	"Premium Charakter Spritesheet": ["Premium Charakter Spritesheet-0.png","Premium Charakter Spritesheet-1.png","Premium Charakter Spritesheet-2.png","Premium Charakter Spritesheet-3.png","Premium Charakter Spritesheet-4.png","Premium Charakter Spritesheet-5.png","Premium Charakter Spritesheet-6.png","Premium Charakter Spritesheet-7.png"]
-},
-"meta": {
-	"app": "https://www.codeandweb.com/texturepacker",
-	"version": "1.1",
-	"image": "/assets/json-spritesheets/walking_down.png",
-	"format": "RGBA8888",
-	"size": {"w":18,"h":122},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f16ca7222649e7a082ac23b9d8b87372:3db9a36e369a3f6bfe3a86b03ca5f9c1:e2e6657af1e3b3e450c470234d8030f3$"
-}
+  "Premium Charakter Spritesheet-0.png":
+  {
+    "frame": {"x":1,"y":43,"w":16,"h":18},
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
+    "sourceSize": {"w":48,"h":48}
+  },
+  "Premium Charakter Spritesheet-1.png":
+  {
+    "frame": {"x":1,"y":63,"w":16,"h":18},
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
+    "sourceSize": {"w":48,"h":48}
+  },
+  "Premium Charakter Spritesheet-2.png":
+  {
+    "frame": {"x":1,"y":1,"w":16,"h":19},
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": {"x":16,"y":14,"w":16,"h":19},
+    "sourceSize": {"w":48,"h":48}
+  },
+  "Premium Charakter Spritesheet-3.png":
+  {
+    "frame": {"x":1,"y":1,"w":16,"h":19},
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": {"x":16,"y":14,"w":16,"h":19},
+    "sourceSize": {"w":48,"h":48}
+  },
+  "Premium Charakter Spritesheet-4.png":
+  {
+    "frame": {"x":1,"y":22,"w":16,"h":19},
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": {"x":16,"y":14,"w":16,"h":19},
+    "sourceSize": {"w":48,"h":48}
+  },
+  "Premium Charakter Spritesheet-5.png":
+  {
+    "frame": {"x":1,"y":83,"w":16,"h":18},
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
+    "sourceSize": {"w":48,"h":48}
+  },
+  "Premium Charakter Spritesheet-6.png":
+  {
+    "frame": {"x":1,"y":103,"w":16,"h":18},
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
+    "sourceSize": {"w":48,"h":48}
+  },
+  "Premium Charakter Spritesheet-7.png":
+  {
+    "frame": {"x":1,"y":103,"w":16,"h":18},
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": {"x":16,"y":15,"w":16,"h":18},
+    "sourceSize": {"w":48,"h":48}
+  }},
+  "animations": {
+    "Premium Charakter Spritesheet": ["Premium Charakter Spritesheet-0.png","Premium Charakter Spritesheet-1.png","Premium Charakter Spritesheet-2.png","Premium Charakter Spritesheet-3.png","Premium Charakter Spritesheet-4.png","Premium Charakter Spritesheet-5.png","Premium Charakter Spritesheet-6.png","Premium Charakter Spritesheet-7.png"]
+  },
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.1",
+    "image": "walking_down.png",
+    "format": "RGBA8888",
+    "size": {"w":18,"h":122},
+    "scale": "1",
+    "smartupdate": "$TexturePacker:SmartUpdate:f16ca7222649e7a082ac23b9d8b87372:3db9a36e369a3f6bfe3a86b03ca5f9c1:e2e6657af1e3b3e450c470234d8030f3$"
+  }
 }
