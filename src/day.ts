@@ -9,7 +9,7 @@ class Day {
   time: number = 50000;
   inGameDays = 0;
   // Compared to real life, so 60 would be 1 minute per second
-  inGameSpeed = 300 * 10;
+  inGameSpeed = 300 * 4;
   stage: 'day' | 'night' = 'day';
   nightTimeStart = 18;
   dayTimeStart = 5;
