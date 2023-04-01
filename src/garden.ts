@@ -33,6 +33,7 @@ class Tile implements Collidable {
   velocity = { x: 0, y: 0 };
   mass = 1;
   collision_mask = 0;
+  drag = 1;
 
   onCollision(_other: Collidable) { }
 
@@ -43,8 +44,10 @@ class Tile implements Collidable {
   constructor(x: number, y: number) {
     this.sprite.position.x = x;
     this.sprite.position.y = y;
-    World.app.stage.addChild(this.sprite);
+
+    World.container.addChild(this.sprite);
   }
+
 
   doTill(): void {
     if (this.state == TileState.None) {
@@ -113,8 +116,6 @@ document.addEventListener("click", () => {
   let { x, y } = controller.mousePosition;
   Garden.getTile(x, y)?.doWater();
   Garden.getTile(x, y)?.doTill();
-
-  // console.log(x, y, Garden.getTile(x, y));
 })
 
 const Garden = new _Garden();

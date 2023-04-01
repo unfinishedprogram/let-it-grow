@@ -7,6 +7,7 @@ import World from "../world";
 import { down, left, right, up } from "./player_anims";
 import { Combatible, CombatSystem } from "./combatable";
 import { instantiateWeakProjectile } from "./projectile";
+import day from "../day";
 
 class Player implements Combatible {
   id = "player";
@@ -45,7 +46,6 @@ class Player implements Combatible {
 
   onHit(combatible: Combatible) {
     this.combatSystem.hp -= combatible.combatSystem.damage;
-    console.log("Current hp: ", this.combatSystem.hp);
   }
 
   shootProjectile() {
@@ -68,7 +68,10 @@ class Player implements Combatible {
   }
 
   step(_dt: number): void {
-    this.velocity = V2.multiplyScalar(controller.directionVector, 4);
+    // World.app.stage.pivot.set(player.sprite.position.x, player.sprite.position.y);
+    World.updateCamera(player.sprite.position);
+    this.debugText.text = World.app.stage.pivot.x;
+    this.velocity = V2.multiplyScalar(controller.directionVector, 2);
 
     let selectedSprite: Sprite;
     if (this.velocity.y != 0) {
