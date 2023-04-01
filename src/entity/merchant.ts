@@ -30,7 +30,6 @@ class Merchant implements Entity {
 
   public ammo: Array<number>;
   public seeds: Array<Seed>;
-  public guns: Array<Gun>;
   public upgrades: Array<Upgrade>;
   private ammoStackAmount = 20;
   id = "merchant";
@@ -44,7 +43,6 @@ class Merchant implements Entity {
   constructor() {
     this.ammo = this.getAmmo();
     this.seeds = this.getRandomSeeds();
-    this.guns = this.getGuns();
     this.upgrades = gunUpgrades;
     
     this.sprite.position.x = 407;
