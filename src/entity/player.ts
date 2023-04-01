@@ -32,6 +32,7 @@ const spritesheet = new Spritesheet(BaseTexture.from(json.meta.image), json);
 spritesheet.parse().then(() => {
   spritesheet.baseTexture.resolution
   const anim = new AnimatedSprite(spritesheet.animations["Premium Charakter Spritesheet"]);
+  anim.animationSpeed = 0.4;
   anim.play();
   let player: Player = new Player(anim);
   World.addEntity(player);
