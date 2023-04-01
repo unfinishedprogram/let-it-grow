@@ -3,6 +3,7 @@ import World from "./world";
 
 class Day {
   time: number = 64000;
+  inGameDays = 0;
   // Compared to real life, so 60 would be 1 minute per second
   inGameSpeed = 300 * 2;
   stage: 'day' | 'night' = 'day';
@@ -28,6 +29,9 @@ class Day {
       this.adjustmentFilter.brightness -= 0.0003 * delta;
       this.adjustmentFilter.blue += 0.0001 * delta;
     } else if (this.getHour() >= this.dayTimeStart && this.getHour() < 7) {
+      if (this.stage == "night") {
+        this.inGameDays += 1;
+      }
       this.stage = 'day';
       this.adjustmentFilter.saturation += 0.00025 * delta;
       this.adjustmentFilter.brightness += 0.0003 * delta;
