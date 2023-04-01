@@ -1,9 +1,9 @@
 import { AnimatedSprite, BaseTexture, Sprite, Spritesheet } from "pixi.js";
-import json from "../public/assets/json-spritesheets/walking_down.json";
+import json from "../../public/assets/json-spritesheets/walking_down.json";
 import { Collidable } from "./collidable";
-import controller from "./controller";
-import { Vec2 } from "./vec2";
-import World from "./world";
+import controller from "../controller";
+import { Vec2 } from "../utils/vec2";
+import World from "../world";
 // import controller from "./controller";
 
 

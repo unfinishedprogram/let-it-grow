@@ -1,5 +1,5 @@
 import Dynamic from "./dynamic";
-import { V2, Vec2 } from "./vec2";
+import { V2, Vec2 } from "../utils/vec2";
 
 export type Collidable = {
     is_collidable: true,

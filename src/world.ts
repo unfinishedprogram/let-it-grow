@@ -1,13 +1,11 @@
 import { Application, SCALE_MODES, settings }from "pixi.js";
-import { Entity } from "./entity";
-import genUUID from "./util";
-import Dynamic, { stepDynamic } from "./dynamic";
-import { Collidable, checkCollision } from "./collidable";
+import { Entity } from "./entity/entity";
+import { genUUID } from "./utils/util";
+import Dynamic, { stepDynamic } from "./entity/dynamic";
+import { Collidable, checkCollision } from "./entity/collidable";
 import controller from "./controller";
 
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
-
-
 
 const World = {
   app: new Application({ resizeTo: window, antialias: false }),
