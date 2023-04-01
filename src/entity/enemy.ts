@@ -9,6 +9,9 @@ import { HitNumber } from "../hitNumber";
 import inventory from "../items/inventory";
 import day from "../day";
 import { keepIn } from "../utils/bbox";
+import { sound } from "@pixi/sound";
+
+sound.add('hitmarker', '/assets/hitmarker.mp3');
 
 enum EnemyState {
   FOLLOWING_PLAYER,
@@ -48,6 +51,8 @@ export class Enemy implements Combatible {
   onCollision(other: Collidable) { };
 
   onHit(combatible: Combatible) {
+    sound.play('hitmarker');
+    sound.volume('hitmarker', 1);
     this.combatSystem.hp -= combatible.combatSystem.damage;
 
     World.addEntity(new HitNumber(combatible.combatSystem.damage.toString(), this.sprite.position, 'red'));
