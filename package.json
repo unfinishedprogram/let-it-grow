@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 8080",
+    "dev": "vite --port 3000",
     "build": "echo 'nice'",
     "preview": "vite preview",
-    "start": "vite --port 8080"
+    "start": "vite --port 3000"
   },
   "devDependencies": {
     "typescript": "^4.9.3",
