@@ -3,11 +3,13 @@ import { Entity } from "./entity";
 import { Position } from "../types";
 import Seed from "../items/seed";
 import Gun from "../items/gun";
-import { allSeeds, gunUpgrades } from "../items/all-items";
+import { allGuns, allSeeds, gunUpgrades } from "../items/all-items";
 import { RenderTexture, Sprite, Texture, autoDetectRenderer } from "pixi.js";
 import Upgrade from "../items/upgrade";
-import inventory from "../items/inventory";
 import World from "../world";
+import controller from "../controller";
+import { inBounds } from "../utils/bbox";
+import Shop from "../shop/shop";
 
 /**
  * Needs:
@@ -21,6 +23,10 @@ import World from "../world";
 class Merchant implements Entity {
   is_dynamic? = false;
   is_collidable? = true;
+  is_fightable = false;
+
+  private texture = Texture.from("assets/sproud-lands/characters/merchant.png");
+  public sprite = Sprite.from(this.texture);
 
   public ammo: Array<number>;
   public seeds: Array<Seed>;
@@ -36,11 +42,37 @@ class Merchant implements Entity {
 
   step(dt: number): void { }
 
-  constructor(public sprite: Sprite) {
+  constructor() {
     this.ammo = this.getAmmo();
     this.seeds = this.getRandomSeeds();
-    this.guns = [];
+    this.guns = this.getGuns();
     this.upgrades = gunUpgrades;
+    
+    this.sprite.position.x = 407;
+    this.sprite.position.y = 398;
+    this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
+
+    window.addEventListener("click", () => {
+      if (
+        inBounds(
+          { x: 399, y: 390 },
+          { x: 415, y: 405 },
+          controller.mousePosition
+        )
+      ) {
+        new Shop()
+      } else if (World.entities.has("shop") &&
+        !inBounds(
+          { x: 160, y: 50 },
+          { x: 476, y: 415 },
+          controller.mousePosition
+        )) {
+        World.removeEntity("shop")
+      }
+    })
+
+    World.addEntity(this)
   }
 
   getRandomSeeds() {
@@ -66,12 +98,8 @@ class Merchant implements Entity {
   }
 
   getGuns() {
-    inventory
+    return allGuns
   }
 }
 
-const text = Texture.from("assets/sproud-lands/characters/merchant.png");
-const sprite = Sprite.from(text);
-
-const merchant = new Merchant(sprite)
-World.addEntity(merchant)
+const merchant = new Merchant()
