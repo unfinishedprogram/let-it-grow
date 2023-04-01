@@ -2,6 +2,7 @@ import { Container, Text, TextStyle } from "pixi.js";
 import Dynamic from "./entity/dynamic";
 import { Vec2 } from "./utils/vec2";
 import World from "./world";
+import { OutlineFilter } from "pixi-filters";
 
 export class HitNumber implements Dynamic {
   id: string = crypto.randomUUID();
@@ -10,7 +11,7 @@ export class HitNumber implements Dynamic {
   displayTime: number = 500;
   sprite: Container = new Container();
   is_dynamic: true = true;
-  velocity: Vec2 = {x: 0.05, y: -0.5};
+  velocity: Vec2 = { x: 0.05, y: -0.5 };
   is_collidable?: boolean | undefined;
   drag: number = 1;
 
@@ -24,6 +25,7 @@ export class HitNumber implements Dynamic {
       damage,
       new TextStyle({ fontFamily: 'Pixelated', fontSize: size, fill: color, fontWeight: '100' })
     );
+    this.sprite.filters = [new OutlineFilter(3, 0x0)]
     this.text.scale.set(1.6, 1.6);
     this.text.anchor.set(0.5, 1);
     this.sprite.addChild(this.text);

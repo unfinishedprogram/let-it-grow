@@ -15,6 +15,7 @@
   "dependencies": {
     "@types/fontfaceobserver": "^2.1.0",
     "fontfaceobserver": "^2.3.0",
+    "pixi-filters": "^5.2.1",
     "pixi.js": "^7.2.3"
   }
 }
