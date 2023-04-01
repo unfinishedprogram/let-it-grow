@@ -1,4 +1,4 @@
-import { Vec2, V2 } from "./vec2"
+import { Vec2, V2 } from "./utils/vec2"
 
 const SCREEN_SCALE = 0.2;
 
