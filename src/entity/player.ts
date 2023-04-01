@@ -6,6 +6,7 @@ import World from "../world";
 
 import { down, left, right, up } from "./player_anims";
 import { Combatible, CombatSystem } from "./combatable";
+import { instantiateWeakProjectile } from "./projectile";
 
 class Player implements Combatible {
   id = "player";
@@ -16,6 +17,7 @@ class Player implements Combatible {
   mass: number = 1;
   is_fightable = true;
   public collision_mask: number = PLAYER_MASK;
+
 
   container = new Container();
   debugText = new Text('test text', { fill: 'white', fontSize: '1rem' });
@@ -45,11 +47,22 @@ class Player implements Combatible {
     console.log("Current hp: ", this.combatSystem.hp);
   }
 
+  shootProjectile() {
+    // controller.mousePosition
+    const normalizedVelocity = V2.normalized(
+      V2.sub(controller.mousePosition, this.sprite.position)
+    );
+
+    instantiateWeakProjectile(normalizedVelocity, this.sprite.position);
+  }
+
 
   constructor(public sprite: Sprite) {
     this.sprite.addChild(this.container);
     this.debugText.anchor.set(0.5, 1);
     this.container.addChild(this.debugText);
+
+    window.addEventListener('mousedown', () => this.shootProjectile());
 
   }
 

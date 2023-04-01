@@ -13,7 +13,7 @@ enum EnemyState {
   GOING_FOR_NEXUS,
 }
 
-class Enemy implements Combatible {
+export class Enemy implements Combatible {
   id = crypto.randomUUID();
   is_collidable: true = true;
   is_fightable = true;
