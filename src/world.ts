@@ -46,6 +46,7 @@ const World = {
   },
 
   addEntity(entity: Entity) {
+    console.log(entity);
     this.app.stage.addChild(entity.sprite);
     this.entities.set(entity.id, entity);
   },
@@ -79,12 +80,22 @@ const World = {
           b.onCollision(a);
 
           if (a.mass && b.mass) {
-            let delta = V2.sub(a.sprite.position, b.sprite.position);
+            const delta = V2.sub(a.sprite.position, b.sprite.position);
+            let v = V2.normalized(delta);
+            let dist = V2.length(delta);
+            let power = -(dist - (a.radius + b.radius));
 
-            a.velocity.x -= delta.x / 2;
-            a.velocity.y -= delta.y / 2;
-            a.velocity.x += delta.x / 2;
-            a.velocity.y += delta.y / 2;
+
+
+
+
+
+            a.velocity.x += v.x * power / 50;
+            a.velocity.y += v.y * power / 50;
+            b.velocity.x -= v.x * power / 50;
+            b.velocity.y -= v.y * power / 50;
+
+            console.log("applied repulsion");
           }
         }
       }

@@ -13,19 +13,22 @@ enum EnemyState {
   GOING_FOR_NEXUS,
 }
 
+const slimeSprite = await loadSpriteSheet(json, "/assets/json-spritesheets/slimes/", 0.15);
+
 export class Enemy implements Combatible {
-  id = crypto.randomUUID();
+  id: string;
   is_collidable: true = true;
   is_fightable = true;
   is_dynamic: true = true;
-  velocity: Vec2 = {x: 0, y: 0};
-  radius: number = 1;
+  velocity: Vec2 = { x: 0, y: 0 };
+  radius: number = 6;
   mass: number = 1;
   collision_mask: number = ENEMY_MASK;
   speed: number = 0.4;
   target: Combatible | null = null;
   container = new Container();
-  debugText = new Text('test text', {fill: 'white', fontSize: '1rem'});
+  drag = 0.9;
+  debugText = new Text('test text', { fill: 'white', fontSize: '1rem' });
 
   state = EnemyState.GOING_FOR_NEXUS;
 
@@ -38,18 +41,20 @@ export class Enemy implements Combatible {
     isRecharging: false,
   }
 
-  onCollision(other: Collidable) {
-  }
+  onCollision(other: Collidable) { };
 
-  onHit(combatible: Combatible) {};
+  onHit(combatible: Combatible) { };
 
   constructor(public sprite: AnimatedSprite, public enemyDetectionRangeInner: number, public enemyDetectionRangeOutter: number) {
-    this.container.addChild(this.debugText);
+    // this.container.addChild(this.debugText);
     this.sprite.addChild(this.container);
+    this.sprite.position.x += Math.random() * 50 + 300;
+    this.sprite.position.y += Math.random() * 50 + 300;
+    this.id = crypto.randomUUID();
     this.debugText.anchor.set(0.5, 1);
   }
 
-  findOpponent(){ 
+  findOpponent() {
     for (let [_id, entity] of World.entities) {
       if (isFightable(entity)) {
         if (entity.collision_mask == PLAYER_MASK) {
@@ -74,7 +79,7 @@ export class Enemy implements Combatible {
       return;
     }
 
-    this.combatSystem.isRecharging = true; 
+    this.combatSystem.isRecharging = true;
     this.target?.onHit(this);
     this.state = EnemyState.IS_RESTING;
     setTimeout(() => this.combatSystem.isRecharging = false, this.combatSystem.rechargeTime);
@@ -93,10 +98,12 @@ export class Enemy implements Combatible {
     }
 
     const normalizedVelocity = V2.normalized(
-      V2.sub( this.target.sprite.position, this.sprite.position )
+      V2.sub(this.target.sprite.position, this.sprite.position)
     );
 
-    this.velocity = V2.multiplyScalar(normalizedVelocity, this.speed * this.sprite.currentFrame);
+    V2.addAssign(
+      this.velocity, V2.multiplyScalar(normalizedVelocity, this.speed * this.sprite.currentFrame)
+    );
   }
 
   goingForNexusScenario() {
@@ -108,8 +115,6 @@ export class Enemy implements Combatible {
   }
 
   step(dt: number): void {
-    this.velocity.x = 0;
-    this.velocity.y = 0;
 
     switch (this.state) {
       case EnemyState.GOING_FOR_NEXUS:
@@ -132,7 +137,10 @@ export class Enemy implements Combatible {
   }
 }
 
-loadSpriteSheet(json, "/assets/json-spritesheets/slimes/", 0.15).then(an => {
-  let enemy: Enemy = new Enemy(an, 50, 70);
-  World.addEntity(enemy);
-})
+
+
+World.addEntity(new Enemy(slimeSprite(), 50, 70));
+World.addEntity(new Enemy(slimeSprite(), 50, 70));
+World.addEntity(new Enemy(slimeSprite(), 50, 70));
+World.addEntity(new Enemy(slimeSprite(), 50, 70));
+World.addEntity(new Enemy(slimeSprite(), 50, 70));
