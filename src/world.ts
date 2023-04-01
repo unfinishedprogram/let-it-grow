@@ -7,6 +7,7 @@ import { keepIn, pushOut } from "./utils/bbox";
 import Button from "./Button";
 import ButtonBox from "./ButtonBox";
 import { V2 } from "./utils/vec2";
+import { AdjustmentFilter, AdvancedBloomFilter } from "pixi-filters";
 
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
@@ -173,6 +174,15 @@ const centerWorld = () => {
 
   World.app.stage.setTransform(leftOffset, topOffset, worldScale, worldScale);
 };
+
+World.app.stage.filters = [
+  new AdjustmentFilter({
+    saturation: 0.4,
+    brightness: 0.5,
+    blue: 1.2,
+    contrast: 1,
+  }),
+]
 
 centerWorld();
 
