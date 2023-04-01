@@ -1,6 +1,6 @@
 import { AnimatedSprite, BaseTexture, Sprite, Spritesheet } from "pixi.js";
 import json from "../../public/assets/json-spritesheets/walking_down.json";
-import { Collidable } from "./collidable";
+import { Collidable, PLAYER_MASK } from "./collidable";
 import controller from "../controller";
 import { Vec2 } from "../utils/vec2";
 import World from "../world";
@@ -14,7 +14,7 @@ class Player implements Collidable {
   velocity: Vec2 = {x: 0, y: 0};
   radius: number = 1;
   mass: number = 1;
-  collision_mask: number = 0;
+  public collision_mask: number = PLAYER_MASK;
 
   onCollision(other: Collidable) {
   }
