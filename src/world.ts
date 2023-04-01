@@ -1,16 +1,19 @@
-import { Application, SCALE_MODES, settings }from "pixi.js";
+import { Application, SCALE_MODES, Sprite, Texture, settings } from "pixi.js";
 import { Entity } from "./entity/entity";
-import { genUUID } from "./utils/util";
 import Dynamic, { stepDynamic } from "./entity/dynamic";
 import { Collidable, checkCollision } from "./entity/collidable";
 import controller from "./controller";
 
+
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
 const World = {
+  // Used for mapping from window to pixel locations
+  clientTopLeft: { x: 0, y: 0 },
+  clientScale: 1,
+
   app: new Application({ resizeTo: window, antialias: false }),
   entities: new Map<string, Entity>(),
-  generateId: () => genUUID(),
   removeEntity(id: string) {
     this.app.stage.removeChild(this.entities.get(id)!.sprite);
     this.entities.delete(id);
@@ -53,13 +56,40 @@ const World = {
   },
 };
 
+const background = new Sprite(Texture.from("assets/worldMap.png"));
+World.app.stage.addChild(background);
 
 document.body.appendChild(World.app.view as HTMLCanvasElement);
 World.app.start();
 World.app.ticker.maxFPS = 60;
 World.app.ticker.minFPS = 60;
 World.app.ticker.add(dt => World.step(dt));
-World.app.stage.scale.set(5, 5);
-// World.app.stage.
+
+const centerWorld = () => {
+  const tileSize = 16;
+  const worldWidth = 40;
+  const worldHeight = 30;
+
+  const worldPixelWidth = worldWidth * tileSize;
+  const worldPixelHeight = worldHeight * tileSize;
+
+  let worldScale = Math.min(window.innerHeight / worldPixelHeight, window.innerWidth / worldPixelWidth);
+
+  const topOffset = (window.innerHeight - worldPixelHeight * worldScale) / 2;
+  const leftOffset = (window.innerWidth - worldPixelWidth * worldScale) / 2;
+
+  World.clientTopLeft.x = leftOffset;
+  World.clientTopLeft.y = topOffset;
+  World.clientScale = worldScale;
+
+  World.app.stage.setTransform(leftOffset, topOffset, worldScale, worldScale);
+}
+
+centerWorld();
+
+addEventListener("resize", () => {
+  centerWorld();
+});
+
 
 export default World;

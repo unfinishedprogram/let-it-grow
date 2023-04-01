@@ -1,5 +1,6 @@
-import './style.css';
-import './world';
+import "./style.css";
+import "./world";
+import "./entity/enemy";
+import "./entity/merchant";
 import "./entity/player";
-import "./entity/enemy"
-import "./entity/merchant"
+import "./garden";
