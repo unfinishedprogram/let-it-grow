@@ -4,7 +4,7 @@ import { Item } from "./item";
 class Seed implements Item {
   public name: string;
   public cost: number;
-  id = "ammunition";
+  id = "seed";
   consumable = true;
 
   use(): void {

@@ -55,6 +55,7 @@ const bulletSprite = await loadSpriteSheet(json, "/assets/bullets/", 0.8);
 
 export async function instantiateWeakProjectile(velocity: Vec2, startingPosition: Vec2) {
   const animatedSprite = bulletSprite()
+  animatedSprite.scale.set(2, 2);
 
   animatedSprite.position.set(startingPosition.x, startingPosition.y);
 

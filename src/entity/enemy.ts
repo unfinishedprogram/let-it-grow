@@ -5,6 +5,8 @@ import { V2, Vec2 } from "../utils/vec2";
 import World from "../world";
 import { isFightable, loadSpriteSheet } from "../utils/util";
 import { Combatible, CombatSystem } from "./combatable";
+import { HitNumber } from "../hitNumber";
+import inventory from "../items/inventory";
 
 enum EnemyState {
   FOLLOWING_PLAYER,
@@ -43,7 +45,21 @@ export class Enemy implements Combatible {
 
   onCollision(other: Collidable) { };
 
-  onHit(combatible: Combatible) { };
+  onHit(combatible: Combatible) {
+    this.combatSystem.hp -= combatible.combatSystem.damage;
+
+    World.addEntity(new HitNumber(combatible.combatSystem.damage.toString(), this.sprite.position, 'red'));
+    if (this.combatSystem.hp < 0) {
+      const money = ((Math.random() * 5) | 0) + 1;
+
+      const position = {x: this.sprite.position.x, y: this.sprite.position.y - 20};
+
+      World.addEntity(new HitNumber(money.toString(), position, 'yellow', 32));
+      inventory.addGold(money);
+      World.removeEntity(this.id);
+    }
+
+  };
 
   constructor(public sprite: AnimatedSprite, public enemyDetectionRangeInner: number, public enemyDetectionRangeOutter: number) {
     // this.container.addChild(this.debugText);
@@ -105,7 +121,7 @@ export class Enemy implements Combatible {
       this.velocity, V2.multiplyScalar(normalizedVelocity, this.speed * this.sprite.currentFrame)
     );
   }
-
+  
   goingForNexusScenario() {
     this.findOpponent();
     if (this.target) {
@@ -136,8 +152,6 @@ export class Enemy implements Combatible {
     this.debugText.text = EnemyState[this.state];
   }
 }
-
-
 
 World.addEntity(new Enemy(slimeSprite(), 50, 70));
 World.addEntity(new Enemy(slimeSprite(), 50, 70));

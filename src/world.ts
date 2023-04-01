@@ -1,4 +1,4 @@
-import { Application, SCALE_MODES, Sprite, Texture, settings } from "pixi.js";
+import { Application, SCALE_MODES, Sprite, Texture, settings, Loader } from "pixi.js";
 import { Entity } from "./entity/entity";
 import Dynamic, { stepDynamic } from "./entity/dynamic";
 import { Collidable, checkCollision } from "./entity/collidable";
@@ -84,17 +84,10 @@ const World = {
             let dist = V2.length(delta);
             let power = -(dist - (a.radius + b.radius));
 
-
-
-
-
-
             a.velocity.x += v.x * power / 50;
             a.velocity.y += v.y * power / 50;
             b.velocity.x -= v.x * power / 50;
             b.velocity.y -= v.y * power / 50;
-
-            console.log("applied repulsion");
           }
         }
       }
