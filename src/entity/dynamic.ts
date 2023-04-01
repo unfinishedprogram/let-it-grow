@@ -1,5 +1,5 @@
 import { Entity } from "./entity";
-import { Vec2 } from "./vec2";
+import { Vec2 } from "../utils/vec2";
 
 export default interface Dynamic extends Entity {
     is_dynamic: true,
