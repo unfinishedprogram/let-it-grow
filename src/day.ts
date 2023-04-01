@@ -1,5 +1,9 @@
 import { AdjustmentFilter } from "pixi-filters";
 import World from "./world";
+import { sound } from "@pixi/sound";
+
+sound.add('music', '/assets/background_music.wav');
+sound.play('music');
 
 class Day {
   time: number = 64000;
@@ -9,6 +13,7 @@ class Day {
   stage: 'day' | 'night' = 'day';
   nightTimeStart = 18;
   dayTimeStart = 5;
+  paused = false;
 
   adjustmentFilterParameters = {
     saturation: 1,
@@ -21,7 +26,8 @@ class Day {
 
 
   tick(delta: number) {
-    this.time += delta / 115 * this.inGameSpeed;
+    if (this.paused) this.time += 0
+    else this.time += delta / 115 * this.inGameSpeed;
 
     if (this.getHour() >= this.nightTimeStart && this.getHour() < 20) {
       this.stage = 'night';

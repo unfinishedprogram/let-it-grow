@@ -1,4 +1,4 @@
-import { AnimatedSprite, Sprite } from "pixi.js";
+import { Sprite } from "pixi.js";
 import { loadSpriteSheet } from "../utils/util";
 import { V2, Vec2 } from "../utils/vec2";
 import World from "../world";
@@ -6,6 +6,7 @@ import { BULLET_MASK, Collidable, ENEMY_MASK } from "./collidable";
 import { Combatible, CombatSystem } from "./combatable";
 import json from "../../public/assets/bullets/bullet.json";
 import { Enemy } from "./enemy";
+
 
 class Projectile implements Combatible {
   id: string = crypto.randomUUID();

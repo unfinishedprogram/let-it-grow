@@ -20,6 +20,7 @@ import { V2, Vec2 } from "./utils/vec2";
 import "./mobSpawner";
 import Garden from "./garden";
 import { Nexus } from "./Nexus";
+import Welcome from "./welcome";
 
 const PIXEL_SCALE = 4;
 BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
@@ -200,3 +201,6 @@ addEventListener("resize", () => {
 });
 
 export default World;
+
+
+new Welcome()
