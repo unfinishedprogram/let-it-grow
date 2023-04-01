@@ -6,6 +6,7 @@ import ShopItem from "./shop-item";
 import { ammo, gunUpgrades } from "../items/all-items";
 import ShopUpgrade from "./shop-upgrades";
 import inventory from "../items/inventory";
+import { ShopSeed } from "../items/seed";
 
 class Shop implements Entity {
   is_dynamic?: boolean | undefined;
@@ -19,7 +20,7 @@ class Shop implements Entity {
   
   container = new Container();
   titleText = new Text('Merchant', { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
-  ammoText = new Text('20 Bullets: ', { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
+  ammoText = new Text('5 Bullets: ', { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
 
   constructor(merchant: Merchant) {
     World.addUi(this)
@@ -31,9 +32,9 @@ class Shop implements Entity {
     this.sprite.height = 144 * 1.5;
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
-    
+
     merchant.seeds.forEach((seed, i) => {
-      new ShopItem(seed, i, 0)
+      new ShopItem(new ShopSeed(seed), i, 0)
     })
 
     new ShopItem(ammo, 2, 1)

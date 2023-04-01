@@ -9,7 +9,6 @@ import controller from "../controller";
 import { inBounds } from "../utils/bbox";
 import Shop from "../shop/shop";
 import { Vec2 } from "../utils/vec2";
-import day from "../day";
 
 /**
  * Needs:
@@ -95,7 +94,7 @@ class Merchant implements Entity {
     var arr = [];
     var randSeeds = [];
     while (arr.length < 3) {
-      var r = Math.floor(Math.random() * 11);
+      var r = Math.floor(Math.random() * 10);
       if (arr.indexOf(r) === -1) {
         arr.push(r);
         randSeeds.push(Object.keys(seeds)[r] as SeedName);

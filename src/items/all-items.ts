@@ -4,7 +4,6 @@ import Ammunition from "./ammunition";
 
 const seedBase = "/assets/sproud-lands/items/farm-items/seeds-";
 
-
 const gunUpgrades = [
   new Upgrade(Sprite.from(Texture.from(seedBase + "star.png")), "damage", 5),
   new Upgrade(Sprite.from(Texture.from(seedBase + "star.png")), "fire rate", 1),

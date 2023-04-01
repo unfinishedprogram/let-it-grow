@@ -9,7 +9,7 @@ class Welcome implements Entity {
   is_fightable = false ;
   id = "welcome"
   container = new Container();
-  
+
   private texture = Texture.from("assets/introPage.png");
   public sprite = Sprite.from(this.texture);
 

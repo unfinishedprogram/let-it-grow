@@ -1,9 +1,8 @@
-import { AnimatedSprite, Texture } from "pixi.js";
+import { AnimatedSprite, Sprite, Texture } from "pixi.js";
 import * as plantSprites from "./plantSprites";
+import { Item } from "./item";
 
 const seedBase = "/assets/sproud-lands/items/farm-items/seeds-";
-
-
 
 // Grow time in days,
 const seeds = {
@@ -32,6 +31,24 @@ type Seeds = {
     seedTexture: Texture,
     plantTexture: () => AnimatedSprite,
   }
+}
+
+export class ShopSeed implements Item {
+  id: string;
+  name: string;
+  sprite: Sprite;
+  cost: number;
+  consumable = false;
+
+  constructor(name: string) {
+    this.id = name;
+    this.name = name;
+    this.cost = seeds[name as SeedName].price;
+    let texture = Texture.from(`${seedBase}${name}.png`)
+    this.sprite = Sprite.from(texture);
+  }
+
+  use(): void { }
 }
 
 export type SeedName = keyof typeof seeds;
