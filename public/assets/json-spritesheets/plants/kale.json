@@ -1,0 +1,47 @@
+{"frames": {
+
+"Farming_Plants-16.png":
+{
+	"frame": {"x":17,"y":1,"w":8,"h":6},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":10,"w":8,"h":6},
+	"sourceSize": {"w":16,"h":16}
+},
+"Farming_Plants-17.png":
+{
+	"frame": {"x":14,"y":17,"w":9,"h":10},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":6,"w":9,"h":10},
+	"sourceSize": {"w":16,"h":16}
+},
+"Farming_Plants-18.png":
+{
+	"frame": {"x":1,"y":17,"w":11,"h":11},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":5,"w":11,"h":11},
+	"sourceSize": {"w":16,"h":16}
+},
+"Farming_Plants-19.png":
+{
+	"frame": {"x":1,"y":1,"w":14,"h":14},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":2,"w":14,"h":14},
+	"sourceSize": {"w":16,"h":16}
+}},
+"animations": {
+	"Farming_Plants": ["Farming_Plants-16.png","Farming_Plants-17.png","Farming_Plants-18.png","Farming_Plants-19.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "kale.png",
+	"format": "RGBA8888",
+	"size": {"w":24,"h":29},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e82e17e5738f0840cd610d7fc1e2d570:d09cd101fb7583483802f23f651c9f9e:b97eb3db79d504b86195ec278b47c24d$"
+}
+}

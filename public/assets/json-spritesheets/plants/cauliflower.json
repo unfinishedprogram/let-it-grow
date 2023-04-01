@@ -1,0 +1,47 @@
+{"frames": {
+
+"Farming_Plants-4.png":
+{
+	"frame": {"x":15,"y":17,"w":10,"h":6},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":10,"w":10,"h":6},
+	"sourceSize": {"w":16,"h":16}
+},
+"Farming_Plants-5.png":
+{
+	"frame": {"x":1,"y":15,"w":12,"h":8},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":8,"w":12,"h":8},
+	"sourceSize": {"w":16,"h":16}
+},
+"Farming_Plants-6.png":
+{
+	"frame": {"x":19,"y":1,"w":14,"h":11},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":5,"w":14,"h":11},
+	"sourceSize": {"w":16,"h":16}
+},
+"Farming_Plants-7.png":
+{
+	"frame": {"x":1,"y":1,"w":16,"h":12},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":16,"h":12},
+	"sourceSize": {"w":16,"h":16}
+}},
+"animations": {
+	"Farming_Plants": ["Farming_Plants-4.png","Farming_Plants-5.png","Farming_Plants-6.png","Farming_Plants-7.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "cauliflower.png",
+	"format": "RGBA8888",
+	"size": {"w":31,"h":24},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:01301988006c7f62dfe1f556d7e92af8:31ec5d04b510f2d4043838c5190c7923:92e389297c83c8cc320e13602f73a77f$"
+}
+}
