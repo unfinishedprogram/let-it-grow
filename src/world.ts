@@ -1,4 +1,4 @@
-import { Application, SCALE_MODES, Sprite, Texture, settings, Loader, Container, TilingSpriteRenderer, TilingSprite, Text } from "pixi.js";
+import { Application, SCALE_MODES, Sprite, Texture, settings, Container, TilingSprite, Text } from "pixi.js";
 import { Entity } from "./entity/entity";
 import Dynamic, { stepDynamic } from "./entity/dynamic";
 import { Collidable, checkCollision } from "./entity/collidable";
@@ -7,11 +7,12 @@ import { keepIn, pushOut } from "./utils/bbox";
 import day from "./day";
 import ButtonBox from "./ToolBar";
 import { V2, Vec2 } from "./utils/vec2";
+import "./mobSpawner";
 
 const PIXEL_SCALE = 4;
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
-const islandBounds = {
+export const islandBounds = {
   min: {
     x: 72,
     y: 72,
