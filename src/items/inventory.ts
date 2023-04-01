@@ -1,12 +1,14 @@
 import { allGuns } from "./all-items";
 import Gun from "./gun";
-import Seed from "./seed";
+import seeds from "./seed";
+import Seed, { SeedName } from "./seed";
+
 
 class Inventory {
   private static instance: Inventory;
 
   public guns: Array<Gun>;
-  public seeds: Array<Seed>;
+  public seeds: Record<SeedName, number>;
   public ammo: number;
   public gold: number;
 
@@ -20,13 +22,16 @@ class Inventory {
 
   constructor() {
     this.guns = allGuns;
-    this.seeds = [];
+    this.seeds = {} as any;
+    for (let name in seeds) {
+      this.seeds[name as SeedName] = 0;
+    }
     this.gold = 50;
     this.ammo = 0;
   }
 
-  addSeed(seed: Seed) {
-    this.seeds.push(seed)
+  addSeeds(seed: SeedName, quantity: number) {
+    this.seeds[seed] += quantity;
   }
 
   addGold(add: number) {
@@ -45,11 +50,13 @@ class Inventory {
     if (this.ammo <= 0) {
       return false
     } else {
-      this.ammo --
+      this.ammo--
       return true
     }
   }
 }
+
+
 
 let inventory = new Inventory();
 

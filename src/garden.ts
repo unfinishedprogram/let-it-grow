@@ -1,10 +1,10 @@
-import { Sprite, Texture } from "pixi.js";
+import { AnimatedSprite, Container, Sprite, Texture } from "pixi.js";
 import World from "./world";
 import { Collidable } from "./entity/collidable";
 import controller from "./controller";
+import seeds, { SeedName } from "./items/seed";
 
 
-type Plant = "placeholder"
 
 enum TileState {
   None,
@@ -17,6 +17,12 @@ enum TileState {
 const TEX_TILLED = Texture.from("assets/tiled.png");
 const TEX_EMPTY = Texture.from("assets/empty.png");
 const TEX_WATERED = Texture.from("assets/watered.png");
+
+type Plant = {
+  growthStage: number,
+  seed: SeedName,
+  sprite: AnimatedSprite,
+}
 
 class Tile implements Collidable {
   is_collidable: true = true;
@@ -31,25 +37,13 @@ class Tile implements Collidable {
   onCollision(_other: Collidable) { }
 
   plant: Plant | undefined;
-  bgSprite: Sprite;
-  fgSprite: Sprite;
   state: TileState = TileState.None;
-  sprite = new Sprite();
+  sprite = new Container();
 
   constructor(x: number, y: number) {
-    this.bgSprite = new Sprite(TEX_EMPTY);
-    this.fgSprite = new Sprite(TEX_EMPTY);
-
     this.sprite.position.x = x;
     this.sprite.position.y = y;
-
-    this.bgSprite.position.x = x;
-    this.bgSprite.position.y = y;
-
-    this.fgSprite.position.x = x;
-    this.fgSprite.position.y = y;
-
-    World.app.stage.addChild(this.bgSprite, this.fgSprite);
+    World.app.stage.addChild(this.sprite);
   }
 
   doTill(): void {
@@ -66,8 +60,15 @@ class Tile implements Collidable {
     }
   }
 
-  doPlant(seed: any): void {
+  doPlant(seed: SeedName) {
+    const plant: Plant = {
+      seed,
+      growthStage: 0,
+      sprite: seeds[seed].plantTexture(),
+    }
 
+    this.plant = plant;
+    this.sprite.addChild(plant.sprite);
   }
 
   step(_dt: number): void {

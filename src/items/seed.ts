@@ -1,20 +1,34 @@
-import { Sprite } from "pixi.js";
-import { Item } from "./item";
+import { AnimatedSprite, Texture } from "pixi.js";
+import * as plantSprites from "./plantSprites";
 
-class Seed implements Item {
-  public name: string;
-  public cost: number;
-  id = "seed";
-  consumable = true;
+const seedBase = "/assets/sproud-lands/items/farm-items/seeds-";
 
-  use(): void {
-    throw new Error("Method not implemented.");
-  }
 
-  constructor(public sprite: Sprite | null, name: string, cost: number) {
-    this.name = name;
-    this.cost = cost;
+const seeds = {
+  "carrot": { price: 10, growTime: 1 },
+  "wheat": { price: 10, growTime: 1 },
+  "parsnip": { price: 10, growTime: 1 },
+  "cucumber": { price: 10, growTime: 1 },
+  "tomato": { price: 30, growTime: 2 },
+  "corn": { price: 30, growTime: 2 },
+  "kale": { price: 30, growTime: 2 },
+  "cabbage": { price: 75, growTime: 4 },
+  "cauliflower": { price: 75, growTime: 4 },
+  "pumpkin": { price: 200, growTime: 5 },
+  "star": { price: 515, growTime: 7 },
+};
+
+for (let name in seeds) {
+  (seeds[name as keyof typeof seeds] as any).seedTexture = Texture.from(`${seedBase}${name}.png`);
+  (seeds[name as keyof typeof seeds] as any).plantTexture = (plantSprites as any)[`${name}Sprite`]();
+}
+
+type Seeds = {
+  [K in keyof typeof seeds]: (typeof seeds)[K] & {
+    seedTexture: Texture,
+    plantTexture: () => AnimatedSprite,
   }
 }
 
-export default Seed;
+export type SeedName = keyof typeof seeds;
+export default seeds as Seeds;
