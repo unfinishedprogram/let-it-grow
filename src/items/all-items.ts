@@ -26,4 +26,10 @@ const allSeeds = [
   new Seed(null, "star", 515),
 ]
 
+const gunUpgrades = [
+  new Upgrade("damage", 0, 5),
+  new Upgrade("damage", 0, 5),
+  new Upgrade("damage", 0, 5),
+]
+
 export { allGuns, allSeeds }

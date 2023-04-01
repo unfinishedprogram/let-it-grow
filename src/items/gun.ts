@@ -9,23 +9,18 @@ class Gun implements Item {
   private baseReload: number;
   private baseFireRate: number;
   private baseProjectiles: number;
-  private maxAmmo: number;
+  private baseMaxAmmo: number;
   private baseRange: number;
   private baseDPS: number;
 
   id = "ammunition";
   consumable = false;
 
-  constructor(public sprite: Sprite | null, 
-      name: string, 
-      cost: number, 
-      damage: number, 
-      reload: number, 
-      fireRate: number, 
-      projectiles: number, 
-      ammo: number, 
-      range: number, 
-      dps: number) {
+  constructor(public sprite: Sprite | null, name: string, 
+      cost: number, damage: number, 
+      reload: number, fireRate: number, 
+      projectiles: number, ammo: number, 
+      range: number, dps: number) {
         
     this.name = name;
     this.cost = cost;
@@ -34,7 +29,7 @@ class Gun implements Item {
     this.baseReload = reload;
     this.baseFireRate = fireRate;
     this.baseProjectiles = projectiles;
-    this.maxAmmo = ammo;
+    this.baseMaxAmmo = ammo;
     this.baseRange = range;
     this.baseDPS = dps;
   }
