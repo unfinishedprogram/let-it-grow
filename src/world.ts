@@ -164,6 +164,11 @@ World.container.addChild(background);
 
 World.app.stage.addChild(World.container);
 World.app.stage.addChild(World.uiContainer);
+const toolBox = new ButtonBox(
+  window.innerWidth / 2 / PIXEL_SCALE - 96 / 2,
+  (window.innerHeight / 2 / PIXEL_SCALE) * 2 - 38
+);
+World.addUi(toolBox);
 const centerWorld = () => {
   const topOffset = window.innerHeight / 2;
   const leftOffset = window.innerWidth / 2;
@@ -173,14 +178,12 @@ const centerWorld = () => {
   World.clientScale = PIXEL_SCALE;
 
   World.container.setTransform(leftOffset, topOffset, PIXEL_SCALE, PIXEL_SCALE);
-
-  World.addUi(
-    new ButtonBox(
-      leftOffset / PIXEL_SCALE - 96 / 2,
-      (topOffset / PIXEL_SCALE) * 2 - 38
-    )
-  );
+  World.entities.get(toolBox.id)!.sprite.position.x =
+    leftOffset / PIXEL_SCALE - 96 / 2;
+  World.entities.get(toolBox.id)!.sprite.position.y =
+    (topOffset / PIXEL_SCALE) * 2 - 38;
 };
+
 World.addEntity(new Nexus());
 
 World.uiContainer.setTransform(0, 0, PIXEL_SCALE, PIXEL_SCALE);
