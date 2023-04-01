@@ -40,7 +40,7 @@ class ShopSlot implements Entity {
           inventory.addSeeds(item.name as SeedName, 1)
         }
         else if (item.id === "ammunition") {
-          inventory.addAmmo(5);
+          inventory.addAmmo(10);
         }
       }
     });

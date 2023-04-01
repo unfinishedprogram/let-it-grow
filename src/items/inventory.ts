@@ -27,7 +27,7 @@ class Inventory {
       this.seeds[name as SeedName] = 0;
     }
     this.gold = 50;
-    this.ammo = 0;
+    this.ammo = 50;
   }
 
   addSeeds(seed: SeedName, quantity: number) {

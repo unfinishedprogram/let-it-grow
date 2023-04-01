@@ -20,7 +20,7 @@ class Shop implements Entity {
   
   container = new Container();
   titleText = new Text('Merchant', { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
-  ammoText = new Text('5 Bullets: ', { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
+  ammoText = new Text('10 Bullets: ', { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
 
   constructor(merchant: Merchant) {
     World.addUi(this)
