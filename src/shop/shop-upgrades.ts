@@ -2,7 +2,7 @@ import { Container, DisplayObject, Sprite, Texture, Text } from "pixi.js";
 import { Entity } from "../entity/entity";
 import World from "../world";
 import Upgrade from "../items/upgrade";
-import { gunUpgrades } from "../items/all-items";
+import inventory from "../items/inventory";
 
 const BUTTON = Texture.from("assets/buttons/upgradeButton.png");
 const PRESSED = Texture.from("assets/buttons/upgradePressed.png");
@@ -42,8 +42,18 @@ class ShopUpgrade implements Entity {
     this.sprite.interactive = true;
     this.sprite.on('pointerdown', () => {
       this.selected = !this.selected
-      if(this.selected) this.sprite.texture = PRESSED
-      else this.sprite.texture = BUTTON
+      if(this.selected) {
+        this.sprite.texture = PRESSED
+      }
+      else {
+        this.sprite.texture = BUTTON
+      }
+      if(this.id === "upgrade-damage") {
+        inventory.damageUpgrade = !inventory.damageUpgrade;
+        World.entities.get("upgrade-fire rate")
+      } else if(this.id === "upgrade-fire rate") {
+        inventory.fireRateUpgrade = !inventory.fireRateUpgrade;
+      }
     });
   }
 

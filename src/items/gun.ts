@@ -1,13 +1,12 @@
 import { CombatSystem } from "../entity/combatable";
 import { instantiateProjectile } from "../entity/projectile";
 import { V2, Vec2 } from "../utils/vec2";
+import inventory from "./inventory";
 
 class Gun {
 
   private baseDamage: number;
   private baseFireRate: number;
-  public damageUpgrade = 0;
-  public fireRateUpgrade = 0;
 
   public damage: () => number;
   public fireRate: () => number;
@@ -33,8 +32,8 @@ class Gun {
     this.projectiles = numberOfProjectiles;
     this.range = range;
 
-    this.damage = () => this.baseDamage + (this.damageUpgrade * 5);
-    this.fireRate = () => this.baseFireRate + (this.fireRateUpgrade * 0.2);
+    this.damage = () => inventory.damageUpgrade? this.baseDamage + 5: this.baseDamage;
+    this.fireRate = () => inventory.fireRateUpgrade?  this.baseFireRate + 0.2: this.baseFireRate;
   }
 
   fire(direction: Vec2, position: Vec2) {

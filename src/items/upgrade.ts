@@ -1,6 +1,5 @@
 import { Sprite } from "pixi.js";
 import { Item } from "./item";
-import fibonacci from "../utils/fibonacci";
 
 class Upgrade implements Item {
   public id: string = "upgrade";
@@ -9,6 +8,7 @@ class Upgrade implements Item {
   public sprite: Sprite;
   public cost: number;
   consumable = false;
+  selected = false;
   
   constructor(sprite: Sprite, name: string, amount: number) { 
     this.name = name;
