@@ -1,7 +1,11 @@
+import { sound } from "@pixi/sound";
 import { CombatSystem } from "../entity/combatable";
 import { instantiateProjectile } from "../entity/projectile";
-import { V2, Vec2 } from "../utils/vec2";
 import inventory from "./inventory";
+import { Vec2 } from "../utils/vec2";
+
+sound.add('gunshot', '/assets/shotting-voice.wav');
+sound.volumeAll = 0.5;
 
 class Gun {
 
@@ -31,9 +35,11 @@ class Gun {
     this.baseFireRate = fireRate;
     this.projectiles = numberOfProjectiles;
     this.range = range;
+    this.damage = () => this.baseDamage;
+    this.fireRate = () => this.baseFireRate;
 
-    this.damage = () => inventory.damageUpgrade? this.baseDamage + 5: this.baseDamage;
-    this.fireRate = () => inventory.fireRateUpgrade?  this.baseFireRate + 0.2: this.baseFireRate;
+    // this.damage = () => inventory.damageUpgrade? this.baseDamage + 5: this.baseDamage;
+    // this.fireRate = () => inventory.fireRateUpgrade?  this.baseFireRate + 0.2: this.baseFireRate;
   }
 
   fire(direction: Vec2, position: Vec2) {
@@ -48,8 +54,11 @@ class Gun {
     }
 
 
+    sound.play('gunshot');
     for (let i = 0; i < this.numberOfProjectiles; i++) {
       setTimeout(() => instantiateProjectile(direction, position, combatSystem, this.speed, this.range), this.fireRate() * i);
+      if (this.fireRate() == 0) continue;
+      setTimeout(() => sound.play('gunshot'), this.fireRate() * i);
     }
 
     this.canFire = false;
