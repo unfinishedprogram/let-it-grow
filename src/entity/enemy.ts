@@ -1,5 +1,5 @@
 import { AnimatedSprite, BaseTexture, Sprite, Spritesheet } from "pixi.js";
-import json from "../../public/assets/json-spritesheets/walking_down.json";
+import json from "../../public/assets/json-spritesheets/slimes/slime_down.json";
 import { Collidable, ENEMY_MASK, PLAYER_MASK } from "./collidable";
 import { V2, Vec2 } from "../utils/vec2";
 import World from "../world";
@@ -23,7 +23,7 @@ class Enemy implements Collidable {
     console.log(other);
   }
 
-  constructor(public sprite: Sprite, public enemyDetectionRangeInner: number, public enemyDetectionRangeOutter: number) { }
+  constructor(public sprite: AnimatedSprite, public enemyDetectionRangeInner: number, public enemyDetectionRangeOutter: number) { }
 
   findCollidable(){ 
     for (let [_id, entity] of World.entities) {
@@ -51,7 +51,7 @@ class Enemy implements Collidable {
         V2.sub( this.target.sprite.position, this.sprite.position )
       );
 
-      this.velocity = V2.multiplyScalar(normalizedVelocity, this.speed);
+      this.velocity = V2.multiplyScalar(normalizedVelocity, this.speed * this.sprite.currentFrame);
 
       if (!this.isInRange(this.target, this.enemyDetectionRangeOutter)) this.target = null;
 
@@ -65,7 +65,8 @@ class Enemy implements Collidable {
 const spritesheet = new Spritesheet(BaseTexture.from(json.meta.image), json);
 spritesheet.parse().then(() => {
   spritesheet.baseTexture.resolution
-  const anim = new AnimatedSprite(spritesheet.animations["Premium Charakter Spritesheet"]);
+  const anim = new AnimatedSprite(spritesheet.animations.Slime_Medium_Blue);
+  anim.animationSpeed = 0.15;
   anim.play();
   let enemy: Enemy = new Enemy(anim, 50, 70);
   World.addEntity(enemy);
