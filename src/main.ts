@@ -4,6 +4,9 @@ import "./entity/enemy";
 import "./entity/merchant";
 import "./entity/player";
 import "./garden";
+import day from "./day";
+
+console.log(day);
 
 import FontFaceObserver from 'fontfaceobserver';
 

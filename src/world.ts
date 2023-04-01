@@ -1,4 +1,4 @@
-import { Application, SCALE_MODES, Sprite, Texture, settings, Loader } from "pixi.js";
+import { Application, SCALE_MODES, Sprite, Texture, settings, Text } from "pixi.js";
 import { Entity } from "./entity/entity";
 import Dynamic, { stepDynamic } from "./entity/dynamic";
 import { Collidable, checkCollision } from "./entity/collidable";
@@ -7,7 +7,8 @@ import { keepIn, pushOut } from "./utils/bbox";
 import Button from "./Button";
 import ButtonBox from "./ButtonBox";
 import { V2 } from "./utils/vec2";
-import { AdjustmentFilter, AdvancedBloomFilter } from "pixi-filters";
+import { AdjustmentFilter } from "pixi-filters";
+import day from "./day";
 
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
@@ -40,22 +41,34 @@ const World = {
 
   app: new Application({ resizeTo: window, antialias: false }),
   entities: new Map<string, Entity>(),
+  timeIndicator: new Text(),
+
+
   removeEntity(id: string) {
     this.app.stage.removeChild(this.entities.get(id)!.sprite);
     this.entities.delete(id);
   },
 
   addEntity(entity: Entity) {
-    console.log(entity);
     this.app.stage.addChild(entity.sprite);
     this.entities.set(entity.id, entity);
   },
 
   step(dt: number) {
+    day.tick(dt);
+    this.timeIndicator.text = day.getString();
     for (let [_id, entity] of this.entities) entity.step(dt);
     this.stepDynamics(dt);
     this.stepCollisions(dt);
     controller.step();
+
+    // if (day.getHour() > 19 && day.getHour() < 3) {
+    //
+    // }
+  },
+
+  handleDayChange() {
+
   },
 
   stepDynamics(dt: number) {
@@ -150,6 +163,8 @@ World.addEntity(
     3
   )
 );
+World.app.stage.addChild(World.timeIndicator);
+
 // World.app.stage.
 World.app.ticker.add((dt) => World.step(dt));
 
@@ -176,14 +191,6 @@ const centerWorld = () => {
   World.app.stage.setTransform(leftOffset, topOffset, worldScale, worldScale);
 };
 
-World.app.stage.filters = [
-  new AdjustmentFilter({
-    saturation: 0.4,
-    brightness: 0.5,
-    blue: 1.2,
-    contrast: 1,
-  }),
-]
 
 centerWorld();
 

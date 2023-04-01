@@ -45,7 +45,6 @@ class Player implements Combatible {
 
   onHit(combatible: Combatible) {
     this.combatSystem.hp -= combatible.combatSystem.damage;
-    console.log("Current hp: ", this.combatSystem.hp);
   }
 
   shootProjectile() {
