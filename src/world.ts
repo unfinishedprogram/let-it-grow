@@ -1,12 +1,14 @@
-import { Application, SCALE_MODES, Sprite, Texture, settings, Loader } from "pixi.js";
+import { Application, SCALE_MODES, Sprite, Texture, settings, Loader, Container, TilingSpriteRenderer, TilingSprite } from "pixi.js";
 import { Entity } from "./entity/entity";
 import Dynamic, { stepDynamic } from "./entity/dynamic";
 import { Collidable, checkCollision } from "./entity/collidable";
 import controller from "./controller";
 import { keepIn, pushOut } from "./utils/bbox";
 import Button from "./Button";
-import ButtonBox from "./ButtonBox";
+import ButtonBox from "./ToolBar";
 import { V2, Vec2 } from "./utils/vec2";
+
+const PIXEL_SCALE = 4;
 
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
@@ -37,18 +39,32 @@ const World = {
   clientTopLeft: { x: 0, y: 0 },
   clientScale: 1,
 
+  cameraPos: { x: 0, y: 0 },
+
+  container: new Container(),
+  uiContainer: new Container(),
+
   app: new Application({ resizeTo: window, antialias: false }),
+
   entities: new Map<string, Entity>(),
+
   removeEntity(id: string) {
-    this.app.stage.removeChild(this.entities.get(id)!.sprite);
+    let sprite = this.entities.get(id)!.sprite;
+    sprite.parent.removeChild(sprite);
     this.entities.delete(id);
   },
 
   addEntity(entity: Entity) {
-    console.log(entity);
-    this.app.stage.addChild(entity.sprite);
+    this.container.addChild(entity.sprite);
     this.entities.set(entity.id, entity);
   },
+
+
+  addUi(element: Entity) {
+    this.uiContainer.addChild(element.sprite);
+    this.entities.set(element.id, element);
+  },
+
 
   step(dt: number) {
     for (let [_id, entity] of this.entities) entity.step(dt);
@@ -103,86 +119,57 @@ const World = {
   },
 
   updateCamera(playerPosition: Vec2) {
-    const camera = this.app.stage;
-    camera.pivot.set(playerPosition.x, playerPosition.y);
+    const camera = this.container;
 
+    this.cameraPos.x -= (this.cameraPos.x - playerPosition.x) / 15;
+    this.cameraPos.y -= (this.cameraPos.y - playerPosition.y) / 15;
+    camera.pivot.set(this.cameraPos.x, this.cameraPos.y);
   }
-
 };
 
-const background = new Sprite(Texture.from("assets/worldMap.png"));
-World.app.stage.addChild(background);
+
 
 document.body.appendChild(World.app.view as HTMLCanvasElement);
-World.app.start();
 World.app.ticker.maxFPS = 60;
 World.app.ticker.minFPS = 60;
 World.app.ticker.add((dt) => World.step(dt));
-World.addEntity(new ButtonBox(132, 402));
-World.addEntity(
-  new Button(
-    Texture.from("/assets/buttons/seedPressed.png"),
-    Texture.from("/assets/buttons/seedButton.png"),
-    Texture.from("/assets/buttons/riflePressed.png"),
-    Texture.from("/assets/buttons/rifleButton.png"),
-    142,
-    402.5,
-    () => console.log("clicked"),
-    1
-  )
-);
-World.addEntity(
-  new Button(
-    Texture.from("/assets/buttons/hoePressed.png"),
-    Texture.from("/assets/buttons/hoeButton.png"),
-    Texture.from("/assets/buttons/revolverPressed.png"),
-    Texture.from("/assets/buttons/revolverButton.png"),
-    188,
-    402.5,
-    () => console.log("clicked"),
-    2
-  )
-);
-World.addEntity(
-  new Button(
-    Texture.from("/assets/buttons/wateringCanPressed.png"),
-    Texture.from("/assets/buttons/wateringCanButton.png"),
-    Texture.from("/assets/buttons/riflePressed.png"),
-    Texture.from("/assets/buttons/rifleButton.png"),
-    234,
-    402.5,
-    () => console.log("clicked"),
-    3
-  )
-);
+World.app.start();
+
+
+let waterTiled = new TilingSprite(Texture.from("assets/sproud-lands/tilesets/water frames/Water_1.png"), 4096, 4096);
+const background = new Sprite(Texture.from("assets/worldMap.png"));
+
+World.container.addChild(waterTiled);
+World.container.addChild(background);
+
+World.app.stage.addChild(World.container);
+World.app.stage.addChild(World.uiContainer);
+
 // World.app.stage.
 World.app.ticker.add((dt) => World.step(dt));
 
 const centerWorld = () => {
-  const tileSize = 16;
-  const worldWidth = 40;
-  const worldHeight = 30;
-
-  const worldPixelWidth = worldWidth * tileSize;
-  const worldPixelHeight = worldHeight * tileSize;
-
-  let worldScale = Math.min(
-    window.innerHeight / worldPixelHeight,
-    window.innerWidth / worldPixelWidth
-  );
-
   const topOffset = window.innerHeight / 2;
   const leftOffset = window.innerWidth / 2;
 
   World.clientTopLeft.x = leftOffset;
   World.clientTopLeft.y = topOffset;
-  World.clientScale = worldScale;
+  World.clientScale = PIXEL_SCALE;
 
-  World.app.stage.setTransform(leftOffset, topOffset, worldScale * 2, worldScale * 2);
+  World.container.setTransform(leftOffset, topOffset, PIXEL_SCALE, PIXEL_SCALE);
+
+
+
+  World.addUi(new ButtonBox(leftOffset / PIXEL_SCALE - 96 / 2, topOffset / PIXEL_SCALE * 2 - 38));
 };
 
+World.uiContainer.setTransform(0, 0, PIXEL_SCALE, PIXEL_SCALE);
+
+waterTiled.position.x = -2048;
+waterTiled.position.y = -2048;
 
 centerWorld();
+
 
 addEventListener("resize", () => {
   centerWorld();

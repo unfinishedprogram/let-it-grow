@@ -39,7 +39,6 @@ export default class Button implements Entity {
     }
     this.sprite.position.x = x;
     this.sprite.position.y = y;
-    this.sprite.scale.set(1.5);
 
     window.addEventListener("keydown", () => {
       if (controller.numKeys[buttonNumber - 1].isPressed) {
