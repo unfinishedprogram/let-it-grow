@@ -59,7 +59,6 @@ class Tile implements Collidable {
   }
 
   doWater(): void {
-    console.log(this);
     if (this.state == TileState.Tilled) {
       this.state = TileState.Watered;
       this.bgSprite.texture = TEX_WATERED;

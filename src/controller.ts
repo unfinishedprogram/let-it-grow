@@ -1,6 +1,6 @@
 import { Vec2, V2 } from "./utils/vec2"
+import World from "./world";
 
-const SCREEN_SCALE = 0.5;
 
 type Key = {
   isPressed: boolean;
@@ -63,8 +63,8 @@ class Controller {
   }
 
   mouseListener(e: MouseEvent) {
-    this.mousePosition.x = e.clientX * SCREEN_SCALE;
-    this.mousePosition.y = e.clientY * SCREEN_SCALE;
+    this.mousePosition.x = (e.clientX - World.clientTopLeft.x) / World.clientScale;
+    this.mousePosition.y = (e.clientY - World.clientTopLeft.y) / World.clientScale;
   }
 
   step() {
