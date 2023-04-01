@@ -17,7 +17,11 @@ enum EnemyState {
   GOING_FOR_NEXUS,
 }
 
-export const slimeSprite = await loadSpriteSheet(json, "/assets/json-spritesheets/slimes/", 0.15);
+export const slimeSprite = await loadSpriteSheet(
+  json,
+  "/assets/json-spritesheets/slimes/",
+  0.15
+);
 
 export class Enemy implements Combatible {
   id: string;
@@ -31,8 +35,7 @@ export class Enemy implements Combatible {
   speed: number = 0.4;
   target: Combatible | null = null;
   container = new Container();
-  drag = 0.2 + (day.inGameDays * 0.1);
-  debugText = new Text('test text', { fill: 'white', fontSize: '1rem' });
+  drag = 0.2 + day.inGameDays * 0.1;
 
   state = EnemyState.GOING_FOR_NEXUS;
 
@@ -43,36 +46,48 @@ export class Enemy implements Combatible {
     radius: 5 + day.inGameDays * 1.2,
     rechargeTime: 1000 - day.inGameDays * 1.2,
     isRecharging: false,
-  }
+  };
 
-  onCollision(other: Collidable) { };
+  onCollision(other: Collidable) {}
 
   onHit(combatible: Combatible) {
     this.combatSystem.hp -= combatible.combatSystem.damage;
 
-    World.addEntity(new HitNumber(combatible.combatSystem.damage.toString(), this.sprite.position, 'red'));
+    World.addEntity(
+      new HitNumber(
+        combatible.combatSystem.damage.toString(),
+        this.sprite.position,
+        "red"
+      )
+    );
     if (this.combatSystem.hp < 0) {
       const money = ((Math.random() * 5) | 0) + 1;
 
-      const position = {x: this.sprite.position.x, y: this.sprite.position.y - 20};
+      const position = {
+        x: this.sprite.position.x,
+        y: this.sprite.position.y - 20,
+      };
 
-      World.addEntity(new HitNumber(money.toString(), position, 'yellow', 32));
+      World.addEntity(new HitNumber(money.toString(), position, "yellow", 32));
       inventory.addGold(money);
       World.removeEntity(this.id);
     }
+  }
 
-  };
-
-  constructor(public sprite: AnimatedSprite, public enemyDetectionRangeInner: number, public enemyDetectionRangeOutter: number) {
-    this.container.addChild(this.debugText);
+  constructor(
+    public sprite: AnimatedSprite,
+    public enemyDetectionRangeInner: number,
+    public enemyDetectionRangeOutter: number
+  ) {
     this.sprite.addChild(this.container);
-    this.sprite.position.x += Math.random() * (islandBounds.max.x - islandBounds.min.x) + islandBounds.min.x;
+    this.sprite.position.x +=
+      Math.random() * (islandBounds.max.x - islandBounds.min.x) +
+      islandBounds.min.x;
     // this.sprite.position.y += Math.random() * (islandBounds.max.y - islandBounds.min.y) + islandBounds.min.y;
     this.sprite.position.y += 100000;
     keepIn(this, islandBounds);
     // keepIn(this, islandBounds);
     this.id = crypto.randomUUID();
-    this.debugText.anchor.set(0.5, 1);
   }
 
   findOpponent() {
@@ -84,12 +99,13 @@ export class Enemy implements Combatible {
           }
         }
       }
-
     }
   }
 
   isInRange(c: Collidable, range: number): boolean {
-    return V2.distance(this.sprite.position, c.sprite.position) < range + c.radius;
+    return (
+      V2.distance(this.sprite.position, c.sprite.position) < range + c.radius
+    );
   }
 
   // The enemy can only transition to following player (if he gets out of range)
@@ -103,11 +119,17 @@ export class Enemy implements Combatible {
     this.combatSystem.isRecharging = true;
     this.target?.onHit(this);
     this.state = EnemyState.IS_RESTING;
-    setTimeout(() => this.combatSystem.isRecharging = false, this.combatSystem.rechargeTime);
+    setTimeout(
+      () => (this.combatSystem.isRecharging = false),
+      this.combatSystem.rechargeTime
+    );
   }
 
   followingPlayerScenario() {
-    if (!this.target || !this.isInRange(this.target, this.enemyDetectionRangeOutter)) {
+    if (
+      !this.target ||
+      !this.isInRange(this.target, this.enemyDetectionRangeOutter)
+    ) {
       this.state = EnemyState.GOING_FOR_NEXUS;
       this.target = null;
       return;
@@ -123,10 +145,14 @@ export class Enemy implements Combatible {
     );
 
     V2.addAssign(
-      this.velocity, V2.multiplyScalar(normalizedVelocity, this.speed * this.sprite.currentFrame)
+      this.velocity,
+      V2.multiplyScalar(
+        normalizedVelocity,
+        this.speed * this.sprite.currentFrame
+      )
     );
   }
-  
+
   goingForNexusScenario() {
     this.findOpponent();
     if (this.target) {
@@ -134,15 +160,19 @@ export class Enemy implements Combatible {
       return;
     }
 
-    const middleOfIslandX = islandBounds.min.x + (islandBounds.max.x / 2);
-    const middleOfIslandY = islandBounds.min.y + (islandBounds.max.y / 2);
-    const normalized = V2.normalized(V2.sub({x: middleOfIslandX, y: middleOfIslandY}, this.sprite.position));
+    const middleOfIslandX = islandBounds.min.x + islandBounds.max.x / 2;
+    const middleOfIslandY = islandBounds.min.y + islandBounds.max.y / 2;
+    const normalized = V2.normalized(
+      V2.sub({ x: middleOfIslandX, y: middleOfIslandY }, this.sprite.position)
+    );
 
-    V2.addAssign(this.velocity, V2.multiplyScalar(normalized, this.speed * this.sprite.currentFrame));
+    V2.addAssign(
+      this.velocity,
+      V2.multiplyScalar(normalized, this.speed * this.sprite.currentFrame)
+    );
   }
 
   step(dt: number): void {
-
     switch (this.state) {
       case EnemyState.GOING_FOR_NEXUS:
         this.goingForNexusScenario();
@@ -159,7 +189,5 @@ export class Enemy implements Combatible {
         }
         break;
     }
-
-    this.debugText.text = EnemyState[this.state];
   }
 }

@@ -3,7 +3,7 @@ import { Entity } from "./entity/entity";
 import Button from "./Button";
 
 export default class ToolBar implements Entity {
-  sprite: Sprite;
+  public sprite: Sprite;
   is_fightable: boolean = false;
 
   id: string = crypto.randomUUID();
@@ -38,8 +38,8 @@ export default class ToolBar implements Entity {
       0,
       () => console.log("clicked"),
       3
-    )
-  ]
+    ),
+  ];
 
   constructor(x: number, y: number) {
     // This is the size of the sprite make sure buttons are 2.25 apart from each other :)
@@ -48,11 +48,10 @@ export default class ToolBar implements Entity {
     this.sprite = new Sprite(Texture.from("/assets/buttons/buttonBox.png"));
     this.sprite.position.x = x;
     this.sprite.position.y = y;
-    this.buttons.forEach(button => this.sprite.addChild(button.sprite))
+    this.buttons.forEach((button) => this.sprite.addChild(button.sprite));
   }
 
-
   step(dt: number): void {
-    this.buttons.forEach(button => button.step(dt));
+    this.buttons.forEach((button) => button.step(dt));
   }
 }
