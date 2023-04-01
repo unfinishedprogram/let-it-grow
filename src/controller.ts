@@ -1,6 +1,6 @@
 import { Vec2, V2 } from "./utils/vec2"
 
-const SCREEN_SCALE = 0.2;
+const SCREEN_SCALE = 0.5;
 
 type Key = {
   isPressed: boolean;

@@ -61,6 +61,4 @@ World.app.ticker.minFPS = 60;
 World.app.ticker.add(dt => World.step(dt));
 World.app.stage.scale.set(2, 2);
 
-// World.app.stage.
-
 export default World;
