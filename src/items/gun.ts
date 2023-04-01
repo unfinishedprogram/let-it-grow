@@ -2,6 +2,7 @@ import { sound } from "@pixi/sound";
 import { CombatSystem } from "../entity/combatable";
 import { instantiateProjectile } from "../entity/projectile";
 import { Vec2 } from "../utils/vec2";
+import inventory from "./inventory";
 
 sound.add('gunshot', '/assets/shotting-voice.wav');
 sound.volumeAll = 0.5;
@@ -55,6 +56,7 @@ class Gun {
 
     sound.play('gunshot');
     for (let i = 0; i < this.numberOfProjectiles; i++) {
+      if (!inventory.useAmmo()) return;
       setTimeout(() => instantiateProjectile(direction, position, combatSystem, this.speed, this.range), this.fireRate() * i);
       if (this.fireRate() == 0) continue;
       setTimeout(() => sound.play('gunshot'), this.fireRate() * i);
