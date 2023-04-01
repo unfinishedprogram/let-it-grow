@@ -1,17 +1,15 @@
 // P0 - Upgrade Weapon , Buy crops, Buy ammo
-
-import { AnimatedSprite, BaseTexture, Sprite, Spritesheet } from "pixi.js";
-import json from "../../public/assets/json-spritesheets/walking_down.json";
-import { Collidable } from "./collidable";
-import controller from "../controller";
-import { Vec2 } from "../utils/vec2";
-import World from "../world";
-
 import { Entity } from "./entity";
 import { Position } from "../types";
 import Seed from "../items/seed";
 import Gun from "../items/gun";
-import { allSeeds } from "../items/all-items";
+import { allGuns, allSeeds, gunUpgrades } from "../items/all-items";
+import {  Sprite, Texture } from "pixi.js";
+import Upgrade from "../items/upgrade";
+import World from "../world";
+import controller from "../controller";
+import { inBounds } from "../utils/bbox";
+import Shop from "../shop/shop";
 
 /**
  * Needs:
@@ -25,25 +23,61 @@ import { allSeeds } from "../items/all-items";
 class Merchant implements Entity {
   is_dynamic? = false;
   is_collidable? = true;
+  is_fightable = false;
+
+  private texture = Texture.from("assets/sproud-lands/characters/merchant.png");
+  public sprite = Sprite.from(this.texture);
 
   public ammo: Array<number>;
   public seeds: Array<Seed>;
   public guns: Array<Gun>;
+  public upgrades: Array<Upgrade>;
   private ammoStackAmount = 20;
+  private shopOpen = false;
   id = "merchant";
 
   get position(): Position {
     throw new Error("Method not implemented.");
   }
 
-  step(dt: number): void {
-    throw new Error("Method not implemented.");
-  }
+  step(dt: number): void { }
 
-  constructor(public sprite: Sprite) {
+  constructor() {
     this.ammo = this.getAmmo();
     this.seeds = this.getRandomSeeds();
-    this.guns = [];
+    this.guns = this.getGuns();
+    this.upgrades = gunUpgrades;
+    
+    this.sprite.position.x = 407;
+    this.sprite.position.y = 398;
+    this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
+
+    this.sprite.interactive = true;
+    this.sprite.on('pointerdown', () => { 
+      new Shop(this) 
+    });
+
+    window.addEventListener("click", () => {
+      if (World.entities.has("shop") &&
+        !inBounds(
+          { x: 160, y: 50 },
+          { x: 476, y: 415 },
+          controller.mousePosition
+        )) {
+        World.removeEntity("shop")
+        for (let x = 0; x < 3; x++) {
+          for (let y = 0; y < 3; y++) {
+            try{ World.removeEntity("shop-slot-"+x+"-"+y) }
+            catch {}
+          }
+          try{ World.removeEntity("shop-item-"+x) } 
+          catch {}
+        }
+      }
+    })
+
+    World.addEntity(this)
   }
 
   getRandomSeeds() {
@@ -69,13 +103,10 @@ class Merchant implements Entity {
   }
 
   getGuns() {
-
+    return allGuns
   }
 }
 
-// const merchant_sprite = new Spritesheet(BaseTexture.from(json.meta.image), json);
-//   merchant_sprite.parse().then(() => {
-//     merchant_sprite.baseTexture.resolution
-//     let merchant: Merchant = new Merchant(new Sprite());
-//     World.addEntity(merchant);
-//   })
+const merchant = new Merchant()
+
+export default Merchant

@@ -21,6 +21,7 @@ const TEX_WATERED = Texture.from("assets/watered.png");
 class Tile implements Collidable {
   is_collidable: true = true;
   is_dynamic: true = true;
+  is_fightable = false;
   id = crypto.randomUUID();
   radius = 8;
   velocity = { x: 0, y: 0 };

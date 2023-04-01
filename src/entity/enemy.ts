@@ -6,6 +6,7 @@ import World from "../world";
 import { isFightable, loadSpriteSheet } from "../utils/util";
 import { Combatible, CombatSystem } from "./combatable";
 import { HitNumber } from "../hitNumber";
+import inventory from "../items/inventory";
 
 enum EnemyState {
   FOLLOWING_PLAYER,
@@ -45,8 +46,14 @@ export class Enemy implements Combatible {
   onHit(combatible: Combatible) {
     this.combatSystem.hp -= combatible.combatSystem.damage;
 
-    World.addEntity(new HitNumber(combatible.combatSystem.damage.toString(), this.sprite.position));
+    World.addEntity(new HitNumber(combatible.combatSystem.damage.toString(), this.sprite.position, 'red'));
     if (this.combatSystem.hp < 0) {
+      const money = ((Math.random() * 5) | 0) + 1;
+
+      const position = {x: this.sprite.position.x, y: this.sprite.position.y - 20};
+
+      World.addEntity(new HitNumber(money.toString(), position, 'yellow', 32));
+      inventory.addGold(money);
       World.removeEntity(this.id);
     }
 

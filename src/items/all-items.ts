@@ -1,5 +1,9 @@
+import { Sprite, Texture } from "pixi.js";
 import Gun from "./gun";
 import Seed from "./seed";
+import Upgrade from "./upgrade";
+
+const seedBase = "/assets/sproud-lands/items/farm-items/seeds-";
 
 // new Gun(sprite, name, cost, damage, reload, fire rate, projectiles, max ammo, range, dps)
 const allGuns = [
@@ -9,21 +13,27 @@ const allGuns = [
 ]
 
 const allSeeds = [
-  new Seed(null, "carrot", 10),
-  new Seed(null, "wheat", 10),
-  new Seed(null, "parsnip", 10),
-  new Seed(null, "cucumber", 10),
+  new Seed(Sprite.from(Texture.from(seedBase + "carrot.png")), "carrot", 10),
+  new Seed(Sprite.from(Texture.from(seedBase + "wheat.png")), "wheat", 10),
+  new Seed(Sprite.from(Texture.from(seedBase + "parsnip.png")), "parsnip", 10),
+  new Seed(Sprite.from(Texture.from(seedBase + "cucumber.png")), "cucumber", 10),
 
-  new Seed(null, "tomato", 30),
-  new Seed(null, "corn", 30),
-  new Seed(null, "kale", 30),
+  new Seed(Sprite.from(Texture.from(seedBase + "tomato.png")), "tomato", 30),
+  new Seed(Sprite.from(Texture.from(seedBase + "corn.png")), "corn", 30),
+  new Seed(Sprite.from(Texture.from(seedBase + "kale.png")), "kale", 30),
 
-  new Seed(null, "cabbage", 75),
-  new Seed(null, "cauliflower", 75),
+  new Seed(Sprite.from(Texture.from(seedBase + "cabbage.png")), "cabbage", 75),
+  new Seed(Sprite.from(Texture.from(seedBase + "cauliflower.png")), "cauliflower", 75),
 
-  new Seed(null, "pumpkin", 200),
+  new Seed(Sprite.from(Texture.from(seedBase + "pumpkin.png")), "pumpkin", 200),
 
-  new Seed(null, "star", 515),
+  new Seed(Sprite.from(Texture.from(seedBase + "star.png")), "star", 515),
 ]
 
-export { allGuns, allSeeds }
+const gunUpgrades = [
+  new Upgrade("damage", 5),
+  new Upgrade("reload", 0.2),
+  new Upgrade("fire rate", 1),
+]
+
+export { allGuns, allSeeds, gunUpgrades }

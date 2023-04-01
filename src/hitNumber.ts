@@ -17,9 +17,12 @@ export class HitNumber implements Dynamic {
   step(_dt: number): void {
   }
 
-  constructor(damage: string, position: Vec2) {
+  constructor(damage: string, position: Vec2, color: string, size: number = 16) {
     this.sprite.position.set(position.x, position.y);
-    this.text = new Text(damage, new TextStyle({ fontFamily: 'Pixelated', fontSize: 16, fill: 'red', fontWeight: '100', stroke: 'white' }));
+    this.text = new Text(
+      damage,
+      new TextStyle({ fontFamily: 'Pixelated', fontSize: size, fill: color, fontWeight: '100' })
+    );
     this.text.scale.set(1.6, 1.6);
     this.text.anchor.set(0.5, 1);
     this.sprite.addChild(this.text);

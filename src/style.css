@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  cursor: url("/assets/CatpawPointMouse.png"), auto;
 }
 
 body {
