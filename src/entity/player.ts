@@ -28,20 +28,22 @@ class Player implements Collidable {
 
   constructor(public sprite: Sprite) { }
 
-  step(dt: number): void {
+  step(_dt: number): void {
     this.velocity = controller.directionVector;
+    let selectedSprite: Sprite;
     if (this.velocity.y != 0) {
-      // this.sprite = this.animationTable[Math.sign(this.velocity.y) > 0 ? 0 : 3]
-      const selectedSprite = this.animationTable[Math.sign(this.velocity.y) < 0 ? 0 : 3];
-      if (selectedSprite != this.sprite) {
-        this.sprite.texture = selectedSprite.texture;
-      }
+      selectedSprite = this.animationTable[Math.sign(this.velocity.y) < 0 ? 0 : 3];
+    } else if (this.velocity.x != 0){
+      selectedSprite = this.animationTable[Math.sign(this.velocity.x) < 0 ? 2 : 1];
+    } else {
+      selectedSprite = this.animationTable[3];
+    }
+    if (selectedSprite != this.sprite) {
+      this.sprite.texture = selectedSprite.texture;
     }
 
   }
 }
 
-const anim = down;
-let player: Player = new Player(anim);
+let player: Player = new Player(down);
 World.addEntity(player);
-// })
