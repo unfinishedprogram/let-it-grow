@@ -17,6 +17,9 @@ import Gun from "./items/gun";
  */
 
 class Merchant implements Entity {
+  public ammo: Array<Ammunition>;
+  public seeds: Array<Seed>;
+  public guns: Array<Gun>;
   id = "merchant";
 
   get position(): Position {
@@ -28,9 +31,9 @@ class Merchant implements Entity {
   }
 
   constructor(public size: number, public sprite: Sprite) {
-    let ammo: Array<Ammunition> = []
-    let seeds: Array<Seed> = []
-    let guns: Array<Gun> = []
+    this.ammo = []
+    this.seeds = []
+    this.guns = []
   }
 }
 
