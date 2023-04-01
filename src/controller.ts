@@ -77,14 +77,14 @@ class Controller {
   }
 
   downListener(ev: KeyboardEvent) {
-    const targetKey = this.keys.find((key) => ev.key == key.key);
+    const targetKey = this.keys.find((key) => ev.key.toLowerCase() == key.key);
     if (targetKey) {
       targetKey.isPressed = true;
     }
   }
 
   upListener(ev: KeyboardEvent) {
-    const targetKey = this.keys.find((key) => ev.key == key.key);
+    const targetKey = this.keys.find((key) => ev.key.toLowerCase() == key.key);
     if (targetKey) {
       targetKey.isPressed = false;
     }
