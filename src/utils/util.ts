@@ -1,16 +1,9 @@
 import { AnimatedSprite, BaseTexture, Spritesheet } from "pixi.js";
 import { Combatible } from "../entity/combatable";
 import { Entity } from "../entity/entity";
-function uuidDigit() {
-    return ((Math.random() * 0xFFFF) | 0).toString(16).padStart(4, "0");
-}
 
 export function isFightable(entity: Entity): entity is Combatible{
   return 'combatSystem' in entity && entity.is_collidable == true;
-}
-
-export function genUUID(): string {
-    return `${uuidDigit()}-${uuidDigit()}-${uuidDigit()}-${uuidDigit()}`;
 }
 
 export async function loadSpriteSheet(json: {meta: {image: string} }, pathToAsset: string, animationSpeed: number) {
