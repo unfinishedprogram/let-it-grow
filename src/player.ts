@@ -1,21 +1,38 @@
-import { Sprite } from "pixi.js";
-import { Entity } from "./entity";
-import { Position } from "./types";
+import { AnimatedSprite, BaseTexture, Sprite, Spritesheet } from "pixi.js";
+import json from "../public/assets/json-spritesheets/walking_down.json";
+import { Collidable } from "./collidable";
+import controller from "./controller";
+import { Vec2 } from "./vec2";
+import World from "./world";
+// import controller from "./controller";
 
-class Player implements Entity {
-    id = "player";
 
-    get position(): Position {
-        throw new Error("Method not implemented.");
-    }
+class Player implements Collidable {
+  id = "player";
+  is_collidable: true = true;
+  is_dynamic: true = true;
+  velocity: Vec2 = {x: 0, y: 0};
+  radius: number = 1;
+  mass: number = 1;
+  collision_mask: number = 0;
 
-    step(dt: number): void {
-        throw new Error("Method not implemented.");
-    }
+  onCollision(other: Collidable) {
+  }
 
-    constructor(public size: number, public sprite: Sprite) {
 
-    }
+  constructor(public sprite: Sprite) { }
+
+  step(dt: number): void {
+    this.velocity = controller.directionVector;
+  }
 }
 
-export default Player;
+
+const spritesheet = new Spritesheet(BaseTexture.from(json.meta.image), json);
+spritesheet.parse().then(() => {
+  spritesheet.baseTexture.resolution
+  const anim = new AnimatedSprite(spritesheet.animations["Premium Charakter Spritesheet"]);
+  anim.play();
+  let player: Player = new Player(anim);
+  World.addEntity(player);
+})

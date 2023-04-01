@@ -70,7 +70,7 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.1",
-	"image": "walking_down.png",
+	"image": "/assets/json-spritesheets/walking_down.png",
 	"format": "RGBA8888",
 	"size": {"w":18,"h":122},
 	"scale": "1",
