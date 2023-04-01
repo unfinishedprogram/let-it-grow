@@ -1,6 +1,5 @@
 import { Vec2 } from "./vec2"
 
-const positionVector: Vec2 = {x: 0, y: 0};
 
 type Key = {
   isPressed: boolean;
@@ -8,69 +7,71 @@ type Key = {
   onClick(): void;
 }
 
-const aKey: Key = {
-  key: 'a',
-  onClick: () => positionVector.x -= 1,
-  isPressed: false,
-}
+class Controller {
+  aKey: Key = {
+    key: 'a',
+    onClick: () => this.directionVector.x -= 1,
+    isPressed: false,
+  }
 
-const sKey: Key = {
-  key: 's',
-  onClick: () => positionVector.y -= 1,
-  isPressed: false,
-}
+  sKey: Key = {
+    key: 's',
+    onClick: () => this.directionVector.y += 1,
+    isPressed: false,
+  }
 
-const dKey: Key = {
-  key: 'd',
-  onClick: () => positionVector.x += 1,
-  isPressed: false,
-}
+  dKey: Key = {
+    key: 'd',
+    onClick: () => this.directionVector.x += 1,
+    isPressed: false,
+  }
 
-const wKey: Key = {
-  key: 'w',
-  onClick: () => positionVector.y += 1,
-  isPressed: false,
-}
+  wKey: Key = {
+    key: 'w',
+    onClick: () => this.directionVector.y -= 1,
+    isPressed: false,
+  }
 
-const keys = [aKey, sKey, dKey, wKey];
+  keys = [this.aKey, this.sKey, this.dKey, this.wKey];
 
-class Keyboard {
+  directionVector: Vec2 = {x: 0, y: 0};
 
-  public directionVector = positionVector;
-  
   constructor() {
-    window.addEventListener("keydown", this.downListener)
-    window.addEventListener("keyup", this.downListener)
+    window.addEventListener("keydown", (ev) => this.downListener(ev));
+    window.addEventListener("keyup", (ev) => this.upListener(ev));
   }
 
   addKey(key: Key){ 
-    // keys.pkey
-    keys.push(key);
+    this.keys.push(key);
   }
 
   downListener(ev: KeyboardEvent) {
-    const targetKey = keys.find(key => ev.key == key.key);
+    const targetKey = this.keys.find(key => ev.key == key.key);
     if (targetKey) {
       targetKey.isPressed = true;
     }
   }
 
   upListener(ev: KeyboardEvent) {
-    const targetKey = keys.find(key => ev.key == key.key);
+    const targetKey = this.keys.find(key => ev.key == key.key);
     if (targetKey) {
       targetKey.isPressed = false;
     }
   }
 
   step() {
-    for (let i = 0; i < keys.length; i++) {
-      if (keys[i].isPressed) {
-        keys[i].onClick();
+    this.directionVector.x = 0;
+    this.directionVector.y = 0;
+
+    for (let i = 0; i < this.keys.length; i++) {
+      if (this.keys[i].isPressed) {
+        this.keys[i].onClick();
       }
     }
+
   }
 
 }
 
-export default new Keyboard();
+export default new Controller();
 
