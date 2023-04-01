@@ -1,6 +1,9 @@
 import Dynamic from "./dynamic";
 import { V2, Vec2 } from "../utils/vec2";
 
+export const PLAYER_MASK = 1;
+export const ENEMY_MASK = 2;
+
 export type Collidable = {
     is_collidable: true,
 
