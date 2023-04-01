@@ -1,4 +1,4 @@
-import { Vec2 } from "./vec2"
+import { Vec2, V2 } from "./vec2"
 
 
 type Key = {
@@ -68,6 +68,8 @@ class Controller {
         this.keys[i].onClick();
       }
     }
+
+    this.directionVector = V2.normalized(this.directionVector);
 
   }
 
