@@ -1,16 +1,15 @@
 import { AdjustmentFilter } from "pixi-filters";
 import World from "./world";
 import { sound } from "@pixi/sound";
-import inventory from "./items/inventory";
 
 sound.add('music', '/assets/background_music.wav');
 sound.play('music');
 
 class Day {
-  time: number = 0;
+  time: number = 50000;
   inGameDays = 0;
   // Compared to real life, so 60 would be 1 minute per second
-  inGameSpeed = 300 * 5;
+  inGameSpeed = 300 * 10;
   stage: 'day' | 'night' = 'day';
   nightTimeStart = 18;
   dayTimeStart = 5;
@@ -38,7 +37,6 @@ class Day {
     } else if (this.getHour() >= this.dayTimeStart && this.getHour() < 7) {
       if (this.stage == "night") {
         this.inGameDays += 1;
-        inventory.addAmmo(25);
       }
       this.stage = 'day';
       this.adjustmentFilter.saturation += 0.00025 * delta;
