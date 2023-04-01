@@ -1,10 +1,11 @@
 import { AnimatedSprite, Container, Sprite, Texture } from "pixi.js";
-import World from "./world";
-import { Collidable } from "./entity/collidable";
+import { Collidable, PLANT_MASK } from "./entity/collidable";
 import controller from "./controller";
 import seeds, { SeedName } from "./items/seed";
 import day from "./day";
 import inventory from "./items/inventory";
+import { Combatible, CombatSystem } from "./entity/combatable";
+import World from "./world";
 
 
 
@@ -28,7 +29,7 @@ type Plant = {
   startDay: number
 }
 
-class Tile implements Collidable {
+class Tile implements Combatible {
   is_collidable: true = true;
   is_dynamic: true = true;
   is_fightable = false;
@@ -54,6 +55,18 @@ class Tile implements Collidable {
     this.sprite.position.x = x;
     this.sprite.position.y = y;
   }
+  combatSystem: CombatSystem = {
+    hp: 5,
+    maxHP: 5,
+    damage: 0,
+    radius: 1,
+    isRecharging: false,
+    rechargeTime: 0,
+  };
+
+  onHit(combatible: Combatible) {
+    this.combatSystem.hp -= combatible.combatSystem.damage;
+  }
 
   mabyeAdd() {
     if (!this.inDom) {
@@ -78,7 +91,6 @@ class Tile implements Collidable {
   }
 
   doPick(): void {
-    console.log("picking")
     if (this.plant?.growthStage ? this.plant?.growthStage : 0 > 3) {
       inventory.addGold(seeds[this.plant!.seed].price);
       this.state = TileState.None;
@@ -87,6 +99,7 @@ class Tile implements Collidable {
         this.sprite.removeChild(this.plant.sprite);
       }
       this.plant = undefined;
+      this.collision_mask = 0;
     }
   }
 
@@ -104,6 +117,7 @@ class Tile implements Collidable {
       }
 
       this.plant = plant;
+      this.collision_mask = PLANT_MASK;
       this.sprite.addChild(plant.sprite);
     }
     console.log(this.plant);
@@ -144,7 +158,6 @@ export default class Garden {
     }
 
     document.addEventListener("click", () => {
-      console.log(day.stage, controller.selectedItem);
       if (day.stage != "day") return;
 
       let { x, y } = controller.mousePosition;

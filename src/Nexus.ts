@@ -5,11 +5,12 @@ export class Nexus implements Entity {
   is_dynamic?: boolean | undefined = false;
   is_collidable?: boolean | undefined = true;
   is_fightable: boolean = true;
-  id: string = crypto.randomUUID();
+  id: string = "Nexus";
   sprite: Container<DisplayObject> = new Container().addChild(
     new Sprite(Texture.from("/assets/lifeTree.png"))
   );
   health: number = 100;
+  radius = 25;
   constructor() {
     this.sprite.position.x = 275;
     this.sprite.position.y = 225;

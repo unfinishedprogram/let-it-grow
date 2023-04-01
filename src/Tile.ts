@@ -12,6 +12,7 @@ export class Tile implements Collidable {
     velocity = { x: 0, y: 0 };
     mass = 1;
     collision_mask = 0;
+    drag: number = 0;
 
     onCollision(_other: Collidable) { }
 

@@ -6,10 +6,10 @@ sound.add('music', '/assets/background_music.wav');
 sound.play('music');
 
 class Day {
-  time: number = 64000;
+  time: number = 50000;
   inGameDays = 0;
   // Compared to real life, so 60 would be 1 minute per second
-  inGameSpeed = 300 * 200;
+  inGameSpeed = 300 * 10;
   stage: 'day' | 'night' = 'day';
   nightTimeStart = 18;
   dayTimeStart = 5;
