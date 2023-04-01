@@ -21,7 +21,7 @@ export class Nexus implements Entity {
     this.sprite.addChild(this.text);
   }
 
-  step(dt: number): void {
+  step(_dt: number): void {
     this.text.text = `${this.health} / ${this.max_health}`;
   }
 }

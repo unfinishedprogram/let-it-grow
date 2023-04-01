@@ -55,7 +55,7 @@ export class Enemy implements Combatible {
     isRecharging: false,
   };
 
-  onCollision(other: Collidable) {}
+  onCollision(_other: Collidable) { }
 
   onHit(combatible: Combatible) {
     sound.play('hitmarker');
@@ -250,7 +250,7 @@ export class Enemy implements Combatible {
 
   }
 
-  step(dt: number): void {
+  step(_dt: number): void {
     const nexus: Nexus = World.entities.get("Nexus") as any;
     if (this.isInRange(nexus as any, 30)) {
       World.removeEntity(this.id);

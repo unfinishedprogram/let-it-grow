@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
-    "build": "echo 'nice'",
+    "dev": "vite",
+    "build": "tsc && vite build",
     "preview": "vite preview",
-    "start": "vite --port 3000"
+    "start": "npx http-server dist"
   },
   "devDependencies": {
     "typescript": "^4.9.3",

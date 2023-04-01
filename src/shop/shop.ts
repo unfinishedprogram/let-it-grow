@@ -5,7 +5,6 @@ import Merchant from "../entity/merchant";
 import ShopItem from "./shop-item";
 import { ammo, gunUpgrades } from "../items/all-items";
 import ShopUpgrade from "./shop-upgrades";
-import inventory from "../items/inventory";
 import { ShopSeed } from "../items/seed";
 
 class Shop implements Entity {
@@ -14,10 +13,10 @@ class Shop implements Entity {
   is_fightable = false;
 
   id = "shop";
-  
+
   private texture = Texture.from("assets/shop-base.png");
   public sprite = Sprite.from(this.texture);
-  
+
   container = new Container();
   titleText = new Text('Merchant', { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
   ammoText = new Text('10 Bullets: ', { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
@@ -27,7 +26,7 @@ class Shop implements Entity {
 
     this.sprite.position.x = 145;
     this.sprite.position.y = 100;
-    
+
     this.sprite.width = 128 * 1.5;
     this.sprite.height = 144 * 1.5;
     this.sprite.anchor.x = 0.5;
@@ -42,7 +41,7 @@ class Shop implements Entity {
     gunUpgrades.forEach((upgrade, i) => {
       new ShopUpgrade(upgrade, 4, i)
     })
-    
+
     this.sprite.addChild(this.container);
     this.titleText.anchor.set(0.5, 4.5);
     this.ammoText.anchor.set(0.69, -1.5);
@@ -50,7 +49,7 @@ class Shop implements Entity {
     this.container.addChild(this.ammoText);
   }
 
-  step(dt: number): void { }
+  step(_dt: number): void { }
 }
 
 export default Shop

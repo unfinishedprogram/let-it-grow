@@ -40,7 +40,7 @@ class Merchant implements Entity {
     throw new Error("Method not implemented.");
   }
 
-  step(dt: number): void { }
+  step(_dt: number): void { }
 
   constructor() {
     this.ammo = this.getAmmo();
@@ -113,6 +113,5 @@ class Merchant implements Entity {
   }
 }
 
-const merchant = new Merchant()
 
 export default Merchant

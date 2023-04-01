@@ -1,4 +1,4 @@
-import { Container, DisplayObject, Sprite, Texture, Text } from "pixi.js";
+import { Container, Sprite, Texture, Text } from "pixi.js";
 import { Entity } from "../entity/entity";
 import World from "../world";
 import Upgrade from "../items/upgrade";
@@ -18,46 +18,46 @@ class ShopUpgrade implements Entity {
   public sprite = Sprite.from(BUTTON);
 
   constructor(upgrade: Upgrade, x: number, y: number) {
-    this.id = "upgrade-"+upgrade.name
+    this.id = "upgrade-" + upgrade.name
     console.log(this.id)
     const title = new Text(upgrade.name, { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
     const bonus = new Text("bonus", { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
 
-    this.sprite.position.x = 95 + 52 *(x);
+    this.sprite.position.x = 95 + 52 * (x);
     this.sprite.position.y = 74 + 55 * (y - 0.5);
 
     this.sprite.width = 96 * 1.5;
     this.sprite.height = 32 * 1.5;
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
-    
+
     World.addUi(this)
-    
+
     this.sprite.addChild(this.container);
     title.anchor.set(0.5, 0.97);
     bonus.anchor.set(0.5, 0.27);
     this.container.addChild(title);
     this.container.addChild(bonus);
-    
+
     this.sprite.interactive = true;
     this.sprite.on('pointerdown', () => {
       this.selected = !this.selected
-      if(this.selected) {
+      if (this.selected) {
         this.sprite.texture = PRESSED
       }
       else {
         this.sprite.texture = BUTTON
       }
-      if(this.id === "upgrade-damage") {
+      if (this.id === "upgrade-damage") {
         inventory.damageUpgrade = !inventory.damageUpgrade;
         World.entities.get("upgrade-fire rate")
-      } else if(this.id === "upgrade-fire rate") {
+      } else if (this.id === "upgrade-fire rate") {
         inventory.fireRateUpgrade = !inventory.fireRateUpgrade;
       }
     });
   }
 
-  step(dt: number): void { }
+  step(_dt: number): void { }
 }
 
 export default ShopUpgrade

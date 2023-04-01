@@ -46,7 +46,7 @@ export default class Button implements Entity {
     });
   }
 
-  step(dt: number): void {
+  step(_dt: number): void {
     if (controller.selectedItem == this.buttonNumber) {
       if (day.stage == "night") {
         this.sprite.texture = this.nightPressed;

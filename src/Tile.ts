@@ -52,7 +52,7 @@ export class Tile implements Collidable {
         }
     }
 
-    doPlant(seed: any): void {
+    doPlant(_seed: any): void {
     }
 
     step(_dt: number): void {

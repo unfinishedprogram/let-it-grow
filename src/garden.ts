@@ -5,11 +5,10 @@ import seeds, { SeedName } from "./items/seed";
 import day from "./day";
 import inventory from "./items/inventory";
 import { Combatible, CombatSystem } from "./entity/combatable";
-import World from "./world";
 
 
 
-enum TileState {
+export enum TileState {
   None,
   Watered,
   Tilled,
@@ -17,11 +16,11 @@ enum TileState {
 }
 
 
-const TEX_TILLED = Texture.from("assets/tiled.png");
-const TEX_EMPTY = Texture.from("assets/empty.png");
-const TEX_WATERED = Texture.from("assets/watered.png");
+export const TEX_TILLED = Texture.from("assets/tiled.png");
+export const TEX_EMPTY = Texture.from("assets/empty.png");
+export const TEX_WATERED = Texture.from("assets/watered.png");
 
-type Plant = {
+export type Plant = {
   growthStage: number,
   seed: SeedName,
   sprite: AnimatedSprite,
@@ -29,7 +28,7 @@ type Plant = {
   startDay: number
 }
 
-class Tile implements Combatible {
+export class Tile implements Combatible {
   is_collidable: true = true;
   is_dynamic: true = true;
   is_fightable = false;
@@ -125,7 +124,7 @@ class Tile implements Combatible {
 
 
 
-  step(dt: number): void {
+  step(_dt: number): void {
     if (this.plant) {
       const elapsed = day.inGameDays - this.plant.startDay;
       let growth = (elapsed / seeds[this.plant.seed].growTime) * this.plant.sprite.totalFrames;

@@ -3,7 +3,6 @@ import {
   SCALE_MODES,
   Sprite,
   Texture,
-  settings,
   Container,
   TilingSprite,
   Text,
@@ -20,7 +19,6 @@ import { V2, Vec2 } from "./utils/vec2";
 import "./mobSpawner";
 import Garden from "./garden";
 import { Nexus } from "./Nexus";
-import Welcome from "./welcome";
 import inventory from "./items/inventory";
 
 const PIXEL_SCALE = 4;
@@ -63,8 +61,8 @@ const World = {
 
   entities: new Map<string, Entity>(),
   timeIndicator: new Text(),
-  ammoIndicator: new Text("GOLD: "+inventory.gold, { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' }),
-  goldIndicator: new Text("AMMO: "+inventory.ammo, { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' }),
+  ammoIndicator: new Text("GOLD: " + inventory.gold, { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' }),
+  goldIndicator: new Text("AMMO: " + inventory.ammo, { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' }),
   garden: new Garden(),
 
   removeEntity(id: string) {
@@ -154,11 +152,11 @@ World.app.ticker.maxFPS = 60;
 World.app.ticker.minFPS = 60;
 World.app.ticker.add((dt) => World.step(dt));
 World.uiContainer.addChild(World.timeIndicator);
-World.ammoIndicator.anchor.set(0 , -0.7);
+World.ammoIndicator.anchor.set(0, -0.7);
 World.timeIndicator.style = { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' }
 World.uiContainer.addChild(World.ammoIndicator);
-World.ammoIndicator.anchor.set(0 , -0.7);
-World.goldIndicator.anchor.set(0 , -1.4);
+World.ammoIndicator.anchor.set(0, -0.7);
+World.goldIndicator.anchor.set(0, -1.4);
 World.uiContainer.addChild(World.goldIndicator);
 World.app.start();
 

@@ -1,6 +1,4 @@
 import World from "../world";
-import Gun from "./gun";
-import seeds from "./seed";
 import { SeedName } from "./seed";
 
 
@@ -36,29 +34,29 @@ class Inventory {
 
   addGold(add: number) {
     this.gold += add
-    World.goldIndicator.text = "GOLD: "+this.gold
+    World.goldIndicator.text = "GOLD: " + this.gold
   }
 
   removeGold(remove: number) {
     if (remove > this.gold) return false;
     else {
       this.gold -= remove
-      World.goldIndicator.text = "GOLD: "+this.gold
+      World.goldIndicator.text = "GOLD: " + this.gold
       return true
     }
   }
 
   addAmmo(add: number) {
     this.ammo += add
-    World.ammoIndicator.text = "AMMO: "+this.ammo
+    World.ammoIndicator.text = "AMMO: " + this.ammo
   }
 
   useAmmo() {
     if (this.ammo <= 0) {
       return false
     } else {
-      this.ammo --
-      World.ammoIndicator.text = "AMMO: "+this.ammo
+      this.ammo--
+      World.ammoIndicator.text = "AMMO: " + this.ammo
       return true
     }
   }
