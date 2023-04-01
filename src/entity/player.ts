@@ -67,7 +67,10 @@ class Player implements Combatible {
   }
 
   step(_dt: number): void {
-    this.velocity = V2.multiplyScalar(controller.directionVector, 4);
+    // World.app.stage.pivot.set(player.sprite.position.x, player.sprite.position.y);
+    World.updateCamera(player.sprite.position);
+    this.debugText.text = World.app.stage.pivot.x;
+    this.velocity = V2.multiplyScalar(controller.directionVector, 2);
 
     let selectedSprite: Sprite;
     if (this.velocity.y != 0) {

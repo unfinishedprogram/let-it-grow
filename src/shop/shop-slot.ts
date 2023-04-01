@@ -30,7 +30,6 @@ class ShopSlot implements Entity {
       if(inventory.removeGold(item.cost)) {
         inventory.addSeed(item)
       }
-      console.log(inventory)
     });
   }
 
