@@ -6,6 +6,7 @@ import controller from "./controller";
 import { keepIn, pushOut } from "./utils/bbox";
 import Button from "./Button";
 import ButtonBox from "./ButtonBox";
+import { V2 } from "./utils/vec2";
 
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
@@ -76,6 +77,15 @@ const World = {
         if (checkCollision(a, b)) {
           a.onCollision(b);
           b.onCollision(a);
+
+          if (a.mass && b.mass) {
+            let delta = V2.sub(a.sprite.position, b.sprite.position);
+
+            a.velocity.x -= delta.x / 2;
+            a.velocity.y -= delta.y / 2;
+            a.velocity.x += delta.x / 2;
+            a.velocity.y += delta.y / 2;
+          }
         }
       }
     }
