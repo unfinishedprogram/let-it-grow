@@ -1,6 +1,5 @@
-import { Application, SCALE_MODES, settings }from "pixi.js";
+import { Application, SCALE_MODES, settings } from "pixi.js";
 import { Entity } from "./entity/entity";
-import { genUUID } from "./utils/util";
 import Dynamic, { stepDynamic } from "./entity/dynamic";
 import { Collidable, checkCollision } from "./entity/collidable";
 import controller from "./controller";
@@ -10,7 +9,6 @@ settings.SCALE_MODE = SCALE_MODES.NEAREST;
 const World = {
   app: new Application({ resizeTo: window, antialias: false }),
   entities: new Map<string, Entity>(),
-  generateId: () => genUUID(),
   removeEntity(id: string) {
     this.app.stage.removeChild(this.entities.get(id)!.sprite);
     this.entities.delete(id);
