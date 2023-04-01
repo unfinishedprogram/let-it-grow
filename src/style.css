@@ -6,3 +6,8 @@ body {
   overflow: hidden;
   margin: 0px;
 }
+
+@font-face {
+  font-family: Pixelated;
+  src: url('/assets/fonts/hf-gold-complete/hope-gold-v1/HopeGold.ttf');
+}

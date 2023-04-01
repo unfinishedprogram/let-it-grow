@@ -5,6 +5,7 @@ import { V2, Vec2 } from "../utils/vec2";
 import World from "../world";
 import { isFightable, loadSpriteSheet } from "../utils/util";
 import { Combatible, CombatSystem } from "./combatable";
+import { HitNumber } from "../hitNumber";
 
 enum EnemyState {
   FOLLOWING_PLAYER,
@@ -41,7 +42,15 @@ export class Enemy implements Combatible {
   onCollision(other: Collidable) {
   }
 
-  onHit(combatible: Combatible) {};
+  onHit(combatible: Combatible) {
+    this.combatSystem.hp -= combatible.combatSystem.damage;
+
+    World.addEntity(new HitNumber(combatible.combatSystem.damage.toString(), this.sprite.position));
+    if (this.combatSystem.hp < 0) {
+      World.removeEntity(this.id);
+    }
+
+  };
 
   constructor(public sprite: AnimatedSprite, public enemyDetectionRangeInner: number, public enemyDetectionRangeOutter: number) {
     this.container.addChild(this.debugText);
@@ -134,5 +143,6 @@ export class Enemy implements Combatible {
 
 loadSpriteSheet(json, "/assets/json-spritesheets/slimes/", 0.15).then(an => {
   let enemy: Enemy = new Enemy(an, 50, 70);
+  enemy.sprite.position.set(200, 200);
   World.addEntity(enemy);
 })
