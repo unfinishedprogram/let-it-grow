@@ -1,6 +1,6 @@
-import { AnimatedSprite, Container, Text } from "pixi.js";
+import { AnimatedSprite, Container } from "pixi.js";
 import json from "../../public/assets/json-spritesheets/slimes/slime_down.json";
-import { Collidable, ENEMY_MASK, PLAYER_MASK } from "./collidable";
+import { Collidable, ENEMY_MASK, PLANT_MASK, PLAYER_MASK } from "./collidable";
 import { V2, Vec2 } from "../utils/vec2";
 import World, { islandBounds } from "../world";
 import { isFightable, loadSpriteSheet } from "../utils/util";
@@ -10,14 +10,17 @@ import inventory from "../items/inventory";
 import day from "../day";
 import { keepIn } from "../utils/bbox";
 import { sound } from "@pixi/sound";
+import { Nexus } from "../Nexus";
 
 sound.add('hitmarker', '/assets/hitmarker.mp3');
 
 enum EnemyState {
   FOLLOWING_PLAYER,
   ATTACKING_PLAYER,
+  ATTACKING_PLANT,
   IS_RESTING,
   GOING_FOR_NEXUS,
+  GOING_FOR_PLANT,
 }
 
 export const slimeSprite = await loadSpriteSheet(
@@ -37,6 +40,7 @@ export class Enemy implements Combatible {
   collision_mask: number = ENEMY_MASK;
   speed: number = 0.4;
   target: Combatible | null = null;
+  plantTarget: Combatible | null = null;
   container = new Container();
   drag = 0.2 + day.inGameDays * 0.1;
 
@@ -107,6 +111,21 @@ export class Enemy implements Combatible {
     }
   }
 
+  findPlant() {
+    console.log("Find plant!");
+    for (let entity of World.garden.tiles) {
+      if (!entity.plant) return;
+      console.log(entity);
+      if (isFightable(entity)) {
+        if (entity.collision_mask == PLANT_MASK) {
+          if (this.isInRange(entity, this.enemyDetectionRangeInner)) {
+            this.plantTarget = entity;
+          }
+        }
+      }
+    }
+  }
+
   isInRange(c: Collidable, range: number): boolean {
     return (
       V2.distance(this.sprite.position, c.sprite.position) < range + c.radius
@@ -120,14 +139,26 @@ export class Enemy implements Combatible {
       this.state = EnemyState.FOLLOWING_PLAYER;
       return;
     }
+    this.attackAndRest(this.target!);
+  }
 
+  attackingPlantScenario() {
+    if (!this.isInRange(this.plantTarget!, this.combatSystem.radius)) {
+      this.state = EnemyState.GOING_FOR_PLANT;
+      return;
+    }
+    this.attackAndRest(this.plantTarget!);
+  }
+
+  attackAndRest(target: Combatible) {
     this.combatSystem.isRecharging = true;
-    this.target?.onHit(this);
+    target?.onHit(this);
     this.state = EnemyState.IS_RESTING;
     setTimeout(
       () => (this.combatSystem.isRecharging = false),
       this.combatSystem.rechargeTime
     );
+
   }
 
   followingPlayerScenario() {
@@ -165,19 +196,68 @@ export class Enemy implements Combatible {
       return;
     }
 
-    const middleOfIslandX = islandBounds.min.x + islandBounds.max.x / 2;
-    const middleOfIslandY = islandBounds.min.y + islandBounds.max.y / 2;
-    const normalized = V2.normalized(
-      V2.sub({ x: middleOfIslandX, y: middleOfIslandY }, this.sprite.position)
+    this.findPlant();
+    if (this.plantTarget) {
+      this.state = EnemyState.GOING_FOR_PLANT;
+      return;
+    }
+
+    const nexus: Nexus = World.entities.get("Nexus") as any;
+
+    const normalizedVelocity = V2.normalized(
+      V2.sub(nexus.sprite.position, this.sprite.position)
+    );
+
+    if (this.isInRange(nexus as any, 20)) {
+      World.removeEntity(this.id);
+      nexus.health -= this.combatSystem.damage;
+      return;
+    }
+
+    V2.addAssign(
+      this.velocity,
+      V2.multiplyScalar(normalizedVelocity, this.speed * this.sprite.currentFrame)
+    );
+  }
+
+  goingForPlantScenario() {
+    this.findPlant();
+    if (
+      !this.plantTarget ||
+      !this.isInRange(this.plantTarget, this.enemyDetectionRangeOutter)
+    ) {
+      this.state = EnemyState.GOING_FOR_NEXUS;
+      this.plantTarget = null;
+      return;
+    }
+
+    if (this.isInRange(this.plantTarget, this.combatSystem.radius)) {
+      this.state = EnemyState.ATTACKING_PLANT;
+      return;
+    }
+
+    const normalizedVelocity = V2.normalized(
+      V2.sub(this.plantTarget.sprite.position, this.sprite.position)
     );
 
     V2.addAssign(
       this.velocity,
-      V2.multiplyScalar(normalized, this.speed * this.sprite.currentFrame)
+      V2.multiplyScalar(
+        normalizedVelocity,
+        this.speed * this.sprite.currentFrame
+      )
     );
+
   }
 
   step(dt: number): void {
+    const nexus: Nexus = World.entities.get("Nexus") as any;
+    if (this.isInRange(nexus as any, 30)) {
+      World.removeEntity(this.id);
+      nexus.health -= this.combatSystem.damage;
+      return;
+    }
+
     switch (this.state) {
       case EnemyState.GOING_FOR_NEXUS:
         this.goingForNexusScenario();
@@ -192,6 +272,12 @@ export class Enemy implements Combatible {
         if (this.combatSystem.isRecharging == false) {
           this.state = EnemyState.GOING_FOR_NEXUS;
         }
+        break;
+      case EnemyState.GOING_FOR_PLANT:
+        this.goingForPlantScenario();
+        break;
+      case EnemyState.ATTACKING_PLANT:
+        this.attackingPlantScenario();
         break;
     }
   }

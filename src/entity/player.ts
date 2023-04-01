@@ -49,7 +49,6 @@ class Player implements Combatible {
     const normalizedVelocity = V2.normalized(
       V2.sub(controller.mousePosition, this.sprite.position)
     );
-
     this.selectedGun.fire(normalizedVelocity, this.sprite.position);
   }
 

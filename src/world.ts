@@ -210,6 +210,3 @@ addEventListener("resize", () => {
 });
 
 export default World;
-
-
-new Welcome()
