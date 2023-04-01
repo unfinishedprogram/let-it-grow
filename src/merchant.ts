@@ -3,9 +3,9 @@
 import { Sprite } from "pixi.js";
 import { Entity } from "./entity";
 import { Position } from "./types";
-import Ammunition from "./items/ammo";
 import Seed from "./items/seed";
 import Gun from "./items/gun";
+import { allSeeds } from "./items/all-items";
 
 /**
  * Needs:
@@ -17,9 +17,10 @@ import Gun from "./items/gun";
  */
 
 class Merchant implements Entity {
-  public ammo: Array<Ammunition>;
+  public ammo: Array<number>;
   public seeds: Array<Seed>;
   public guns: Array<Gun>;
+  private ammoStackAmount = 20;
   id = "merchant";
 
   get position(): Position {
@@ -31,9 +32,35 @@ class Merchant implements Entity {
   }
 
   constructor(public size: number, public sprite: Sprite) {
-    this.ammo = []
-    this.seeds = []
-    this.guns = []
+    this.ammo = this.getAmmo();
+    this.seeds = this.getRandomSeeds();
+    this.guns = [];
+  }
+
+  getRandomSeeds() {
+    var arr = [];
+    var seeds = [];
+    while(arr.length < 3){
+        var r = Math.floor(Math.random() * 11);
+        if(arr.indexOf(r) === -1) {
+          arr.push(r);
+          seeds.push(allSeeds[r]);
+        }
+    }
+
+    return seeds
+  }
+
+  getAmmo() {
+    let ammo = []
+    let r = Math.floor(Math.random() * 4) + 5;
+    for(let i = 0; i < r; i++) ammo.push(this.ammoStackAmount);
+
+    return ammo;
+  }
+
+  getGuns() {
+
   }
 }
 
