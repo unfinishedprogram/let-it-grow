@@ -1,9 +1,8 @@
 // P0 - Upgrade Weapon , Buy crops, Buy ammo
 import { Entity } from "./entity";
 import Seed from "../items/seed";
-import Gun from "../items/gun";
-import { allGuns, allSeeds, gunUpgrades } from "../items/all-items";
-import { Container, RenderTexture, Sprite, Texture, autoDetectRenderer } from "pixi.js";
+import { allSeeds, gunUpgrades } from "../items/all-items";
+import { Container, Sprite, Texture } from "pixi.js";
 import Upgrade from "../items/upgrade";
 import World from "../world";
 import controller from "../controller";
@@ -34,7 +33,6 @@ class Merchant implements Entity {
 
   public ammo: Array<number>;
   public seeds: Array<Seed>;
-  public guns: Array<Gun>;
   public upgrades: Array<Upgrade>;
   private ammoStackAmount = 20;
   id = "merchant";
@@ -48,7 +46,6 @@ class Merchant implements Entity {
   constructor() {
     this.ammo = this.getAmmo();
     this.seeds = this.getRandomSeeds();
-    this.guns = this.getGuns();
     this.upgrades = gunUpgrades;
     
     this.sprite.position.x = 407;
@@ -114,10 +111,6 @@ class Merchant implements Entity {
     for (let i = 0; i < r; i++) ammo.push(this.ammoStackAmount);
 
     return ammo;
-  }
-
-  getGuns() {
-    return allGuns
   }
 }
 

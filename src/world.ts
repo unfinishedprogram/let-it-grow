@@ -1,4 +1,4 @@
-import { Application, SCALE_MODES, Sprite, Texture, settings, Container, TilingSprite, Text } from "pixi.js";
+import { Application, SCALE_MODES, Sprite, Texture, settings, Container, TilingSprite, Text, BaseTexture } from "pixi.js";
 import { Entity } from "./entity/entity";
 import Dynamic, { stepDynamic } from "./entity/dynamic";
 import { Collidable, checkCollision } from "./entity/collidable";
@@ -10,7 +10,7 @@ import { V2, Vec2 } from "./utils/vec2";
 import "./mobSpawner";
 
 const PIXEL_SCALE = 4;
-settings.SCALE_MODE = SCALE_MODES.NEAREST;
+BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
 
 export const islandBounds = {
   min: {
@@ -50,9 +50,11 @@ const World = {
   timeIndicator: new Text(),
 
   removeEntity(id: string) {
-    let sprite = this.entities.get(id)!.sprite;
-    sprite.parent.removeChild(sprite);
-    this.entities.delete(id);
+    let sprite = this.entities.get(id)?.sprite;
+    if (sprite) {
+      sprite.parent.removeChild(sprite);
+      this.entities.delete(id);
+    }
   },
 
   addEntity(entity: Entity) {

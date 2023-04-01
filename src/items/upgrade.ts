@@ -1,5 +1,6 @@
 import { Sprite } from "pixi.js";
 import { Item } from "./item";
+import fibonacci from "../utils/fibonacci";
 
 class Upgrade implements Item {
   public id: string = "upgrade";

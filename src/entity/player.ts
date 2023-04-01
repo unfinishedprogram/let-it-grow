@@ -6,8 +6,15 @@ import World from "../world";
 
 import { down, left, right, up } from "./player_anims";
 import { Combatible, CombatSystem } from "./combatable";
-import { instantiateWeakProjectile } from "./projectile";
+import { rifle, pistol, shotgun } from "../items/rifle";
+import Gun from "../items/gun";
 import day from "../day";
+
+const guns = [
+  rifle,
+  pistol,
+  shotgun
+]
 
 class Player implements Combatible {
   id = "player";
@@ -20,9 +27,9 @@ class Player implements Combatible {
   is_fightable = true;
   public collision_mask: number = PLAYER_MASK;
 
-
   container = new Container();
   debugText = new Text('test text', { fill: 'white', fontSize: '1rem' });
+  selectedGun: Gun = pistol;
 
   combatSystem: CombatSystem = {
     isRecharging: false,
@@ -41,20 +48,20 @@ class Player implements Combatible {
     down
   ]
 
-  onCollision(other: Collidable) {
-  }
+  onCollision(_other: Collidable) { }
 
   onHit(combatible: Combatible) {
     this.combatSystem.hp -= combatible.combatSystem.damage;
   }
 
   shootProjectile() {
-    // controller.mousePosition
+    if (day.stage == 'day') return;
+    this.selectedGun = guns[controller.selectedItem - 1];
     const normalizedVelocity = V2.normalized(
       V2.sub(controller.mousePosition, this.sprite.position)
     );
 
-    instantiateWeakProjectile(normalizedVelocity, this.sprite.position);
+    this.selectedGun.fire(normalizedVelocity, this.sprite.position);
   }
 
 
@@ -68,7 +75,6 @@ class Player implements Combatible {
   }
 
   step(_dt: number): void {
-    // World.app.stage.pivot.set(player.sprite.position.x, player.sprite.position.y);
     World.updateCamera(player.sprite.position);
     this.debugText.text = World.app.stage.pivot.x;
     this.velocity = V2.multiplyScalar(controller.directionVector, 2);

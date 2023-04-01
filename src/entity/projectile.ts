@@ -14,7 +14,7 @@ class Projectile implements Combatible {
   is_fightable: boolean = true;
   drag = 1;
   radius: number = 16;
-  mass: number = 1;
+  mass: number = 0;
   collision_mask: number = BULLET_MASK;
 
   travelledRange: number = 0;
@@ -53,22 +53,12 @@ class Projectile implements Combatible {
 const bulletSprite = await loadSpriteSheet(json, "/assets/bullets/", 0.8);
 
 
-export async function instantiateWeakProjectile(velocity: Vec2, startingPosition: Vec2) {
+export async function instantiateProjectile(velocity: Vec2, startingPosition: Vec2, combatSystem: CombatSystem, bulletSpeed: number, range: number) {
   const animatedSprite = bulletSprite()
   animatedSprite.scale.set(2, 2);
-
   animatedSprite.position.set(startingPosition.x, startingPosition.y);
 
-  const changedVelocity = V2.multiplyScalar(velocity, 4);
-
-  const proj = new Projectile(animatedSprite, {
-    hp: 2,
-    damage: 5,
-    rechargeTime: 0,
-    maxHP: 2,
-    radius: 2,
-    isRecharging: false,
-  }, changedVelocity, 150);
-
+  const changedVelocity = V2.multiplyScalar(velocity, bulletSpeed);
+  const proj = new Projectile(animatedSprite, combatSystem, changedVelocity, range);
   World.addEntity(proj);
 }

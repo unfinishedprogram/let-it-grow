@@ -1,11 +1,7 @@
-import { allGuns } from "./all-items";
-import Gun from "./gun";
 import Seed from "./seed";
 
 class Inventory {
   private static instance: Inventory;
-
-  public guns: Array<Gun>;
   public seeds: Array<Seed>;
   public ammo: number;
   public gold: number;
@@ -19,7 +15,6 @@ class Inventory {
   }
 
   constructor() {
-    this.guns = allGuns;
     this.seeds = [];
     this.gold = 50;
     this.ammo = 0;
