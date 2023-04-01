@@ -32,9 +32,9 @@ const allSeeds = [
 ]
 
 const gunUpgrades = [
-  new Upgrade("damage", 5),
-  new Upgrade("reload", 0.2),
-  new Upgrade("fire rate", 1),
+  new Upgrade(Sprite.from(Texture.from(seedBase + "star.png")), "damage", 5),
+  new Upgrade(Sprite.from(Texture.from(seedBase + "star.png")), "reload", 0.2),
+  new Upgrade(Sprite.from(Texture.from(seedBase + "star.png")), "fire rate", 1),
 ]
 
 const ammo = new Ammunition(Sprite.from(Texture.from("/assets/bullet.png")), 20)

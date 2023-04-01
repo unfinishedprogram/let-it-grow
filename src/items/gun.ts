@@ -8,9 +8,9 @@ class Gun implements Item {
   private baseDamage: number;
   private baseReload: number;
   private baseFireRate: number;
-  private damageUpgrade = 0;
-  private reloadUpgrade = 0;
-  private fireRateUpgrade = 0;
+  public damageUpgrade = 0;
+  public reloadUpgrade = 0;
+  public fireRateUpgrade = 0;
 
   public damage: () => number;
   public reload: () => number;
@@ -23,7 +23,7 @@ class Gun implements Item {
   id = "gun";
   consumable = false;
 
-  constructor(public sprite: Sprite | null, name: string, 
+  constructor(public sprite: Sprite, name: string, 
       cost: number, damage: number, 
       reload: number, fireRate: number, 
       projectiles: number, ammo: number, 

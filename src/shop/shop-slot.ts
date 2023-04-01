@@ -3,7 +3,6 @@ import { Entity } from "../entity/entity";
 import World from "../world";
 import inventory from "../items/inventory";
 import { Item } from "../items/item";
-import Seed from "../items/seed";
 
 class ShopSlot implements Entity {
   is_dynamic?: boolean | undefined;
@@ -16,11 +15,10 @@ class ShopSlot implements Entity {
   
   constructor(item: Item, x: number, y: number) {
     this.id = "shop-slot-"+x+"-"+y;
-    console.log(this.id)
     World.addEntity(this)
 
     this.sprite.position.x = 224 + 96 * x;
-    this.sprite.position.y = 160 + 127 * y;
+    this.sprite.position.y = 180 + 127 * y;
     
     this.sprite.width = 32 * 3;
     this.sprite.height = 32 * 3;

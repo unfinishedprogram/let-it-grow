@@ -39,7 +39,7 @@ class Shop implements Entity {
     
     this.sprite.addChild(this.container);
     this.titleText.anchor.set(0.5, 4.5);
-    this.ammoText.anchor.set(0.69, -1);
+    this.ammoText.anchor.set(0.69, -1.5);
     this.container.addChild(this.titleText);
     this.container.addChild(this.ammoText);
   }

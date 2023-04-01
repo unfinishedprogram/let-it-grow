@@ -17,11 +17,10 @@ class ShopItem implements Entity {
   constructor(item: Item, x: number, y: number) {
     this.sprite = item.sprite;
     this.id = "shop-item-"+x+"-"+y;
-    console.log(this.id)
     const cost = new Text(item.cost+"G", { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
 
     this.sprite.position.x = 224 + 96 * x;
-    this.sprite.position.y = 162 + 127 * y;
+    this.sprite.position.y = 182 + 127 * y;
     new ShopSlot(item, x, y);
 
     World.addEntity(this)
