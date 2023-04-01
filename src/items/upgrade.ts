@@ -28,7 +28,7 @@ class Upgrade implements Item {
       total += gun.reloadUpgrade
     })
 
-    return fibonacci(total)
+    this.cost = fibonacci(total)
   }
 
   use(): void {

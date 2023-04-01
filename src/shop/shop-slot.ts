@@ -26,7 +26,7 @@ class ShopSlot implements Entity {
     this.sprite.anchor.y = 0.5;
 
     this.sprite.interactive = true;
-    this.sprite.on('pointerdown', () => { 
+    this.sprite.on('pointerdown', () => {
       if(inventory.removeGold(item.cost)) {
         if (item.id === "seed") {
           inventory.addSeed(item)
