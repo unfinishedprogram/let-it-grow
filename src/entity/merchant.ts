@@ -2,10 +2,10 @@
 
 import { Sprite } from "pixi.js";
 import { Entity } from "./entity";
-import { Position } from "./types";
-import Seed from "./items/seed";
-import Gun from "./items/gun";
-import { allSeeds } from "./items/all-items";
+import { Position } from "../types";
+import Seed from "../items/seed";
+import Gun from "../items/gun";
+import { allSeeds } from "../items/all-items";
 
 /**
  * Needs:
