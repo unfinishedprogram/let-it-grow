@@ -3,13 +3,17 @@
 import { Sprite } from "pixi.js";
 import { Entity } from "./entity";
 import { Position } from "./types";
+import Ammunition from "./items/ammo";
+import Seed from "./items/seed";
+import Gun from "./items/gun";
 
 /**
  * Needs:
  * -- SEPERATE TABS
  * - buy seeds --> seed class
- * - weapon upgrades
+ * - buy weapon --> weapon class
  * - buy ammo --> ammo class
+ * - weapon upgrades
  */
 
 class Merchant implements Entity {
@@ -24,7 +28,9 @@ class Merchant implements Entity {
   }
 
   constructor(public size: number, public sprite: Sprite) {
-
+    let ammo: Array<Ammunition> = []
+    let seeds: Array<Seed> = []
+    let guns: Array<Gun> = []
   }
 }
 
