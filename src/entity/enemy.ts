@@ -10,6 +10,7 @@ import inventory from "../items/inventory";
 import day from "../day";
 import { keepIn } from "../utils/bbox";
 import { sound } from "@pixi/sound";
+import { Nexus } from "../Nexus";
 
 sound.add('hitmarker', '/assets/hitmarker.mp3');
 
@@ -201,15 +202,15 @@ export class Enemy implements Combatible {
       return;
     }
 
-    const entity = World.entities.get("Nexus")!;
-
+    const nexus: Nexus = World.entities.get("Nexus") as any;
 
     const normalizedVelocity = V2.normalized(
-      V2.sub(entity.sprite.position, this.sprite.position)
+      V2.sub(nexus.sprite.position, this.sprite.position)
     );
 
-    if (this.isInRange(entity as any, 20)) {
+    if (this.isInRange(nexus as any, 20)) {
       World.removeEntity(this.id);
+      nexus.health -= this.combatSystem.damage;
       return;
     }
 
@@ -250,6 +251,13 @@ export class Enemy implements Combatible {
   }
 
   step(dt: number): void {
+    const nexus: Nexus = World.entities.get("Nexus") as any;
+    if (this.isInRange(nexus as any, 30)) {
+      World.removeEntity(this.id);
+      nexus.health -= this.combatSystem.damage;
+      return;
+    }
+
     switch (this.state) {
       case EnemyState.GOING_FOR_NEXUS:
         this.goingForNexusScenario();
