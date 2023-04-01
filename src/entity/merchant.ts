@@ -2,8 +2,8 @@
 import { Entity } from "./entity";
 import Seed from "../items/seed";
 import Gun from "../items/gun";
-import { allGuns, allSeeds, gunUpgrades } from "../items/all-items";
-import { RenderTexture, Sprite, Texture, autoDetectRenderer } from "pixi.js";
+import { allSeeds, gunUpgrades } from "../items/all-items";
+import { Sprite, Texture } from "pixi.js";
 import Upgrade from "../items/upgrade";
 import World from "../world";
 import controller from "../controller";
@@ -99,10 +99,6 @@ class Merchant implements Entity {
     for (let i = 0; i < r; i++) ammo.push(this.ammoStackAmount);
 
     return ammo;
-  }
-
-  getGuns() {
-    return allGuns
   }
 }
 
