@@ -32,8 +32,8 @@ export default class ToolBar implements Entity {
     new Button(
       Texture.from("/assets/buttons/wateringCanPressed.png"),
       Texture.from("/assets/buttons/wateringCanButton.png"),
-      Texture.from("/assets/buttons/riflePressed.png"),
-      Texture.from("/assets/buttons/rifleButton.png"),
+      Texture.from("/assets/buttons/shotgunPressed.png"),
+      Texture.from("/assets/buttons/shotgunButton.png"),
       64,
       0,
       () => console.log("clicked"),

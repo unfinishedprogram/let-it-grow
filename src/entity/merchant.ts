@@ -1,15 +1,15 @@
 // P0 - Upgrade Weapon , Buy crops, Buy ammo
 import { Entity } from "./entity";
 import Seed from "../items/seed";
-import Gun from "../items/gun";
-import { allGuns, allSeeds, gunUpgrades } from "../items/all-items";
-import { RenderTexture, Sprite, Texture, autoDetectRenderer } from "pixi.js";
+import { allSeeds, gunUpgrades } from "../items/all-items";
+import { Container, Sprite, Texture } from "pixi.js";
 import Upgrade from "../items/upgrade";
 import World from "../world";
 import controller from "../controller";
 import { inBounds } from "../utils/bbox";
 import Shop from "../shop/shop";
 import { Vec2 } from "../utils/vec2";
+import day from "../day";
 
 /**
  * Needs:
@@ -27,10 +27,12 @@ class Merchant implements Entity {
 
   private texture = Texture.from("assets/sproud-lands/characters/merchant.png");
   public sprite = Sprite.from(this.texture);
+  
+  private popupText = Texture.from("assets/sproud-lands/objects/shopping.png");
+  public popup = Sprite.from(this.popupText);
 
   public ammo: Array<number>;
   public seeds: Array<Seed>;
-  public guns: Array<Gun>;
   public upgrades: Array<Upgrade>;
   private ammoStackAmount = 20;
   id = "merchant";
@@ -44,7 +46,6 @@ class Merchant implements Entity {
   constructor() {
     this.ammo = this.getAmmo();
     this.seeds = this.getRandomSeeds();
-    this.guns = this.getGuns();
     this.upgrades = gunUpgrades;
     
     this.sprite.position.x = 407;
@@ -52,6 +53,8 @@ class Merchant implements Entity {
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
 
+    let container = new Container();
+    
     this.sprite.interactive = true;
     this.sprite.on('pointerdown', () => { 
       if (!World.entities.has("shop")) {
@@ -60,6 +63,7 @@ class Merchant implements Entity {
     });
 
     window.addEventListener("click", () => {
+      console.log(controller.mousePosition)
       if (World.entities.has("shop") &&
         !inBounds(
           { x: 160, y: 50 },
@@ -73,10 +77,18 @@ class Merchant implements Entity {
             try{ World.removeEntity("shop-item-"+x+"-"+y) } catch {}
           }
         }
+        
+        gunUpgrades.forEach((upgrade) => {
+          console.log(upgrade.name)
+          try{ World.removeEntity("upgrade-"+upgrade.name) } catch {}
+        })
       }
     })
 
     World.addEntity(this)
+    this.sprite.addChild(container);
+    this.popup.anchor.set(0.5, 0.15);
+    container.addChild(this.popup);
   }
 
   getRandomSeeds() {
@@ -99,10 +111,6 @@ class Merchant implements Entity {
     for (let i = 0; i < r; i++) ammo.push(this.ammoStackAmount);
 
     return ammo;
-  }
-
-  getGuns() {
-    return allGuns
   }
 }
 

@@ -1,7 +1,5 @@
 import { Sprite } from "pixi.js";
 import { Item } from "./item";
-import { allGuns } from "./all-items";
-import fibonacci from "../utils/fibonacci";
 
 class Upgrade implements Item {
   public id: string = "upgrade";
@@ -10,6 +8,7 @@ class Upgrade implements Item {
   public sprite: Sprite;
   public cost: number;
   consumable = false;
+  selected = false;
   
   constructor(sprite: Sprite, name: string, amount: number) { 
     this.name = name;
@@ -17,18 +16,6 @@ class Upgrade implements Item {
     this.sprite = sprite;
     
     this.cost = 1;
-  }
-
-  getCost() {
-    let total = 0;
-
-    allGuns.forEach(gun => {
-      total += gun.damageUpgrade
-      total += gun.fireRateUpgrade
-      total += gun.reloadUpgrade
-    })
-
-    this.cost = fibonacci(total)
   }
 
   use(): void {

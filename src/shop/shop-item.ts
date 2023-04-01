@@ -19,13 +19,13 @@ class ShopItem implements Entity {
     this.id = "shop-item-"+x+"-"+y;
     const cost = new Text(item.cost+"G", { fill: 'white', fontSize: '1rem', fontFamily: 'Pixelated' });
 
-    this.sprite.position.x = 224 + 96 * x;
-    this.sprite.position.y = 182 + 127 * y;
+    this.sprite.position.x = 95 + 48 * x;
+    this.sprite.position.y = 70 + 69 * y;
     new ShopSlot(item, x, y);
 
-    World.addEntity(this)
-    this.sprite.width = 16 * 3;
-    this.sprite.height = 16 * 3;
+    World.addUi(this)
+    this.sprite.width = 16 * 1.5;
+    this.sprite.height = 16 * 1.5;
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
     
