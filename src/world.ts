@@ -72,6 +72,8 @@ World.addEntity(
   new Button(
     Texture.from("/assets/buttons/seedPressed.png"),
     Texture.from("/assets/buttons/seedButton.png"),
+    Texture.from("/assets/buttons/riflePressed.png"),
+    Texture.from("/assets/buttons/rifleButton.png"),
     134.25,
     402.5,
     () => console.log("clicked"),
@@ -82,6 +84,8 @@ World.addEntity(
   new Button(
     Texture.from("/assets/buttons/hoePressed.png"),
     Texture.from("/assets/buttons/hoeButton.png"),
+    Texture.from("/assets/buttons/revolverPressed.png"),
+    Texture.from("/assets/buttons/revolverButton.png"),
     168.5,
     402.5,
     () => console.log("clicked"),
@@ -90,6 +94,8 @@ World.addEntity(
 );
 World.addEntity(
   new Button(
+    Texture.from("/assets/buttons/wateringCanPressed.png"),
+    Texture.from("/assets/buttons/wateringCanButton.png"),
     Texture.from("/assets/buttons/riflePressed.png"),
     Texture.from("/assets/buttons/rifleButton.png"),
     202.75,

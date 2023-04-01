@@ -3,29 +3,40 @@ import { Entity } from "./entity/entity";
 import controller from "./controller";
 import { inBounds } from "./utils/bbox";
 
-// let currentlySelected = 0;
-
+let isNight = true;
 export default class Button implements Entity {
   is_fightable: boolean = false;
-  pressed: Texture;
-  base: Texture;
   is_dynamic?: boolean | undefined;
   is_collidable?: boolean | undefined;
   id: string = crypto.randomUUID();
   sprite: Sprite;
   buttonNumber: number | undefined;
 
+  dayBase: Texture;
+  dayPressed: Texture;
+
+  nightBase: Texture;
+  nightPressed: Texture;
+
   constructor(
-    pressed: Texture,
-    base: Texture,
+    dayPressed: Texture,
+    dayBase: Texture,
+    nightPressed: Texture,
+    nightBase: Texture,
     x: number,
     y: number,
     onPress: () => void,
     buttonNumber: number
   ) {
-    this.pressed = pressed;
-    this.base = base;
-    this.sprite = new Sprite(base);
+    this.dayPressed = dayPressed;
+    this.dayBase = dayBase;
+    this.nightPressed = nightPressed;
+    this.nightBase = nightBase;
+    if (isNight) {
+      this.sprite = new Sprite(nightBase);
+    } else {
+      this.sprite = new Sprite(dayBase);
+    }
     this.sprite.position.x = x;
     this.sprite.position.y = y;
 
@@ -48,13 +59,23 @@ export default class Button implements Entity {
         controller.selectedItem = buttonNumber;
       }
     });
+
+    setTimeout(() => (isNight = false), 10000);
   }
 
   step(dt: number): void {
     if (controller.selectedItem == this.buttonNumber) {
-      this.sprite.texture = this.pressed;
+      if (isNight) {
+        this.sprite.texture = this.nightPressed;
+      } else {
+        this.sprite.texture = this.dayPressed;
+      }
     } else {
-      this.sprite.texture = this.base;
+      if (isNight) {
+        this.sprite.texture = this.nightBase;
+      } else {
+        this.sprite.texture = this.dayBase;
+      }
     }
   }
 }
