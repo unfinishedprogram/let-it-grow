@@ -18,7 +18,7 @@ const islandBounds = {
   max: {
     x: 72 + 16 * 31,
     y: 72 + 16 * 19.5,
-  }
+  },
 };
 
 const houseBounds = {
@@ -29,14 +29,13 @@ const houseBounds = {
   max: {
     x: 128 + 112,
     y: 128 + 16,
-  }
+  },
 };
 
 const World = {
   // Used for mapping from window to pixel locations
   clientTopLeft: { x: 0, y: 0 },
   clientScale: 1,
-
 
   app: new Application({ resizeTo: window, antialias: false }),
   entities: new Map<string, Entity>(),
@@ -127,7 +126,7 @@ World.addEntity(
     Texture.from("/assets/buttons/seedButton.png"),
     Texture.from("/assets/buttons/riflePressed.png"),
     Texture.from("/assets/buttons/rifleButton.png"),
-    134.25,
+    142,
     402.5,
     () => console.log("clicked"),
     1
@@ -139,7 +138,7 @@ World.addEntity(
     Texture.from("/assets/buttons/hoeButton.png"),
     Texture.from("/assets/buttons/revolverPressed.png"),
     Texture.from("/assets/buttons/revolverButton.png"),
-    168.5,
+    188,
     402.5,
     () => console.log("clicked"),
     2
@@ -151,7 +150,7 @@ World.addEntity(
     Texture.from("/assets/buttons/wateringCanButton.png"),
     Texture.from("/assets/buttons/riflePressed.png"),
     Texture.from("/assets/buttons/rifleButton.png"),
-    202.75,
+    234,
     402.5,
     () => console.log("clicked"),
     3
