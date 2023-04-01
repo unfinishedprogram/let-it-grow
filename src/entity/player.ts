@@ -1,11 +1,10 @@
-import { AnimatedSprite, BaseTexture, Sprite, Spritesheet } from "pixi.js";
-import json from "../../public/assets/json-spritesheets/walking_down.json";
+import { Sprite } from "pixi.js";
 import { Collidable, PLAYER_MASK } from "./collidable";
 import controller from "../controller";
 import { Vec2 } from "../utils/vec2";
 import World from "../world";
-// import controller from "./controller";
 
+import { down, left, right, up } from "./player_anims";
 
 class Player implements Collidable {
   id = "player";
@@ -16,6 +15,13 @@ class Player implements Collidable {
   mass: number = 1;
   public collision_mask: number = PLAYER_MASK;
 
+  private animationTable = [
+    up,
+    right,
+    left,
+    down
+  ]
+
   onCollision(other: Collidable) {
   }
 
@@ -24,16 +30,18 @@ class Player implements Collidable {
 
   step(dt: number): void {
     this.velocity = controller.directionVector;
+    if (this.velocity.y != 0) {
+      // this.sprite = this.animationTable[Math.sign(this.velocity.y) > 0 ? 0 : 3]
+      const selectedSprite = this.animationTable[Math.sign(this.velocity.y) < 0 ? 0 : 3];
+      if (selectedSprite != this.sprite) {
+        this.sprite.texture = selectedSprite.texture;
+      }
+    }
+
   }
 }
 
-
-const spritesheet = new Spritesheet(BaseTexture.from(json.meta.image), json);
-spritesheet.parse().then(() => {
-  spritesheet.baseTexture.resolution
-  const anim = new AnimatedSprite(spritesheet.animations["Premium Charakter Spritesheet"]);
-  anim.animationSpeed = 0.4;
-  anim.play();
-  let player: Player = new Player(anim);
-  World.addEntity(player);
-})
+const anim = down;
+let player: Player = new Player(anim);
+World.addEntity(player);
+// })
