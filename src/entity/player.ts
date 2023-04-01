@@ -11,7 +11,7 @@ class Player implements Collidable {
   id = "player";
   is_collidable: true = true;
   is_dynamic: true = true;
-  velocity: Vec2 = {x: 0, y: 0};
+  velocity: Vec2 = { x: 0, y: 0 };
   radius: number = 1;
   mass: number = 1;
   public collision_mask: number = PLAYER_MASK;
@@ -24,6 +24,8 @@ class Player implements Collidable {
 
   step(dt: number): void {
     this.velocity = controller.directionVector;
+    World.islandCollision(this);
+    World.houseCollision(this);
   }
 }
 
