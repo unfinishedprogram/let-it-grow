@@ -62,7 +62,7 @@ class Controller {
 
   numKeys = [this.oneKey, this.twoKey, this.threeKey];
 
-  selectedItem: number = 0;
+  selectedItem: number = 1;
   directionVector: Vec2 = { x: 0, y: 0 };
   mousePosition: Vec2 = { x: 0, y: 0 };
 

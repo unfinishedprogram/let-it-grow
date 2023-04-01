@@ -1,4 +1,3 @@
-import { allGuns } from "./all-items";
 import Gun from "./gun";
 import seeds from "./seed";
 import { SeedName } from "./seed";
@@ -21,7 +20,6 @@ class Inventory {
   }
 
   constructor() {
-    this.guns = allGuns;
     this.seeds = {} as any;
     for (let name in seeds) {
       this.seeds[name as SeedName] = 0;

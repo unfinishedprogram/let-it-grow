@@ -1,4 +1,14 @@
-import { Application, SCALE_MODES, Sprite, Texture, settings, Container, TilingSprite, Text } from "pixi.js";
+import {
+  Application,
+  SCALE_MODES,
+  Sprite,
+  Texture,
+  settings,
+  Container,
+  TilingSprite,
+  Text,
+  BaseTexture,
+} from "pixi.js";
 import { Entity } from "./entity/entity";
 import Dynamic, { stepDynamic } from "./entity/dynamic";
 import { Collidable, checkCollision } from "./entity/collidable";
@@ -9,9 +19,10 @@ import ButtonBox from "./ToolBar";
 import { V2, Vec2 } from "./utils/vec2";
 import "./mobSpawner";
 import Garden from "./garden";
+import { Nexus } from "./Nexus";
 
 const PIXEL_SCALE = 4;
-settings.SCALE_MODE = SCALE_MODES.NEAREST;
+BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
 
 export const islandBounds = {
   min: {
@@ -53,16 +64,17 @@ const World = {
   garden: new Garden(),
 
   removeEntity(id: string) {
-    let sprite = this.entities.get(id)!.sprite;
-    sprite.parent.removeChild(sprite);
-    this.entities.delete(id);
+    let sprite = this.entities.get(id)?.sprite;
+    if (sprite) {
+      sprite.parent.removeChild(sprite);
+      this.entities.delete(id);
+    }
   },
 
   addEntity(entity: Entity) {
     this.container.addChild(entity.sprite);
     this.entities.set(entity.id, entity);
   },
-
 
   addUi(element: Entity) {
     this.uiContainer.addChild(element.sprite);
@@ -106,10 +118,10 @@ const World = {
             let dist = V2.length(delta);
             let power = -(dist - (a.radius + b.radius));
 
-            a.velocity.x += v.x * power / 50;
-            a.velocity.y += v.y * power / 50;
-            b.velocity.x -= v.x * power / 50;
-            b.velocity.y -= v.y * power / 50;
+            a.velocity.x += (v.x * power) / 50;
+            a.velocity.y += (v.y * power) / 50;
+            b.velocity.x -= (v.x * power) / 50;
+            b.velocity.y -= (v.y * power) / 50;
           }
         }
       }
@@ -130,10 +142,8 @@ const World = {
     this.cameraPos.x -= (this.cameraPos.x - playerPosition.x) / 15;
     this.cameraPos.y -= (this.cameraPos.y - playerPosition.y) / 15;
     camera.pivot.set(this.cameraPos.x, this.cameraPos.y);
-  }
+  },
 };
-
-
 
 document.body.appendChild(World.app.view as HTMLCanvasElement);
 World.app.ticker.maxFPS = 60;
@@ -142,8 +152,11 @@ World.app.ticker.add((dt) => World.step(dt));
 World.uiContainer.addChild(World.timeIndicator);
 World.app.start();
 
-
-let waterTiled = new TilingSprite(Texture.from("assets/sproud-lands/tilesets/water frames/Water_1.png"), 4096, 4096);
+let waterTiled = new TilingSprite(
+  Texture.from("assets/sproud-lands/tilesets/water frames/Water_1.png"),
+  4096,
+  4096
+);
 const background = new Sprite(Texture.from("assets/worldMap.png"));
 
 World.container.addChild(waterTiled);
@@ -152,8 +165,11 @@ World.container.addChild(World.garden.sprite);
 
 World.app.stage.addChild(World.container);
 World.app.stage.addChild(World.uiContainer);
-
-
+const toolBox = new ButtonBox(
+  window.innerWidth / 2 / PIXEL_SCALE - 96 / 2,
+  (window.innerHeight / 2 / PIXEL_SCALE) * 2 - 38
+);
+World.addUi(toolBox);
 const centerWorld = () => {
   const topOffset = window.innerHeight / 2;
   const leftOffset = window.innerWidth / 2;
@@ -164,8 +180,13 @@ const centerWorld = () => {
 
   World.container.setTransform(leftOffset, topOffset, PIXEL_SCALE, PIXEL_SCALE);
 
-  World.addUi(new ButtonBox(leftOffset / PIXEL_SCALE - 96 / 2, topOffset / PIXEL_SCALE * 2 - 38));
+  World.entities.get(toolBox.id)!.sprite.position.x =
+    leftOffset / PIXEL_SCALE - 96 / 2;
+  World.entities.get(toolBox.id)!.sprite.position.y =
+    (topOffset / PIXEL_SCALE) * 2 - 38;
 };
+
+World.addEntity(new Nexus());
 
 World.uiContainer.setTransform(0, 0, PIXEL_SCALE, PIXEL_SCALE);
 
@@ -173,7 +194,6 @@ waterTiled.position.x = -2048;
 waterTiled.position.y = -2048;
 
 centerWorld();
-
 
 addEventListener("resize", () => {
   centerWorld();
