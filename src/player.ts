@@ -35,5 +35,4 @@ spritesheet.parse().then(() => {
   anim.play();
   let player: Player = new Player(anim);
   World.addEntity(player);
-  console.log(player);
 })

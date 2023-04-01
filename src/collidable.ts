@@ -1,17 +1,6 @@
 import Dynamic from "./dynamic";
 import { V2, Vec2 } from "./vec2";
 
-
-// Only entities that share overlapping collision layers will be checked for collisions
-enum CollisionLayer {
-    A = 0,
-    B = 1,
-    C = 2,
-    D = 3,
-}
-
-console.log(CollisionLayer.A, CollisionLayer.B, CollisionLayer.A | CollisionLayer.B);
-
 export type Collidable = {
     is_collidable: true,
 
