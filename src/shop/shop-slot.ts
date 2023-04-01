@@ -15,13 +15,13 @@ class ShopSlot implements Entity {
   
   constructor(item: Item, x: number, y: number) {
     this.id = "shop-slot-"+x+"-"+y;
-    World.addEntity(this)
+    World.addUi(this)
 
-    this.sprite.position.x = 224 + 96 * x;
-    this.sprite.position.y = 180 + 127 * y;
+    this.sprite.position.x = 95 + 48 * x;
+    this.sprite.position.y = 69 + 69 * y;
     
-    this.sprite.width = 32 * 3;
-    this.sprite.height = 32 * 3;
+    this.sprite.width = 32 * 1.5;
+    this.sprite.height = 32 * 1.5;
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
 

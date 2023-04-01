@@ -66,6 +66,7 @@ class Merchant implements Entity {
     });
 
     window.addEventListener("click", () => {
+      console.log(controller.mousePosition)
       if (World.entities.has("shop") &&
         !inBounds(
           { x: 160, y: 50 },
@@ -79,6 +80,11 @@ class Merchant implements Entity {
             try{ World.removeEntity("shop-item-"+x+"-"+y) } catch {}
           }
         }
+        
+        gunUpgrades.forEach((upgrade) => {
+          console.log(upgrade.name)
+          try{ World.removeEntity("upgrade-"+upgrade.name) } catch {}
+        })
       }
     })
 
