@@ -7,7 +7,6 @@ import World from "../world";
 import { down, left, right, up } from "./player_anims";
 import { Combatible, CombatSystem } from "./combatable";
 import { instantiateWeakProjectile } from "./projectile";
-import day from "../day";
 
 class Player implements Combatible {
   id = "player";
@@ -91,4 +90,5 @@ class Player implements Combatible {
 }
 
 let player: Player = new Player(down);
+player.sprite.zIndex = 500;
 World.addEntity(player);

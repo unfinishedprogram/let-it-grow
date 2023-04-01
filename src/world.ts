@@ -8,6 +8,7 @@ import day from "./day";
 import ButtonBox from "./ToolBar";
 import { V2, Vec2 } from "./utils/vec2";
 import "./mobSpawner";
+import Garden from "./garden";
 
 const PIXEL_SCALE = 4;
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
@@ -34,6 +35,7 @@ const houseBounds = {
   },
 };
 
+
 const World = {
   // Used for mapping from window to pixel locations
   clientTopLeft: { x: 0, y: 0 },
@@ -48,6 +50,7 @@ const World = {
 
   entities: new Map<string, Entity>(),
   timeIndicator: new Text(),
+  garden: new Garden(),
 
   removeEntity(id: string) {
     let sprite = this.entities.get(id)!.sprite;
@@ -66,18 +69,14 @@ const World = {
     this.entities.set(element.id, element);
   },
 
-
   step(dt: number) {
     day.tick(dt);
+    this.garden.step(dt);
     this.timeIndicator.text = day.getString();
     for (let [_id, entity] of this.entities) entity.step(dt);
     this.stepDynamics(dt);
     this.stepCollisions(dt);
     controller.step();
-
-    // if (day.getHour() > 19 && day.getHour() < 3) {
-    //
-    // }
   },
 
   stepDynamics(dt: number) {
@@ -149,9 +148,12 @@ const background = new Sprite(Texture.from("assets/worldMap.png"));
 
 World.container.addChild(waterTiled);
 World.container.addChild(background);
+World.container.addChild(World.garden.sprite);
 
 World.app.stage.addChild(World.container);
 World.app.stage.addChild(World.uiContainer);
+
+
 const centerWorld = () => {
   const topOffset = window.innerHeight / 2;
   const leftOffset = window.innerWidth / 2;
@@ -161,8 +163,6 @@ const centerWorld = () => {
   World.clientScale = PIXEL_SCALE;
 
   World.container.setTransform(leftOffset, topOffset, PIXEL_SCALE, PIXEL_SCALE);
-
-
 
   World.addUi(new ButtonBox(leftOffset / PIXEL_SCALE - 96 / 2, topOffset / PIXEL_SCALE * 2 - 38));
 };

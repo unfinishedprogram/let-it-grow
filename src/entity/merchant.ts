@@ -1,8 +1,8 @@
 // P0 - Upgrade Weapon , Buy crops, Buy ammo
 import { Entity } from "./entity";
-import Seed from "../items/seed";
+import seeds, { SeedName } from "../items/seed";
 import Gun from "../items/gun";
-import { allGuns, allSeeds, gunUpgrades } from "../items/all-items";
+import { allGuns, gunUpgrades } from "../items/all-items";
 import { RenderTexture, Sprite, Texture, autoDetectRenderer } from "pixi.js";
 import Upgrade from "../items/upgrade";
 import World from "../world";
@@ -21,15 +21,15 @@ import { Vec2 } from "../utils/vec2";
  */
 
 class Merchant implements Entity {
-  is_dynamic? = false;
-  is_collidable? = true;
+  is_dynamic?= false;
+  is_collidable?= true;
   is_fightable = false;
 
   private texture = Texture.from("assets/sproud-lands/characters/merchant.png");
   public sprite = Sprite.from(this.texture);
 
   public ammo: Array<number>;
-  public seeds: Array<Seed>;
+  public seeds: Array<SeedName>;
   public guns: Array<Gun>;
   public upgrades: Array<Upgrade>;
   private ammoStackAmount = 20;
@@ -46,16 +46,16 @@ class Merchant implements Entity {
     this.seeds = this.getRandomSeeds();
     this.guns = this.getGuns();
     this.upgrades = gunUpgrades;
-    
+
     this.sprite.position.x = 407;
     this.sprite.position.y = 398;
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
 
     this.sprite.interactive = true;
-    this.sprite.on('pointerdown', () => { 
+    this.sprite.on('pointerdown', () => {
       if (!World.entities.has("shop")) {
-        new Shop(this) 
+        new Shop(this)
       }
     });
 
@@ -69,8 +69,8 @@ class Merchant implements Entity {
         World.removeEntity("shop")
         for (let x = 0; x < 3; x++) {
           for (let y = 0; y < 3; y++) {
-            try{ World.removeEntity("shop-slot-"+x+"-"+y) } catch {}
-            try{ World.removeEntity("shop-item-"+x+"-"+y) } catch {}
+            try { World.removeEntity("shop-slot-" + x + "-" + y) } catch { }
+            try { World.removeEntity("shop-item-" + x + "-" + y) } catch { }
           }
         }
       }
@@ -79,18 +79,18 @@ class Merchant implements Entity {
     World.addEntity(this)
   }
 
-  getRandomSeeds() {
+  getRandomSeeds(): SeedName[] {
     var arr = [];
-    var seeds = [];
+    var randSeeds = [];
     while (arr.length < 3) {
       var r = Math.floor(Math.random() * 11);
       if (arr.indexOf(r) === -1) {
         arr.push(r);
-        seeds.push(allSeeds[r]);
+        randSeeds.push(Object.keys(seeds)[r] as SeedName);
       }
     }
 
-    return seeds
+    return randSeeds as SeedName[];
   }
 
   getAmmo() {

@@ -1,7 +1,7 @@
 import { allGuns } from "./all-items";
 import Gun from "./gun";
 import seeds from "./seed";
-import Seed, { SeedName } from "./seed";
+import { SeedName } from "./seed";
 
 
 class Inventory {
