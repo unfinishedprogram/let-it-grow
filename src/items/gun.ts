@@ -1,19 +1,26 @@
-import { Sprite } from "pixi.js";
+import { Sprite } from 'pixi.js';
 import { Item } from "./item";
 
 class Gun implements Item {
   public name: string;
   public cost: number;
 
-  public damage: number;
+  private baseDamage: number;
   private baseReload: number;
   private baseFireRate: number;
-  private baseProjectiles: number;
-  private baseMaxAmmo: number;
-  private baseRange: number;
-  private baseDPS: number;
+  private damageUpgrade = 0;
+  private reloadUpgrade = 0;
+  private fireRateUpgrade = 0;
 
-  id = "ammunition";
+  public damage: () => number;
+  public reload: () => number;
+  public fireRate: () => number;
+  public projectiles: number;
+  public maxAmmo: number;
+  public range: number;
+  public dps: number;
+
+  id = "gun";
   consumable = false;
 
   constructor(public sprite: Sprite | null, name: string, 
@@ -25,13 +32,25 @@ class Gun implements Item {
     this.name = name;
     this.cost = cost;
 
-    this.damage = damage;
+    this.baseDamage = damage;
     this.baseReload = reload;
     this.baseFireRate = fireRate;
-    this.baseProjectiles = projectiles;
-    this.baseMaxAmmo = ammo;
-    this.baseRange = range;
-    this.baseDPS = dps;
+    this.projectiles = projectiles;
+    this.maxAmmo = ammo;
+    this.range = range;
+    this.dps = dps;
+
+    this.damage = () => {
+      return this.baseDamage + (this.damageUpgrade * 5)
+    }
+    
+    this.reload = () => {
+      return this.baseReload + (this.reloadUpgrade)
+    }
+
+    this.fireRate = () => {
+      return this.baseFireRate + (this.fireRateUpgrade * 0.2)
+    }
   }
 
   use(): void {

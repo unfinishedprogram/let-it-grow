@@ -1,17 +1,13 @@
 // P0 - Upgrade Weapon , Buy crops, Buy ammo
-
-import { AnimatedSprite, BaseTexture, Sprite, Spritesheet } from "pixi.js";
-import json from "../../public/assets/json-spritesheets/walking_down.json";
-import { Collidable } from "./collidable";
-import controller from "../controller";
-import { Vec2 } from "../utils/vec2";
-import World from "../world";
-
 import { Entity } from "./entity";
 import { Position } from "../types";
 import Seed from "../items/seed";
 import Gun from "../items/gun";
-import { allSeeds } from "../items/all-items";
+import { allSeeds, gunUpgrades } from "../items/all-items";
+import { RenderTexture, Sprite, Texture, autoDetectRenderer } from "pixi.js";
+import Upgrade from "../items/upgrade";
+import inventory from "../items/inventory";
+import World from "../world";
 
 /**
  * Needs:
@@ -29,21 +25,22 @@ class Merchant implements Entity {
   public ammo: Array<number>;
   public seeds: Array<Seed>;
   public guns: Array<Gun>;
+  public upgrades: Array<Upgrade>;
   private ammoStackAmount = 20;
+  private shopOpen = false;
   id = "merchant";
 
   get position(): Position {
     throw new Error("Method not implemented.");
   }
 
-  step(dt: number): void {
-    throw new Error("Method not implemented.");
-  }
+  step(dt: number): void { }
 
   constructor(public sprite: Sprite) {
     this.ammo = this.getAmmo();
     this.seeds = this.getRandomSeeds();
     this.guns = [];
+    this.upgrades = gunUpgrades;
   }
 
   getRandomSeeds() {
@@ -69,13 +66,12 @@ class Merchant implements Entity {
   }
 
   getGuns() {
-
+    inventory
   }
 }
 
-// const merchant_sprite = new Spritesheet(BaseTexture.from(json.meta.image), json);
-//   merchant_sprite.parse().then(() => {
-//     merchant_sprite.baseTexture.resolution
-//     let merchant: Merchant = new Merchant(new Sprite());
-//     World.addEntity(merchant);
-//   })
+const text = Texture.from("assets/sproud-lands/characters/merchant.png");
+const sprite = Sprite.from(text);
+
+const merchant = new Merchant(sprite)
+World.addEntity(merchant)

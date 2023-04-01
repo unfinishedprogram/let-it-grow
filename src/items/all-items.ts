@@ -1,5 +1,6 @@
 import Gun from "./gun";
 import Seed from "./seed";
+import Upgrade from "./upgrade";
 
 // new Gun(sprite, name, cost, damage, reload, fire rate, projectiles, max ammo, range, dps)
 const allGuns = [
@@ -27,9 +28,9 @@ const allSeeds = [
 ]
 
 const gunUpgrades = [
-  new Upgrade("damage", 0, 5),
-  new Upgrade("damage", 0, 5),
-  new Upgrade("damage", 0, 5),
+  new Upgrade("damage", 5),
+  new Upgrade("reload", 0.2),
+  new Upgrade("fire rate", 1),
 ]
 
-export { allGuns, allSeeds }
+export { allGuns, allSeeds, gunUpgrades }

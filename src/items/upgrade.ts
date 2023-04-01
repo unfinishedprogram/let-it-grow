@@ -1,11 +1,11 @@
 class Upgrade {
   public name: string;
-  public cost: number;
   public number: number;
   
-  constructor( name: string, cost: number, amount: number) { 
+  constructor( name: string, amount: number) { 
     this.name = name;
-    this.cost = cost;
     this.number = amount;
   }
 }
+
+export default Upgrade;
