@@ -50,7 +50,7 @@ class Inventory {
 
   addAmmo(add: number) {
     this.ammo += add
-    World.ammoIndicator.text = "AMMO: "+this.gold
+    World.ammoIndicator.text = "AMMO: "+this.ammo
   }
 
   useAmmo() {
@@ -58,7 +58,7 @@ class Inventory {
       return false
     } else {
       this.ammo --
-      World.ammoIndicator.text = "AMMO: "+this.gold
+      World.ammoIndicator.text = "AMMO: "+this.ammo
       return true
     }
   }
