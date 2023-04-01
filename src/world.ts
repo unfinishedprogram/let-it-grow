@@ -1,4 +1,4 @@
-import { Application, SCALE_MODES, settings } from "pixi.js";
+import { Application, SCALE_MODES, Sprite, Texture, settings } from "pixi.js";
 import { Entity } from "./entity/entity";
 import Dynamic, { stepDynamic } from "./entity/dynamic";
 import { Collidable, checkCollision } from "./entity/collidable";
@@ -51,13 +51,16 @@ const World = {
   },
 };
 
+const background = new Sprite(Texture.from("assets/worldMap.png"));
+World.app.stage.addChild(background);
 
 document.body.appendChild(World.app.view as HTMLCanvasElement);
 World.app.start();
 World.app.ticker.maxFPS = 60;
 World.app.ticker.minFPS = 60;
 World.app.ticker.add(dt => World.step(dt));
-World.app.stage.scale.set(5, 5);
+World.app.stage.scale.set(2, 2);
+
 // World.app.stage.
 
 export default World;
